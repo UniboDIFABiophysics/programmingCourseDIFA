@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 744.09448819 1052.3622047"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="tradeoff_spazio_velocita.svg">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.98994949"
+     inkscape:cx="69.831832"
+     inkscape:cy="627.36333"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="954"
+     inkscape:window-height="1068"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       id="g4220"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300">
+      <g
+         transform="translate(0,0.04452622)"
+         id="g4180">
+        <g
+           id="g4160"
+           transform="translate(49.497475,146.47202)">
+          <text
+             sodipodi:linespacing="125%"
+             id="text4136"
+             y="128.07262"
+             x="142.4315"
+             style="font-style:normal;font-weight:normal;font-size:25px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+             xml:space="preserve"><tspan
+               y="128.07262"
+               x="142.4315"
+               id="tspan4138"
+               sodipodi:role="line">CPU CACHE</tspan></text>
+          <rect
+             ry="13.2994"
+             rx="13.2994"
+             y="88.162621"
+             x="85.55629"
+             height="61.619305"
+             width="258.59906"
+             id="rect4152"
+             style="opacity:1;fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:8;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+        </g>
+        <g
+           id="g4165"
+           transform="translate(54.00103,147.49439)">
+          <text
+             sodipodi:linespacing="125%"
+             id="text4140"
+             y="211.91528"
+             x="182.83762"
+             style="font-style:normal;font-weight:normal;font-size:25px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+             xml:space="preserve"><tspan
+               y="211.91528"
+               x="182.83762"
+               id="tspan4142"
+               sodipodi:role="line">RAM</tspan></text>
+          <rect
+             style="opacity:1;fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:8;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+             id="rect4154"
+             width="258.59906"
+             height="61.619305"
+             x="81.052734"
+             y="171.99309"
+             rx="13.2994"
+             ry="13.2994" />
+        </g>
+        <g
+           id="g4170"
+           transform="translate(47.5355,147.48226)">
+          <text
+             sodipodi:linespacing="125%"
+             id="text4144"
+             y="296.76807"
+             x="127.27922"
+             style="font-style:normal;font-weight:normal;font-size:25px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+             xml:space="preserve"><tspan
+               y="296.76807"
+               x="127.27922"
+               id="tspan4146"
+               sodipodi:role="line">DISCO RIGIDO</tspan></text>
+          <rect
+             ry="13.2994"
+             rx="13.2994"
+             y="256.85806"
+             x="87.518265"
+             height="61.619305"
+             width="258.59906"
+             id="rect4156"
+             style="opacity:1;fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:8;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+        </g>
+        <g
+           id="g4175"
+           transform="translate(52.797226,146.4721)">
+          <text
+             sodipodi:linespacing="125%"
+             id="text4148"
+             y="382.63107"
+             x="103.03556"
+             style="font-style:normal;font-weight:normal;font-size:25px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+             xml:space="preserve"><tspan
+               y="382.63107"
+               x="103.03556"
+               id="tspan4150"
+               sodipodi:role="line">RISORSE DI RETE</tspan></text>
+          <rect
+             style="opacity:1;fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:8;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+             id="rect4158"
+             width="258.59906"
+             height="61.619305"
+             x="82.256538"
+             y="342.72107"
+             rx="13.2994"
+             ry="13.2994" />
+        </g>
+      </g>
+      <g
+         transform="translate(8,0)"
+         id="g4210">
+        <path
+           style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.97899997;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           d="m 42.968342,282.53707 6.939196,271.83066 32.619679,0 9.864879,-271.83066 24.711884,0 -49.423761,-49.42376 -49.423755,49.42376 z"
+           id="path4198"
+           inkscape:connector-curvature="0"
+           sodipodi:nodetypes="cccccccc" />
+        <text
+           xml:space="preserve"
+           style="font-style:normal;font-weight:normal;font-size:25px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+           x="-526.95386"
+           y="76.780563"
+           id="text4202"
+           sodipodi:linespacing="125%"
+           transform="matrix(0,-1,1,0,0,0)"><tspan
+             sodipodi:role="line"
+             id="tspan4204"
+             x="-526.95386"
+             y="76.780563">MAGGIORE VELOCITÀ</tspan></text>
+      </g>
+      <g
+         transform="translate(-12,0)"
+         id="g4215">
+        <path
+           sodipodi:nodetypes="cccccccc"
+           inkscape:connector-curvature="0"
+           id="path4200"
+           d="m 438.94814,504.74121 6.9392,-271.83066 32.61967,0 9.86488,271.83066 24.71189,0 -49.42376,49.42376 -49.42376,-49.42376 z"
+           style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.97899997;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+        <text
+           xml:space="preserve"
+           style="font-style:normal;font-weight:normal;font-size:25px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+           x="256.1409"
+           y="-454.55969"
+           id="text4206"
+           sodipodi:linespacing="125%"
+           transform="matrix(0,1,-1,0,0,0)"><tspan
+             sodipodi:role="line"
+             id="tspan4208"
+             x="256.1409"
+             y="-454.55969">MAGGIORE CAPIENZA</tspan></text>
+      </g>
+    </g>
+  </g>
+</svg>
