@@ -1,0 +1,60 @@
+Create Anaconda environment:
+- open anaconda navigator
+- go to Environments and select Create
+- Open the terminal from the Big Arrow
+
+
+Open a Anaconda Command Prompt from your environment and type:
+- cd %CONDA_PREFIX%
+- mkdir .\etc\conda\activate.d
+- mkdir .\etc\conda\deactivate.d
+- type NUL > .\etc\conda\activate.d\env_vars.bat
+- type NUL > .\etc\conda\deactivate.d\env_vars.bat
+
+
+Install Dot
+- download from https://graphviz.gitlab.io/_pages/Download/Download_windows.html
+
+Install wget
+- download wget from : https://eternallybored.org/misc/wget/  (32bit)
+
+Install md5
+- download md5 from https://www.fourmilab.ch/md5/
+
+Add executable to path (Open A Anaconda Command Prompt from your environment)
+- Open the file .\etc\conda\activate.d\env_vars.bat (just type "notepad %CONDA_PREFIX%\etc\conda\activate.d\env_vars.bat")
+
+- Add the following lines to the file (make sure to close all the shells before this step)
+
+'''
+echo off
+set WGET_PATH=C:\Where\the\wget_directory\is ( probably in something like \wget-1.20-win32)
+set GRAPHVIZ_PATH=C:\Where\the\graphviz_directory\is\release\bin (probably something like graphviz-2.38\release\bin)
+set MD5_PATH=C:\Where\the\md5_directory\is (probably something like \md5)
+set PATH=%PATH%;%WGET_PATH%;%GRAPHVIZ_PATH%;%MD5_PATH%;
+echo on
+'''
+
+Close and run the environment terminal
+
+Install Snakemake
+- open anaconda navigator
+- open your environment
+- select Not Installed from the menu
+- Add Channels "bioconda" and "conda-forge" (Channels -> Add)
+- Search "snakemake"
+- Install "snakemake-minimal" 
+- Click on the big arrow and open terminal
+
+
+Legenda:
+
+cat            -> type
+echo 	       -> echo
+ls / ll        -> dir
+cp             -> copy
+touch filename -> copy NUL filename
+mv             -> move / rename
+mkdir          -> mkdir / md
+rm             -> del / erase
+echo $PATH     -> PATH
