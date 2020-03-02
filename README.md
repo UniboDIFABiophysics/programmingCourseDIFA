@@ -3,6 +3,8 @@ slides for the programming course of the physics department of the university of
 
 ## Reference material
 
+[Lesson_01_introduction.slides.html](./Lesson_01_introduction.slides.html)
+
 Think Python v2 - free online book
 * https://greenteapress.com/wp/think-python-2e/
 
