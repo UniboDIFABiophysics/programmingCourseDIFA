@@ -1,9 +1,14 @@
 # programmingCourseDIFA
 slides for the programming course of the physics department of the university of Bologna
 
-## Reference material
+## online slides
+the slides can be seen live at:
+
+https://unibodifabiophysics.github.io/programmingCourseDIFA/
 
 [Lesson_01_introduction.slides.html](./Lesson_01_introduction.slides.html)
+
+## Reference material
 
 Think Python v2 - free online book
 * https://greenteapress.com/wp/think-python-2e/
