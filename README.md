@@ -6,7 +6,44 @@ the slides can be seen live at:
 
 https://unibodifabiophysics.github.io/programmingCourseDIFA/
 
-[Lesson_01_introduction.slides.html](./Lesson_01_introduction.slides.html)
+
+
+### general module
+[01_introduction](./Lesson_01_introduction.slides.html)
+
+[02_reviewing_fundamentals_of_programming](./Lesson_02_reviewing_fundamentals_of_programming.slides.html)
+
+[03_version_control](./Lesson_03_version_control.slides.html)
+
+[04_testing](./Lesson_04_testing.slides.html)
+
+[05_debugging_and_logging__kill_the_print](./Lesson_05_debugging_and_logging__kill_the_print.slides.html)
+
+[06_Vectorization](./Lesson_06_Vectorization.slides.html)
+
+[07_Scientific_computation_libraries](./Lesson_07_Scientific_computation_libraries.slides.html)
+
+[08_Data_pipelines_and_Snakemake](./Lesson_08_Data_pipelines_and_Snakemake.slides.html)
+
+[09_DataFrame_and_Pandas](./Lesson_09_DataFrame_and_Pandas.slides.html)
+
+[10_object_oriented_programming_sklearn](./Lesson_10_object_oriented_programming_sklearn.slides.html)
+
+### Applied Physics module
+[AF_01_random_generation_and_montecarlo](./Lesson_AF_01_random_generation_and_montecarlo.slides.html)
+
+[AF_02_Differential_Equations_analysis](./Lesson_AF_02_Differential_Equations_analysis.slides.html)
+
+[AF_03_continuous_time_random_walks](./Lesson_AF_03_continuous_time_random_walks.slides.html)
+
+[AF_04_random_chain_text_generation](./Lesson_AF_04_random_chain_text_generation.slides.html)
+
+[AF_05_functional_programming_part_1](./Lesson_AF_05_functional_programming_part_1.slides.html)
+
+[AF_06_functional_programming_part_2](./Lesson_AF_06_functional_programming_part_2.slides.html)
+
+[AF_07_command_line_applications](./Lesson_AF_07_command_line_applications.slides.html)
+
 
 ## Reference material
 
