@@ -13219,7 +13219,7 @@ a.anchor-link {
 
 </div>
 </div>
-</div>
+</div></section></section><section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -13231,6 +13231,13 @@ Limitations can be put on the operative system and platform version required, bu
 <li>organization and clarity of the documentation</li>
 <li>presence and executability of test routines</li>
 </ul>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="optional-bonuses-(don't-rely-on-them)">optional bonuses (don't rely on them)<a class="anchor-link" href="#optional-bonuses-(don't-rely-on-them)">&#182;</a></h3><ul>
 <li>Usage of innovative technologies and libraries</li>
 <li>Contribution to open source projects</li>
@@ -13238,7 +13245,7 @@ Limitations can be put on the operative system and platform version required, bu
 
 </div>
 </div>
-</div>
+</div></section></section><section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -13253,7 +13260,7 @@ Discussing it early will avoid wasting effort and time for something that is not
 
 </div>
 </div>
-</div>
+</div></section></section><section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -13262,7 +13269,7 @@ Discussing it early will avoid wasting effort and time for something that is not
 
 </div>
 </div>
-</div>
+</div></section></section><section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -13272,40 +13279,82 @@ It has to be reliable and understandable by others.</p>
 <p>This other person should not be burdained of effort to understand your code.</p>
 <p><strong>"Go and read the source code"</strong> it's not a reasonable answer.</p>
 <p><strong>"Go and edit the source code"</strong> to use it is even less so.</p>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>They should be able to install your code, run it and replicate your results.</p>
 <p>consider giving the software a command line interface that can be run with some parameters, rather than having to explicitely run a bunch of scripts in a non explicit sequence.</p>
 
 </div>
 </div>
-</div>
+</div></section></section><section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="General-guidelines-on-the-various-topics-of-evaluation">General guidelines on the various topics of evaluation<a class="anchor-link" href="#General-guidelines-on-the-various-topics-of-evaluation">&#182;</a></h2><h3 id="Documentation">Documentation<a class="anchor-link" href="#Documentation">&#182;</a></h3><p>Documentation should be written in English, with proper sentences and coherent structure.
 The whole documentation should be accessible from the landing page of the repository, either in the readme or using hypertextual links: the user should not be left guessing on where to find it.</p>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>The documentation should explain:</p>
 <ul>
 <li>what problem is the function or program trying to solve</li>
 <li>what are the parameters that are exposed to the user and, if there are defaults parameters, what they are</li>
 <li>how it is implemented (does it use specific algorithms? do have any peculiar assumption about the input data?)</li>
 </ul>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>If possible the documentation should also include examples of execution, configurations and results, so that the user can understand the basic uses of the program/library, and could test on their own.</p>
 <p>a good reference for writing documentation is <a href="https://www.divio.com/blog/documentation/">https://www.divio.com/blog/documentation/</a></p>
 
 </div>
 </div>
-</div>
+</div></section></section><section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Testing">Testing<a class="anchor-link" href="#Testing">&#182;</a></h3><p>Testing should involve all the functions exposed to the user, and should ideally cover any combination of parameters.
 This means that in general is a good idea to keep the functions simple and composable, to avoid overly brittle and complicated test suites.</p>
 <p>The test name should be indicative of what the test is trying to achieve. <code>test_1</code> is not a clear name <code>test_function_is_even</code> is more clear.</p>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>REMEMBER THAT FLOATING POINT NUMBERS HAVE ISSUES WITH EQUALITY TESTING!!!</strong></p>
 <p>Make sure that any test could only fail for a single reason: if a test have several failing conditions, it will be difficult to pinpoint the exact cause.</p>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>Every time you find a bug, write an associated test <strong>before</strong> solving the bug, make sure that it fails and then solve it (making it sure that now it passes).
 This will prevent the bug from showing again in the future.</p>
 <p>Tests are a way to also establish the interface of your program. They are a promise to your users: if something is tested it should work. This means that every commit should be tested and only submitted if <strong>all</strong> the tests passes.</p>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>Even if not compulsory, I strongly suggest to use a coverage test system (with libraries such as <a href="https://coverage.readthedocs.io/en/coverage-5.0.3/"><em>coverage.py</em></a>) and try to achieve 100% coverage.</p>
 <p>test code should be well separated from the library (or simulation) code, and definitely not mixed in the same file.</p>
 <p>testing does not need to verify that the code can be run (this should be taken for granted), but that upon executino the results are the one expected.
@@ -13313,7 +13362,7 @@ This is the reason to use asserts.</p>
 
 </div>
 </div>
-</div>
+</div></section></section><section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -13323,66 +13372,157 @@ There are many guidelines out there, pick one and follow it.</p>
 <p>Use proper naming, both explanatory and consistent.
 This helps the user using your library.
 If in one part of the library you have functions such as <code>has_property</code>, don't change the style in another part to something like <code>is_something</code></p>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>Avoid dependency from global states as much as possible. 
 The only tolerated exception is for configuration values that are never modified.
 Do not write on the global state. 
 No, yours is not a special enough case.</p>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>leverage the power of functions to avoid useless code repetition and make your code easier to read for someone new to it.
 Functions should ideally do a single thing: huge number of parameters in the call is usually indicative that the function is trying to do to much.</p>
 <p>functions should be decorrelated, meaning that there should not be a fixed order to call them otherwise weird error arises.
 If a group of functions needs to be called in a fixed order, you are probably trying to write an object without realizing it.
 In some cases this can be simplified using <a href="https://docs.python.org/3/library/functools.html#functools.partial"><em>partial</em></a> functions and <a href="https://docs.python.org/3/library/contextlib.html#contextlib.contextmanager"><em>contextmanager</em></a> decorators.</p>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>If your code dependes on external libraries, remember to point out which ones, and which is the minimum (and possibly maximum) version that are necessary.
 In general try to balance out how many libraries your code dependes on.
 Some libraries are commonly used by most users in the same community, and those are not a problem (such as numpy, scipy, pandas and scikit.learn for the scientific python community), but try to limit dependencies from <em>unorthodox</em> libraries</p>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>if you need to connect to online services, consider <a href="https://docs.python.org/3/library/functools.html#functools.lru_cache"><em>caching</em></a> or, at least, minimize the number of connections used to avoid bogging them down.</p>
 <p><strong>Make sure that there are no reference to specifi paths of your computer in the code!</strong>
 Asking the library to load a file in the directory <code>\home\myname\myprojects\SandCexam</code> is unacceptable.
 It is suggested to use a third party continuous integration service such as <a href="https://travis-ci.org/">TravisCI</a>, as it will show most of these brittle errors.
 I need to be able to run the software on my computer, this is a prerequisite, and as such this kind of mistake precludes the project to receive and evaluation!</p>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="comments">comments<a class="anchor-link" href="#comments">&#182;</a></h3><p>Remember to comment the code: comments should indicate WHY the code is doing something, not describe WHAT is doing.
 Proper function and variable naming can help reduce the needs for comments.</p>
 <p>bad:</p>
 <div class="highlight"><pre><span></span><span class="n">lenght</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">lenght</span><span class="p">,</span> <span class="mi">80</span><span class="p">)</span>
 </pre></div>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>better:</p>
 <div class="highlight"><pre><span></span><span class="c1"># limit the text lenght to avoid overflow issues</span>
 <span class="n">lenght</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">lenght</span><span class="p">,</span> <span class="mi">80</span><span class="p">)</span>
 </pre></div>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>best:</p>
 <div class="highlight"><pre><span></span><span class="c1"># limit the text lenght to avoid overflow issues</span>
 <span class="n">terminal_character_limit</span> <span class="o">=</span> <span class="mi">80</span>
-<span class="n">text_line_lenght</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">text_line_lenght</span><span class="p">,</span> <span class="n">terminal_character_limit</span><span class="p">)</span>
+<span class="n">text_line_lenght</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">text_line_lenght</span><span class="p">,</span> 
+                       <span class="n">terminal_character_limit</span><span class="p">)</span>
 </pre></div>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="assert-and-exceptions">assert and exceptions<a class="anchor-link" href="#assert-and-exceptions">&#182;</a></h3><p>In python don't be overly defensive with testing the input for a function.
 If your function need to insert some values in a dict, you don't need to test that the input is a dict, but only that is a mappable (does have a <code>set_item</code> function).</p>
 <p>Even better, don't try to verify beforehand but rather use a try except clause in the code and explain the problem to the user.</p>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Don't use <code>assert</code> to check for important conditions</strong>, but use if-else clause and raise an approriate exception (subclassing one of the existing one, if needed) if the condition is not valid.</p>
 <p>Asserts are supposed to be used at the end of the code to make the code invariant explicit (for example that the two returned arrays are of the same lenght).
 In a reasonable condition one should never expect to see one of these <code>assert</code> fail: they are used to communicate infomations to the reader.</p>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>bad:</p>
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">add_key</span><span class="p">(</span><span class="n">mappable</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
     <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">mappable</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span>
     <span class="n">mappable</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
 </pre></div>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>better:</p>
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">add_key</span><span class="p">(</span><span class="n">mappable</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">mappable</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;the mappable object should be a dict&quot;</span><span class="p">)</span>
     <span class="n">mappable</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
 </pre></div>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>even better:</p>
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">add_key</span><span class="p">(</span><span class="n">mappable</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">mappable</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
     <span class="k">except</span> <span class="ne">TypeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">if</span> <span class="s2">&quot;object does not support item assignment&quot;</span> <span class="ow">in</span> <span class="n">e</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
-            <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;the mappable parameter should &quot;</span>
-                   <span class="s2">&quot;support item assignement, &quot;</span>
-                   <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> does not support it&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">mappable</span><span class="p">))</span>
-                  <span class="p">)</span>
+        <span class="n">err</span> <span class="o">=</span> <span class="s2">&quot;object does not support item assignment&quot;</span>
+        <span class="k">if</span> <span class="n">err</span> <span class="ow">in</span> <span class="n">e</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> doesn&#39;t support item assignment&quot;</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">mappable</span><span class="p">))</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span> <span class="kn">from</span> <span class="bp">None</span>
 </pre></div>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>best:</p>
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">add_key</span><span class="p">(</span><span class="n">mappable</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
     <span class="n">mappable</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
@@ -13390,7 +13530,7 @@ In a reasonable condition one should never expect to see one of these <code>asse
 
 </div>
 </div>
-</div>
+</div></section></section><section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -13399,19 +13539,40 @@ This includes also the ip address of servers, usernames, personal informations o
 Include them in a separate text file if you really need them and only include in the commit a dummy file with fake informations.</p>
 <p>All commits should have a brief and descriptive title.
 "some edits" is not a good description.</p>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>Each commit should be a single kind of edit.
 Editing a function might need to update also the documentation and testing, and possibly other code that relies on that function.
 But don't mix random extensions of the documentation, code editing, and so on.</p>
 <p>try to avoid including temporary files (such as the <code>__pycache__</code> folder) in the commits, as they make the repository bigger and harder to understand.</p>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>avoid including very big files in the repository, unless necessary.
 Consider the possibility of dynamically generate them during the installation or the first run.</p>
 <p>Having multiple smaller commits is absolutely ok.
 Projects with hundreds of commits are absolutely normal, don't be afraid to commit multiple time a day.</p>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>Do not upload datasets, especially if they are from an experiment that you're collaborating with, as you might have copyright and intellectual property issues.</p>
 
 </div>
 </div>
-</div>
+</div></section></section><section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -13423,7 +13584,7 @@ Projects with hundreds of commits are absolutely normal, don't be afraid to comm
 
 </div>
 </div>
-</div>
+</div></section></section><section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -13431,13 +13592,22 @@ Projects with hundreds of commits are absolutely normal, don't be afraid to comm
 <ul>
 <li>there should be no hard dependency on pathways or files from your computer</li>
 <li>random elements should be managed explicitely using a random seed</li>
-<li>different configurations for the simulation should be included in a separate configuration file, that could be provided by the user</li>
-<li>the simulation, analysis and plotting steps should be separated, so that the analysis can be repeated without performing the simulation again. Ideally should be possible performing batch analysis of the results of several simulations.</li>
 </ul>
 
 </div>
 </div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>the simulation, analysis and plotting steps should be separated, so that the analysis can be repeated without performing the simulation again. Ideally should be possible performing batch analysis of the results of several simulations.</li>
+<li>different configurations for the simulation should be included in a separate configuration file, that could be provided by the user</li>
+</ul>
+
 </div>
+</div>
+</div></section></section><section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -13445,6 +13615,15 @@ Projects with hundreds of commits are absolutely normal, don't be afraid to comm
 <ul>
 <li>the API of the library (i.e. the functions and how they are related) should be properly designed and explained</li>
 <li>include examples and tutorial in the documentation</li>
+</ul>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
 <li>configuration of the library should be transparent to the user, and should not rely on weird system states</li>
 <li>be clear on the algorithms used and possible limitations of the method (memory, disk space, parallelism, etc...)</li>
 </ul>
