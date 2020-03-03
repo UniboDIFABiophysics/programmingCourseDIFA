@@ -6,8 +6,6 @@ the slides can be seen live at:
 
 https://unibodifabiophysics.github.io/programmingCourseDIFA/
 
-
-
 ### general module
 [01_introduction](./Lesson_01_introduction.slides.html)
 
@@ -43,6 +41,10 @@ https://unibodifabiophysics.github.io/programmingCourseDIFA/
 [AF_06_functional_programming_part_2](./Lesson_AF_06_functional_programming_part_2.slides.html)
 
 [AF_07_command_line_applications](./Lesson_AF_07_command_line_applications.slides.html)
+
+### suggestions for the project
+
+[details about the exam (lesson 00)](./Lesson_00_details_about_the_exam.slides.html)
 
 
 ## Reference material
