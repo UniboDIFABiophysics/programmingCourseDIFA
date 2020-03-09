@@ -4,7 +4,7 @@ slides for the programming course of the physics department of the university of
 ## online slides
 the slides can be seen live at:
 
-https://unibodifabiophysics.github.io/programmingCourseDIFA/
+[https://unibodifabiophysics.github.io/programmingCourseDIFA/](https://unibodifabiophysics.github.io/programmingCourseDIFA/)
 
 ### general module
 [01_introduction](./Lesson_01_introduction.slides.html)
