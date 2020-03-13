@@ -13522,7 +13522,31 @@ ipdb&gt; c
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>but don't rely on it, as they can be removed from the execution by using the flag <code>-O</code> (Optimize) when calling the python interpreter.</p>
-<p>Also, let's be honest, it does have a terrible syntax</p>
+
+</div>
+</div>
+</div><div class="fragment">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>A common mistake is to use assertions to check the inputs of a function.
+this is an improper use of the assert, both due to the fact that it can't be relied and that they are not providing discrimintive and informative errors to the user.</p>
+
+</div>
+</div>
+</div></div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>they should be used for testing for sure, but in normal code they have only one real use: express invariant of your code (think back about property testing).</p>
+<p>They express in code that some characteristics of the code <strong>has to</strong> be valid, or something has gone very very wrong.</p>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">my_smart_sort</span><span class="p">(</span><span class="n">sequence</span><span class="p">):</span>
+    <span class="c1"># some sorting code</span>
+    <span class="n">sorted_sequence</span> <span class="o">=</span> <span class="n">someting</span><span class="p">(</span><span class="n">partial_result</span><span class="p">)</span>
+    <span class="c1"># the resulting sequence has the same lenght of the original one or someting is wrong</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">sorted_sequence</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">sequence</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">sorted_sequence</span>
+</pre></div>
 
 </div>
 </div>
@@ -13530,6 +13554,15 @@ ipdb&gt; c
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p>you can look at asserts as a stronger form of comments: comments can potentially go out of snc with your code, while assert can't, so they can communicate to the programmer reading the function with a higher degree of confidence.</p>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>let's be honest, assert in general does have a terrible syntax</p>
 <p>We could use a better (albeit slower) assertion library, <strong>grappa</strong>, to help get better syntax and better error results.</p>
 
 </div>
