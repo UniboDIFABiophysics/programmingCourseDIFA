@@ -13258,7 +13258,7 @@ a.anchor-link {
 <p>numbers is a computer a represented with a finite numbers of <strong>bits</strong>.
 integers are simply the traditional integer numbers expressed in binary format, and can range from 8 bits (one byte) to 64 bits</p>
 <p>How would you represent a number with a non integer part?</p>
-<p>one could use a fiex part of your available bites to represent the integer part and another one to represent the floating point part, but this would severely limit the range of numbers that can be described.</p>
+<p>one could use a fixed part of your available bites to represent the integer part and another one to represent the floating point part, but this would severely limit the range of numbers that can be described.</p>
 <p>the other option is to use the scientic notation to represent them: this way you can get almost as big or small as needed!</p>
 
 </div>
@@ -13308,10 +13308,11 @@ $2/3 = 0.66666667$</p>
 </div></section></section><section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[41]:</div>
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{:f}</span><span class="s2"> = </span><span class="si">{:.32f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">))</span> <span class="c1">#scrittura del numero 0.1 con 32 cifre decimali</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># writing 0.1 with 32 significant digits</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{:f}</span><span class="s2"> = </span><span class="si">{:.32f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">))</span> 
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{:.17f}</span><span class="s2"> + </span><span class="si">{:.17f}</span><span class="s2"> = </span><span class="si">{:.17f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.1</span> <span class="o">+</span> <span class="mf">0.2</span><span class="p">))</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
@@ -13397,7 +13398,8 @@ that is more digits than most people find useful."</p>
 <span class="n">b</span> <span class="o">=</span> <span class="mf">0.2</span>
 <span class="n">c</span> <span class="o">=</span> <span class="mf">0.3</span>
 <span class="nb">print</span><span class="p">((</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span> <span class="o">+</span> <span class="n">c</span><span class="p">,</span> <span class="n">a</span> <span class="o">+</span> <span class="p">(</span><span class="n">b</span> <span class="o">+</span> <span class="n">c</span><span class="p">))</span>
-<span class="k">assert</span><span class="p">((</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span> <span class="o">+</span> <span class="n">c</span> <span class="o">==</span> <span class="n">a</span> <span class="o">+</span> <span class="p">(</span><span class="n">b</span> <span class="o">+</span> <span class="n">c</span><span class="p">))</span> <span class="c1">#verifica della proprietà associativa(+) considerando tutti i bit</span>
+<span class="c1">#verify the associative property (+) including all bits</span>
+<span class="k">assert</span><span class="p">((</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span> <span class="o">+</span> <span class="n">c</span> <span class="o">==</span> <span class="n">a</span> <span class="o">+</span> <span class="p">(</span><span class="n">b</span> <span class="o">+</span> <span class="n">c</span><span class="p">))</span> 
 </pre></div>
 
     </div>
@@ -13535,7 +13537,7 @@ that is more digits than most people find useful."</p>
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Floating-point-exceptions">Floating point exceptions<a class="anchor-link" href="#Floating-point-exceptions">&#182;</a></h2><p>alongside precision errors and round offs, there are several possible exceptions that can be raised while operating with floating point numbers.</p>
-<p>There are defined by the IEEE standard</p>
+<p>They are defined by the IEEE standard</p>
 <ul>
 <li><p><strong>Underflow</strong> : the result of an operation is too small to be represented with a number</p>
 </li>
@@ -13703,7 +13705,7 @@ $$ \frac{1}{\sqrt{x}} $$<p>you could use the standard formula, and obtain a reas
 </div></div></section></section><section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[33]:</div>
+<div class="prompt input_prompt">In&nbsp;[31]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">isqrt</span><span class="p">(</span><span class="n">number</span><span class="p">):</span>
@@ -13711,10 +13713,11 @@ $$ \frac{1}{\sqrt{x}} $$<p>you could use the standard formula, and obtain a reas
     <span class="k">assert</span> <span class="n">number</span> <span class="o">&gt;</span> <span class="mi">0</span>
     <span class="n">threehalfs</span> <span class="o">=</span> <span class="mf">1.5</span>
     <span class="n">x2</span> <span class="o">=</span> <span class="n">number</span> <span class="o">*</span> <span class="mf">0.5</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">(</span><span class="n">number</span><span class="p">)</span> <span class="c1">#conversione a float32 del numero</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">(</span><span class="n">number</span><span class="p">)</span> <span class="c1"># converting the number to float32</span>
 
-    <span class="n">i</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span> <span class="c1">#&quot;vedi&quot; y come una variabile int32</span>
-    <span class="n">i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">(</span><span class="mh">0x5f3759df</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">(</span><span class="n">i</span> <span class="o">&gt;&gt;</span> <span class="mi">1</span><span class="p">)</span> <span class="c1">#differenza tra numeri in bit-format</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span> <span class="c1">#convert y to a int32 variable</span>
+    <span class="n">magic</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">(</span><span class="mh">0x5f3759df</span><span class="p">)</span> <span class="c1"># magic number,  nobody knows why it works</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="n">magic</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">(</span><span class="n">i</span> <span class="o">&gt;&gt;</span> <span class="mi">1</span><span class="p">)</span> <span class="c1">#difference bit-wise of the numbers</span>
     <span class="n">y</span> <span class="o">=</span> <span class="n">i</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
 
     <span class="n">y</span> <span class="o">=</span> <span class="n">y</span> <span class="o">*</span> <span class="p">(</span><span class="n">threehalfs</span> <span class="o">-</span> <span class="p">(</span><span class="n">x2</span> <span class="o">*</span> <span class="n">y</span> <span class="o">*</span> <span class="n">y</span><span class="p">))</span>
@@ -13751,6 +13754,7 @@ $$ \frac{1}{\sqrt{x}} $$<p>you could use the standard formula, and obtain a reas
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>This algorithm is less precise and more complicated, but it's so much faster than the naive implementation that is single handedly considered the code that allowed the birth of modern first person shooting games!</p>
 <p>this is because this expression appears countless times in the dynamic light computation (to decrease it with distance), and this was fast and precise enough to allow to be used in real time</p>
+<p><strong>note</strong>: this algorithm is actually performing the first step of a newton minimization algorithm</p>
 
 </div>
 </div>
@@ -13802,8 +13806,7 @@ $$ \frac{1}{\sqrt{x}} $$<p>you could use the standard formula, and obtain a reas
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="NumPy---Numerical-Python">NumPy - Numerical Python<a class="anchor-link" href="#NumPy---Numerical-Python">&#182;</a></h1><p><strong>Numpy</strong> is the library that underpins all the python scientific ecosystem, for high performance computation and data analysis</p>
-<p>The library provides an object, the <strong>array</strong> (<em>ndarray</em>, to be specific), that support vectorized and parallel computation, allowing high performance math in python, to a speed that can rival (if properly implemented)</p>
-<p>NumPy è la libreria fondamentale per il calcolo scientifico ad alte performance e l'analisi di dati.</p>
+<p>The library provides an object, the <strong>array</strong> (<em>ndarray</em>, to be specific), that support vectorized and parallel computation, allowing high performance math in python, to a speed that can rival C (if properly implemented)</p>
 
 </div>
 </div>
@@ -13811,7 +13814,7 @@ $$ \frac{1}{\sqrt{x}} $$<p>you could use the standard formula, and obtain a reas
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The library also provides most common manipulation algorithms (later with discuss the extensions with <strong>scipy</strong>), all implemented in a vectorized fashion, but also read and write capabilities, tabular data manipulation, linear algebra, and even C++ code wrapping!</p>
+<p>The library also provides most common manipulation algorithms (later we'll discuss the extensions with <strong>scipy</strong>), all implemented in a vectorized fashion, but also read and write capabilities, tabular data manipulation, linear algebra, and even C++ code wrapping!</p>
 <p>Good reference book (free online) are:</p>
 <ul>
 <li><a href="https://www.labri.fr/perso/nrougier/from-python-to-numpy/">From Python to Numpy</a></li>
@@ -13823,13 +13826,17 @@ $$ \frac{1}{\sqrt{x}} $$<p>you could use the standard formula, and obtain a reas
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[42]:</div>
+<div class="prompt input_prompt">In&nbsp;[32]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">])</span> <span class="c1"># vector 1x4</span>
+<span class="c1"># vector 1x4</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">])</span> 
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;a = &quot;</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
-<span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">],[</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">]])</span> <span class="c1"># bidimensional array (matrix) 2x4</span>
+<span class="c1"># bidimensional array (matrix) 2x4</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span>
+              <span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">],</span>
+             <span class="p">])</span> 
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;b = </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
 </pre></div>
 
@@ -13916,28 +13923,24 @@ int64
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Create-an-array">Create an array<a class="anchor-link" href="#Create-an-array">&#182;</a></h2><p>There are 3 important functions to create an array</p>
+<p>it is also possible to specify the type of numbers that the array should contains.
+<strong>NOTE</strong>: in a numpy array all the values have the same type!</p>
+<p><a href="https://docs.scipy.org/doc/numpy/user/basics.types.html">https://docs.scipy.org/doc/numpy/user/basics.types.html</a></p>
+<p>different data types can massively change the array size, and this could be a life saver when memory is limited!</p>
+<p>(sadly there is no simple way of managing 1-bit arrays for booleans)</p>
 
 </div>
 </div>
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[61]:</div>
+<div class="prompt input_prompt">In&nbsp;[43]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">array_zeros</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="c1"># vector of 1x10 zeros</span>
-<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;array_zeros = &quot;</span><span class="p">,</span> <span class="n">array_zeros</span><span class="p">)</span>
-
-<span class="n">a_matzeros</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span> <span class="c1"># 2d array of 2x10 zeros</span>
-<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;a_matzeros has dimensions : &quot;</span><span class="p">,</span> <span class="n">a_matzeros</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-
-<span class="n">array_ones</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="c1"># vector of 1x10 one</span>
-<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;array_ones = &quot;</span><span class="p">,</span> <span class="n">array_ones</span><span class="p">)</span>
-
-<span class="n">a_empty</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="c1"># vector 1x20 of null values (from the free memory used)</span>
-<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;a_empty = &quot;</span><span class="p">,</span> <span class="n">a_empty</span><span class="p">)</span>
-<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;a_empty contains objects of type : &quot;</span><span class="p">,</span> <span class="n">a_empty</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;uint8&#39;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float32&#39;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;complex&#39;</span><span class="p">))</span>
 </pre></div>
 
     </div>
@@ -13954,11 +13957,9 @@ int64
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>array_zeros =  [0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]
-a_matzeros has dimensions :  (2, 10)
-array_ones =  [1. 1. 1. 1. 1. 1. 1. 1. 1. 1.]
-a_empty =  [0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]
-a_empty contains objects of type :  float64
+<pre>[1 2 3 4]
+[1. 2. 3. 4.]
+[1.+0.j 2.+0.j 3.+0.j 4.+0.j]
 </pre>
 </div>
 </div>
@@ -13967,39 +13968,15 @@ a_empty contains objects of type :  float64
 </div>
 
 </div></div></section></section><section><section>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Beware">Beware<a class="anchor-link" href="#Beware">&#182;</a></h2><p><strong>np.empty</strong> does not contains zeros, but basically random numbers.</p>
-<p>They are not properly random, but "garbage" remaining from the values of the previous of that section of memory</p>
-
-</div>
-</div>
-</div></section></section><section><section>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Altri-tipi-di-inizializzazione">Altri tipi di inizializzazione<a class="anchor-link" href="#Altri-tipi-di-inizializzazione">&#182;</a></h2><h2 id="Other-types-of-initialization">Other types of initialization<a class="anchor-link" href="#Other-types-of-initialization">&#182;</a></h2><p>We can create array containing numbers in a specific range</p>
-<p>The main functions are 4: <code>np.arange</code>,  <code>np.linspace</code>, <code>np.logspace</code>, <code>np.geomspace</code></p>
-
-</div>
-</div>
-</div></section></section><section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[73]:</div>
+<div class="prompt input_prompt">In&nbsp;[55]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
-<span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="c1"># (initial value, final value, step size)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
-<span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span> <span class="c1"># (initial value, final value, number of steps)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
-<span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">base</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span> <span class="c1"># (initial value (in log), final value (in log), number of steps)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
-<span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">geomspace</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span> <span class="c1"># (initial value, final value, number of steps)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;uint8&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">itemsize</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">nbytes</span><span class="p">)</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float64&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">itemsize</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">nbytes</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -14016,11 +13993,8 @@ a_empty contains objects of type :  float64
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>[0 1 2 3 4 5 6 7 8 9]
-[1 3 5 7 9]
-[ 0.   2.5  5.   7.5 10. ]
-[  1.           3.46410162  12.          41.56921938 144.        ]
-[  1.           3.16227766  10.          31.6227766  100.        ]
+<pre>4 1 4
+4 8 32
 </pre>
 </div>
 </div>
@@ -14076,6 +14050,209 @@ a cast 2 float =  [ 1.21  0.2  -0.4 ]
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Create-an-array">Create an array<a class="anchor-link" href="#Create-an-array">&#182;</a></h2><p>There are 3 important functions to create an array</p>
+
+</div>
+</div>
+</div><div class="fragment">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[33]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">array_zeros</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="c1"># vector of 1x10 zeros</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;array_zeros = &quot;</span><span class="p">,</span> <span class="n">array_zeros</span><span class="p">)</span>
+
+<span class="n">a_matzeros</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span> <span class="c1"># 2d array of 2x10 zeros</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;a_matzeros has dimensions : &quot;</span><span class="p">,</span> <span class="n">a_matzeros</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+<span class="n">array_ones</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="c1"># vector of 1x10 one</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;array_ones = &quot;</span><span class="p">,</span> <span class="n">array_ones</span><span class="p">)</span>
+
+<span class="n">a_empty</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="c1"># vector 1x20 of null values (from the free memory used)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;a_empty = &quot;</span><span class="p">,</span> <span class="n">a_empty</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;a_empty contains objects of type : &quot;</span><span class="p">,</span> <span class="n">a_empty</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>array_zeros =  [0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]
+a_matzeros has dimensions :  (2, 10)
+array_ones =  [1. 1. 1. 1. 1. 1. 1. 1. 1. 1.]
+a_empty =  [6.23042070e-307 4.67296746e-307 1.69121096e-306 1.60220257e-306
+ 6.23058368e-307 1.11261162e-306 8.90104239e-307 1.24610383e-306
+ 1.69118108e-306 8.06632139e-308 1.20160711e-306 1.69119330e-306
+ 1.29062229e-306 1.42417222e-306 1.33512648e-306 7.56596412e-307
+ 1.37962185e-306 1.78021798e-306 8.34451504e-308 4.22764034e-307]
+a_empty contains objects of type :  float64
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div></div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Beware">Beware<a class="anchor-link" href="#Beware">&#182;</a></h2><p><strong>np.empty</strong> does not contains zeros, but basically random numbers.</p>
+<p>They are not properly random, but "garbage" remaining from the values of the previous of that section of memory</p>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>often you might need to create a simple array (such as ones or zeros) in the same shape as another. a first solution might be to use the shape of the first array:</p>
+
+</div>
+</div>
+</div><div class="fragment">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[37]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">])</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[1. 1. 1. 1.]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div></div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>but this looks a bit cluncky and the data type is mismatched to the original one (the original was of integers, the generated one is of float).</p>
+<p>So a convenient set of functions are the <code>ones_like</code>, <code>zeros_like</code>, <code>empty_like</code>, that takes the reference array as input and generates a new one with the right shape and data type</p>
+
+</div>
+</div>
+</div><div class="fragment">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[42]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="n">j</span><span class="p">])</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[1.+0.j 1.+0.j 1.+0.j 1.+0.j]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div></div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Altri-tipi-di-inizializzazione">Altri tipi di inizializzazione<a class="anchor-link" href="#Altri-tipi-di-inizializzazione">&#182;</a></h2><h2 id="Other-types-of-initialization">Other types of initialization<a class="anchor-link" href="#Other-types-of-initialization">&#182;</a></h2><p>We can create array containing numbers in a specific range</p>
+<p>The main functions are 4: <code>np.arange</code>,  <code>np.linspace</code>, <code>np.logspace</code>, <code>np.geomspace</code></p>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[73]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="c1"># (initial value, final value, step size)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span> <span class="c1"># (initial value, final value, number of steps)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">base</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span> <span class="c1"># (initial value (in log), final value (in log), number of steps)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">geomspace</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span> <span class="c1"># (initial value, final value, number of steps)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[0 1 2 3 4 5 6 7 8 9]
+[1 3 5 7 9]
+[ 0.   2.5  5.   7.5 10. ]
+[  1.           3.46410162  12.          41.56921938 144.        ]
+[  1.           3.16227766  10.          31.6227766  100.        ]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Operations-between-arrays-and-scalars">Operations between arrays and scalars<a class="anchor-link" href="#Operations-between-arrays-and-scalars">&#182;</a></h2><p>Numpy's array are not only simplifying the generation and management of data, but they have a huge number of operations that are already vectorized, such as <strong>array-array</strong> operations and <strong>array-scalar</strong></p>
 
 </div>
@@ -14083,7 +14260,7 @@ a cast 2 float =  [ 1.21  0.2  -0.4 ]
 </div></section></section><section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[62]:</div>
+<div class="prompt input_prompt">In&nbsp;[67]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">])</span>
@@ -14128,7 +14305,7 @@ a^2 :  [ 1  4  9 16]
 </div></section></section><section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[63]:</div>
+<div class="prompt input_prompt">In&nbsp;[68]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> OPERATIONS BETWEEN ARRAYS</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -14136,7 +14313,7 @@ a^2 :  [ 1  4  9 16]
 <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;a ** b : &quot;</span><span class="p">,</span> <span class="n">a</span><span class="o">**</span><span class="n">b</span><span class="p">)</span>
 <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;a + b : &quot;</span><span class="p">,</span> <span class="n">a</span><span class="o">+</span><span class="n">b</span><span class="p">)</span>
 <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;a - b : &quot;</span><span class="p">,</span> <span class="n">a</span><span class="o">-</span><span class="n">b</span><span class="p">)</span>
-<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;1. / a : &quot;</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="n">a</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;1 / a : &quot;</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="n">a</span><span class="p">)</span> <span class="c1"># gives floats!</span>
 <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;1 / a : &quot;</span><span class="p">,</span> <span class="mi">1</span><span class="o">//</span><span class="n">a</span><span class="p">)</span>
 </pre></div>
 
@@ -14161,7 +14338,7 @@ a * b :  [ 2  6 12 20]
 a ** b :  [   1    8   81 1024]
 a + b :  [3 5 7 9]
 a - b :  [-1 -1 -1 -1]
-1. / a :  [1.         0.5        0.33333333 0.25      ]
+1 / a :  [1.         0.5        0.33333333 0.25      ]
 1 / a :  [1 0 0 0]
 </pre>
 </div>
@@ -14171,6 +14348,116 @@ a - b :  [-1 -1 -1 -1]
 </div>
 
 </div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>From python 3.5 a new operator has been added for vector and matrix dot product, using the <code>@</code>.</p>
+
+</div>
+</div>
+</div><div class="fragment">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[73]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[73]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>40</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div></div><div class="fragment">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[69]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">a</span><span class="nd">@b</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[69]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>40</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div></div><div class="fragment">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[72]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">a</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="nd">@b</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[72]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([[ 2,  3,  4,  5],
+       [ 4,  6,  8, 10],
+       [ 6,  9, 12, 15],
+       [ 8, 12, 16, 20]])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div></div></section></section><section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[76]:</div>
@@ -14248,10 +14535,10 @@ so if you modify an element, the original array will be modified as well!</p>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
-<span class="nb">print</span> <span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
 <span class="n">arr_slice</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span> <span class="c1"># view of a</span>
 <span class="n">arr_slice</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10000</span> <span class="c1"># change the second element of the slice</span>
-<span class="nb">print</span> <span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="c1"># the original array is changed!</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="c1"># the original array is changed!</span>
 </pre></div>
 
     </div>
@@ -14439,10 +14726,10 @@ Calculated in 0.0054 sec
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">random</span>
-<span class="nb">print</span> <span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">())</span> <span class="c1"># uniform distribution</span>
-<span class="nb">print</span> <span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">())</span> <span class="c1"># normal distribution</span>
-<span class="nb">print</span> <span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">exponential</span><span class="p">())</span> <span class="c1"># exponential distribution</span>
-<span class="nb">print</span> <span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span> <span class="c1"># random matrix</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">())</span> <span class="c1"># uniform distribution</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">())</span> <span class="c1"># normal distribution</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">exponential</span><span class="p">())</span> <span class="c1"># exponential distribution</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span> <span class="c1"># random matrix</span>
 </pre></div>
 
     </div>
@@ -14464,6 +14751,56 @@ Calculated in 0.0054 sec
 0.8019130683269593
 [[0.57421473 0.43093877 0.9662763 ]
  [0.44139401 0.07189704 0.87782763]]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div></div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>to improve replicability of random simulations (we will discuss more about that) is possible to fix the <strong>random seed</strong>.</p>
+<p>this will ensure that the random number generated are repeated exactly equal... this is fundamental for debugging, as it allows to replicate border cases that break your code!</p>
+
+</div>
+</div>
+</div><div class="fragment">
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[66]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">())</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>0.5488135039273248
+0.7151893663724195
+--------------------
+0.5488135039273248
+0.7151893663724195
 </pre>
 </div>
 </div>
@@ -15007,7 +15344,7 @@ sum over the columns:
 <li>time</li>
 <li>well of the petri</li>
 </ul>
-<p>(even if, for this kind os structures, it mighr be useful to use more specialized libraries such as <strong>xarray</strong>)</p>
+<p>(even if, for this kind os structures, it might be useful to use more specialized libraries such as <strong>xarray</strong>)</p>
 
 </div>
 </div>
