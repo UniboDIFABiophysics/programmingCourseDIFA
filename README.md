@@ -50,10 +50,24 @@ the slides can be seen live at:
 ## Reference material
 
 Think Python v2 - free online book
-* https://greenteapress.com/wp/think-python-2e/
+* [https://greenteapress.com/wp/think-python-2e/](https://greenteapress.com/wp/think-python-2e/)
 
 Scipy Lecture Notes - Introduction to the python scientific environment
-* https://scipy-lectures.org/
+* [https://scipy-lectures.org/](https://scipy-lectures.org/)
 
 From Python to Numpy - focuses on the **numpy** library for numerical calculations
-* https://www.labri.fr/perso/nrougier/from-python-to-numpy/
+* [https://www.labri.fr/perso/nrougier/from-python-to-numpy/](https://www.labri.fr/perso/nrougier/from-python-to-numpy/)
+
+### artiles about data analysis and visualization
+
+Tidy Data
+* [http://vita.had.co.nz/papers/tidy-data.pdf](http://vita.had.co.nz/papers/tidy-data.pdf)
+
+Data organization in spreadsheets
+* [https://doi.org/10.7287/peerj.preprints.3183v1](https://doi.org/10.7287/peerj.preprints.3183v1)
+
+Data visualization literacy: Definitions, conceptual frameworks, exercises, and assessments
+* [www.pnas.org/cgi/doi/10.1073/pnas.1807180116](www.pnas.org/cgi/doi/10.1073/pnas.1807180116)
+
+Ten Simple Rules for Better Figures
+* [https://doi.org/10.1371/journal.pcbi.1003833](https://doi.org/10.1371/journal.pcbi.1003833)
