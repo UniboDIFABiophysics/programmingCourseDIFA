@@ -13309,7 +13309,11 @@ Your program call the library, while a framework calls the code you wrote.</p>
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="sidenote:-pdir2">sidenote: pdir2<a class="anchor-link" href="#sidenote:-pdir2">&#182;</a></h3><p>For this lesson we will use a library called <strong>pdir</strong>, that replace the traditional <code>dir</code> function with one that allows more control on what gets shown.</p>
-<p>This will allow us to discuss in more detail what is going on under the hood of an object</p>
+<p>This will allow us to explore in more detail what is going on under the hood of an object.
+This library is not necessary in any way to develop objects, we'll just use it to explore them.</p>
+<p><code>conda install pdir2</code>
+or
+<code>pip install -U pdir2</code></p>
 
 </div>
 </div>
@@ -14129,7 +14133,7 @@ They all treat the attribute name as a string</p>
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>How does the attribute <code>b</code> gets shown to the instance?</p>
-<p>This is done using the so-called Method Resolution Order (MRO).</p>
+<p>This is done using the so-called <strong>Method Resolution Order</strong> (MRO).</p>
 <p>When we ask for an attribute to an instance the following happen</p>
 <ol>
 <li>if it does have it, it returns it</li>
@@ -14537,7 +14541,7 @@ For libraries that create and destroy objects inside a single process it might n
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Functions can be added as methods to a class in any moment.</p>
 <p>This is often referred as <strong>monkey patching</strong>, and is a powerful yet dangerous technique.</p>
-<p>One can do it for their won script (maybe to allow a library to act on a class it is not designed for), and that is perfectly ok as long as you know what you're doing.</p>
+<p>One can do it for their own script (maybe to allow a library to act on a class it is not designed for), and that is perfectly ok as long as you know what you're doing.</p>
 <p>There are libraries that works by patching other libraries to extend their capabilities: there are several that do this on <em>pandas</em> object, to extend them with new functionalities.</p>
 <p>Doing that in libraries that will be used by other libraries is not a good practice, as it can lead to undescribed behaviors by third party users.</p>
 
@@ -14638,7 +14642,7 @@ For libraries that create and destroy objects inside a single process it might n
 <h2 id="init-method">init method<a class="anchor-link" href="#init-method">&#182;</a></h2><p>The next step that we might take is to allow the class to "personalize" the instantiation process.</p>
 <p>this is done using the <strong>magic method</strong> <code>__init__</code>.</p>
 <p><code>__init__</code> gets automatically called after the instance is created, and is tipically used to assign values to some instance attributes based on some arguments given to the function creating it.</p>
-<p>aside of this automatica call, it is a completely normal method.</p>
+<p>aside of this automatic call, it is a completely normal method.</p>
 
 </div>
 </div>
@@ -15012,8 +15016,8 @@ b = 1 + a
 <ul>
 <li>ask the object <code>1</code> if it does have a <code>__add__</code> method (and its class and so on, you know the drill)</li>
 <li>it does have it, but when it tries to apply it to an array it fails with <code>NotImplementedError</code></li>
-<li>python then goes the the object <code>a</code> and ask if it does have <code>__radd__</code> the right side add ()and its class and so on</li>
-<li>now the array knows how to perform the sum, so it execute it and returns a result</li>
+<li>python then goes the the object <code>a</code> and ask if it does have <code>__radd__</code> (the right side add) and its class and so on</li>
+<li>now the array knows how to perform the sum, so it executes it and returns a result</li>
 </ul>
 
 </div>
@@ -15223,9 +15227,9 @@ They are not guarantee to be a stable interface and one risks breaking things us
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="note---privates-attributes-part-2-of-3">note - privates attributes part 2 of 3<a class="anchor-link" href="#note---privates-attributes-part-2-of-3">&#182;</a></h4><p>One wat of creating a more explicit private attribute (not really, bot more explicitely saying <em>"don't use me"</em>)
+<h4 id="note---privates-attributes-part-2-of-3">note - privates attributes part 2 of 3<a class="anchor-link" href="#note---privates-attributes-part-2-of-3">&#182;</a></h4><p>One way of creating a more explicit private attribute (not really, but more explicitely saying <em>"don't use me"</em>)
 is to use <code>getattr</code> and <code>settattr</code> with strings that are invalid identifiers and thus cannot be retrieved by the dot operator.</p>
-<p>This is a bit exotic and I don't suggest using it, but if you're curious there is some indication on how to do it in the notebook that underpin this slides</p>
+<p>This is a bit exotic and I don't suggest using it, but if you're curious there is some indication on how to do it in the notebook that underpin these slides</p>
 
 </div>
 </div>
@@ -15263,7 +15267,9 @@ is to use <code>getattr</code> and <code>settattr</code> with strings that are i
     <span class="nd">@name</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;name need to be a string, a value of &lt;</span><span class="si">{}</span><span class="s2">&gt; was provided&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">value</span><span class="p">)))</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;name need to be a string, &quot;</span>
+                 <span class="s2">&quot;a value of &lt;</span><span class="si">{}</span><span class="s2">&gt; was provided&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">value</span><span class="p">)))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
         
 </pre></div>
@@ -15626,7 +15632,7 @@ This can be specialized versions (and should usually be) of the most common one,
 <span class="k">class</span> <span class="nc">MyDict</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">char</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">char</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">string</span><span class="o">.</span><span class="n">ascii_letters</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">ValueOrIndexError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{char}</span><span class="s2">&#39; is not a valid character!&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">ValueOrIndexError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">char</span><span class="si">}</span><span class="s2">&#39; is not a valid character!&quot;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="nb">ord</span><span class="p">(</span><span class="n">char</span><span class="p">)</span>
 </pre></div>
@@ -15767,7 +15773,7 @@ This can be specialized versions (and should usually be) of the most common one,
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
 
     <span class="k">def</span> <span class="nf">walk</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{self.name}</span><span class="s2"> is walking&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> is walking&quot;</span><span class="p">)</span>
 </pre></div>
 <p>es: dog add bark, snake override walk with a slithering behavior, cat extend walk with tail wiggles</p>
 
@@ -15779,7 +15785,7 @@ This can be specialized versions (and should usually be) of the most common one,
 <div class="text_cell_render border-box-sizing rendered_html">
 <h4 id="adding">adding<a class="anchor-link" href="#adding">&#182;</a></h4><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Dog</span><span class="p">(</span><span class="n">Animal</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">bark</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{self.name}</span><span class="s2"> is barking!&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> is barking!&quot;</span><span class="p">)</span>
 </pre></div>
 <p>Dog adds a completely new method to the superclass Animal</p>
 
@@ -15791,7 +15797,7 @@ This can be specialized versions (and should usually be) of the most common one,
 <div class="text_cell_render border-box-sizing rendered_html">
 <h4 id="overriding">overriding<a class="anchor-link" href="#overriding">&#182;</a></h4><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Snake</span><span class="p">(</span><span class="n">Animal</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">walk</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{self.name}</span><span class="s2"> is slithering!&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> is slithering!&quot;</span><span class="p">)</span>
 </pre></div>
 <p>Snake completely override the superclass original method, and the new one have no relationship with the old one aside of the intended use</p>
 
@@ -15804,7 +15810,7 @@ This can be specialized versions (and should usually be) of the most common one,
 <h4 id="extending">extending<a class="anchor-link" href="#extending">&#182;</a></h4><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Cat</span><span class="p">(</span><span class="n">Animal</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">walk</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">walk</span><span class="p">()</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{self.name}</span><span class="s2"> is wagging is tail!&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> is wagging is tail!&quot;</span><span class="p">)</span>
 </pre></div>
 <p>Cat is extending the old function by adding new behavior on top of it.</p>
 <p>the <code>super</code> function is a special function that allows to reference the method implemented by the superclass instead of the current one, and is commonly used during inheritance, especially while overrriding</p>
@@ -15996,7 +16002,7 @@ Composition is a way to replace the framework approach: instead of subclassing a
         <span class="nb">print</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
         
     <span class="k">def</span> <span class="nf">say_hello</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-        <span class="n">s</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;hello </span><span class="si">{name}</span><span class="s2">!</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;hello </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">!</span><span class="se">\n</span><span class="s2">&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">printer</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
         
 <span class="k">class</span> <span class="nc">LoggingPrinter</span><span class="p">(</span><span class="n">BasicPrinter</span><span class="p">):</span>
@@ -16072,7 +16078,7 @@ Composition is a way to replace the framework approach: instead of subclassing a
     <span class="n">printer</span><span class="p">:</span> <span class="n">callable</span> <span class="o">=</span> <span class="nb">print</span>
         
     <span class="k">def</span> <span class="nf">say_hello</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-        <span class="n">s</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;hello </span><span class="si">{name}</span><span class="s2">!</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;hello </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">!</span><span class="se">\n</span><span class="s2">&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">printer</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
         
 <span class="n">myprinter</span> <span class="o">=</span> <span class="n">Printer</span><span class="p">()</span>
@@ -16615,85 +16621,44 @@ If you have to perform some processing and transformations, it's usually better 
 <h1 id="end-of-the-general-programming-module">end of the general programming module<a class="anchor-link" href="#end-of-the-general-programming-module">&#182;</a></h1>
 </div>
 </div>
-</div>
+</div></section></section><section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="write-once-attributes">write once attributes<a class="anchor-link" href="#write-once-attributes">&#182;</a></h2><p>this class behave like a namespace where the variables can be instantiated with a value and never changed again (can change them internally, but their identity doesn't change).</p>
+<h1 id="Extra-material">Extra material<a class="anchor-link" href="#Extra-material">&#182;</a></h1><p>this is not part of the lesson material, but it is interesting to have here as a reference.
+You can explore these topics in the notebook corresponding to these slides.</p>
+<p>topics:</p>
+<ul>
+<li>metaprogramming</li>
+<li>API design and evolution</li>
+<li>using function parameters using the enum module</li>
+<li>notes on subclassing</li>
+<li>fluent Interface</li>
+</ul>
 
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[413]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">NameSpace</span><span class="p">:</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="bp">self</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
-            
-    <span class="k">def</span> <span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;tried to rewrite an attribute!&quot;</span><span class="p">)</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
-        
-<span class="n">namespace</span> <span class="o">=</span> <span class="n">NameSpace</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
-<span class="n">namespace</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="mi">4</span>
-<span class="k">assert</span> <span class="n">namespace</span><span class="o">.</span><span class="n">a</span> <span class="o">==</span> <span class="mi">4</span> <span class="o">==</span> <span class="n">namespace</span><span class="o">.</span><span class="n">b</span>
-<span class="n">namespace</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="mi">2</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_text output_error">
-<pre>
-<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">AttributeError</span>                            Traceback (most recent call last)
-<span class="ansi-green-fg">&lt;ipython-input-413-c9ed41df8539&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
-<span class="ansi-green-intense-fg ansi-bold">     11</span> namespace<span class="ansi-blue-fg">.</span>b <span class="ansi-blue-fg">=</span> <span class="ansi-cyan-fg">4</span>
-<span class="ansi-green-intense-fg ansi-bold">     12</span> <span class="ansi-green-fg">assert</span> namespace<span class="ansi-blue-fg">.</span>a <span class="ansi-blue-fg">==</span> <span class="ansi-cyan-fg">4</span> <span class="ansi-blue-fg">==</span> namespace<span class="ansi-blue-fg">.</span>b
-<span class="ansi-green-fg">---&gt; 13</span><span class="ansi-red-fg"> </span>namespace<span class="ansi-blue-fg">.</span>a <span class="ansi-blue-fg">=</span> <span class="ansi-cyan-fg">2</span>
-
-<span class="ansi-green-fg">&lt;ipython-input-413-c9ed41df8539&gt;</span> in <span class="ansi-cyan-fg">__setattr__</span><span class="ansi-blue-fg">(self, name, value)</span>
-<span class="ansi-green-intense-fg ansi-bold">      5</span>     <span class="ansi-green-fg">def</span> __setattr__<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> name<span class="ansi-blue-fg">,</span> value<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-intense-fg ansi-bold">      6</span>         <span class="ansi-green-fg">if</span> hasattr<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> name<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-fg">----&gt; 7</span><span class="ansi-red-fg">             </span><span class="ansi-green-fg">raise</span> AttributeError<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#34;tried to rewrite an attribute!&#34;</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">      8</span>         super<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">.</span>__setattr__<span class="ansi-blue-fg">(</span>name<span class="ansi-blue-fg">,</span> value<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">      9</span> 
-
-<span class="ansi-red-fg">AttributeError</span>: tried to rewrite an attribute!</pre>
-</div>
-</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>black magic topics</p>
+<ul>
+<li>class registration with ABCMeta</li>
+<li>Classes bodies are code blocks</li>
+<li>Uniform Calling Syntax</li>
+<li>secret attributes with unproper names</li>
+<li>transparent wrapping objects relying attributes exploiting unproper names</li>
+<li>Dynamical class change of an instance</li>
+<li>Attributes with access logging</li>
+<li>Calling interfaces (such as pandas.Series.str)</li>
+<li>dynamical attribute resolution</li>
+<li>A sklearn class to perform column selection from a dataframe including columns operations</li>
+<li>write once attributes</li>
+</ul>
 
 </div>
 </div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
-</pre></div>
-
-    </div>
-</div>
-</div>
-
 </div></section></section>
 </div>
 </div>
