@@ -14433,7 +14433,7 @@ the fit method allow us to fix it to a certain value</p>
 
 </div>
 </div>
-</div>
+</div></section></section><section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[680]:</div>
@@ -14564,213 +14564,6 @@ the fit method allow us to fix it to a certain value</p>
 </pre></div>
 
     </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Fitter</span><span class="p">:</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">distribution</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">dist</span> <span class="o">=</span> <span class="n">distribution</span>
-        
-    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dist</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">floc</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-    
-    <span class="k">def</span> <span class="nf">pdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="o">*</span><span class="n">params</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dist</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="o">*</span><span class="n">params</span><span class="p">)</span>
-
-<span class="n">myfitter_1</span> <span class="o">=</span> <span class="n">Fitter</span><span class="p">(</span><span class="n">distribution</span><span class="o">=</span><span class="n">st</span><span class="o">.</span><span class="n">gamma</span><span class="p">,</span> <span class="n">floc</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">myfitter_2</span> <span class="o">=</span> <span class="n">Fitter</span><span class="p">(</span><span class="n">distribution</span><span class="o">=</span><span class="n">st</span><span class="o">.</span><span class="n">norm</span><span class="p">)</span>
-
-<span class="n">my_fitter</span> <span class="o">=</span> <span class="n">myfitter_1</span>
-
-<span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">gammavariate</span><span class="p">(</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">10_000</span><span class="p">)</span>
-<span class="n">sbn</span><span class="o">.</span><span class="n">distplot</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">kde</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">fit</span><span class="o">=</span><span class="n">myfitter</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[695]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">my_fun</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="o">**</span><span class="n">kws</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">kws</span><span class="p">)</span>
-    
-<span class="n">my_fun</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>(2, 3)
-{&#39;c&#39;: 3, &#39;d&#39;: 5}
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[697]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">my_fun_2</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
-    
-<span class="n">values</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">}</span>
-<span class="n">my_fun_2</span><span class="p">(</span><span class="o">**</span><span class="n">values</span><span class="p">)</span>
-<span class="c1"># my_fun_2(a=values[&#39;a&#39;], b=values[&#39;b&#39;])</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>1 2
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[702]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Fitter</span><span class="p">:</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">distribution</span><span class="p">,</span> <span class="o">**</span><span class="n">fit_params</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">distribution</span> <span class="o">=</span> <span class="n">distribution</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">fit_params</span> <span class="o">=</span> <span class="n">fit_params</span>
-        
-    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
-        <span class="n">params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fit_params</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">distribution</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">)</span>
-    
-    <span class="k">def</span> <span class="nf">pdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="o">*</span><span class="n">params</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">distribution</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="o">*</span><span class="n">params</span><span class="p">)</span>
-
-<span class="n">myfitter_1</span> <span class="o">=</span> <span class="n">Fitter</span><span class="p">(</span><span class="n">distribution</span><span class="o">=</span><span class="n">st</span><span class="o">.</span><span class="n">gamma</span><span class="p">,</span> <span class="n">floc</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">myfitter_3</span> <span class="o">=</span> <span class="n">Fitter</span><span class="p">(</span><span class="n">distribution</span><span class="o">=</span><span class="n">st</span><span class="o">.</span><span class="n">gamma</span><span class="p">)</span>
-
-<span class="n">myfitter_2</span> <span class="o">=</span> <span class="n">Fitter</span><span class="p">(</span><span class="n">distribution</span><span class="o">=</span><span class="n">st</span><span class="o">.</span><span class="n">norm</span><span class="p">)</span>
-
-<span class="n">my_fitter</span> <span class="o">=</span> <span class="n">myfitter_3</span>
-
-<span class="n">data</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">gamma</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">10_000</span><span class="p">)</span>
-<span class="n">sbn</span><span class="o">.</span><span class="n">distplot</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">kde</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">fit</span><span class="o">=</span><span class="n">my_fitter</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[702]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7feb7dcca198&gt;</pre>
-</div>
-
-</div>
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-
-
-<div class="output_png output_subarea ">
-<img src="data:image/png;base64,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
-"
->
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[693]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">## HINT</span>
-<span class="n">floc</span> <span class="o">=</span> <span class="kc">None</span> <span class="c1"># or a value</span>
-<span class="n">kws</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="k">if</span> <span class="n">floc</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="n">kws</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;floc&#39;</span><span class="p">:</span> <span class="n">floc</span><span class="p">}</span>
-<span class="n">st</span><span class="o">.</span><span class="n">gamma</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kws</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[693]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>(0.38060160599369985, 0.6906977809779535, 3.7548729912059065)</pre>
-</div>
-
-</div>
-
 </div>
 </div>
 
@@ -15265,7 +15058,7 @@ the fit method allow us to fix it to a certain value</p>
 </div>
 </div>
 
-</div>
+</div></section></section><section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[734]:</div>
@@ -15563,7 +15356,7 @@ the fit method allow us to fix it to a certain value</p>
 </div>
 </div>
 
-</div>
+</div></section></section><section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[744]:</div>
@@ -15667,7 +15460,7 @@ $$ \int_{[0,1]^s} f(u)\,{\rm d}u \approx \frac{1}{N}\,\sum_{i=1}^N f(x_i). $$<p>
 
 </div>
 </div>
-</div>
+</div></section></section><section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[746]:</div>
@@ -15717,7 +15510,7 @@ $$ \int_{[0,1]^s} f(u)\,{\rm d}u \approx \frac{1}{N}\,\sum_{i=1}^N f(x_i). $$<p>
 </div>
 </div>
 
-</div>
+</div></section></section><section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[748]:</div>
@@ -15767,7 +15560,7 @@ $$ \int_{[0,1]^s} f(u)\,{\rm d}u \approx \frac{1}{N}\,\sum_{i=1}^N f(x_i). $$<p>
 </div>
 </div>
 
-</div>
+</div></section></section><section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[749]:</div>
@@ -15929,7 +15722,7 @@ $$\left\{ \tfrac{1}{10}, \tfrac{2}{10}, \tfrac{3}{10}, \tfrac{4}{10}, \tfrac{5}{
 </div>
 </div>
 
-</div>
+</div></section></section><section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[753]:</div>
