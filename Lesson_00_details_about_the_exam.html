@@ -13204,6 +13204,7 @@ The whole documentation should be accessible from the landing page of the reposi
 <h3 id="Testing">Testing<a class="anchor-link" href="#Testing">&#182;</a></h3><p>Testing should involve all the functions exposed to the user, and should ideally cover any combination of parameters.
 This means that in general is a good idea to keep the functions simple and composable, to avoid overly brittle and complicated test suites.</p>
 <p>The test name should be indicative of what the test is trying to achieve. <code>test_1</code> is not a clear name <code>test_function_is_even</code> is more clear.</p>
+<p>Is possible, write documentations (docstrings) for your tests as well, following the principle of explaining WHY the test is being performed, alongside WHAT is testing.</p>
 
 </div>
 </div>
@@ -13234,6 +13235,25 @@ This will prevent the bug from showing again in the future.</p>
 <p>test code should be well separated from the library (or simulation) code, and definitely not mixed in the same file.</p>
 <p>testing does not need to verify that the code can be run (this should be taken for granted), but that upon executino the results are the one expected.
 This is the reason to use asserts.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="visualization-functions---no-testing-needed">visualization functions - no testing needed<a class="anchor-link" href="#visualization-functions---no-testing-needed">&#182;</a></h4><p>Your code might contains faunctions that, given some data in input, will generate some visualization of those data.</p>
+<p>In general, it's accepted that this kind of functions don't require testing, as the effort necessary to have a robust test will overwhelm any benefit.</p>
+<p>Of course, a function of this kind should not contain ANY PREPROCESSING of the data, but just the visualization itself.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Testing-functions-and-printing">Testing functions and printing<a class="anchor-link" href="#Testing-functions-and-printing">&#182;</a></h4><p>Testing function should not print or return anything, as this would only confuse the result of the testing suite.</p>
+<h4 id="Use-of-Hypothesis">Use of Hypothesis<a class="anchor-link" href="#Use-of-Hypothesis">&#182;</a></h4><p>The use of the hypothesis library is welcome, but only once there is a proper test suite in place with more simple tools such as unittest or pytest</p>
 
 </div>
 </div>
@@ -13502,6 +13522,17 @@ Projects with hundreds of commits are absolutely normal, don't be afraid to comm
 <li>configuration of the library should be transparent to the user, and should not rely on weird system states</li>
 <li>be clear on the algorithms used and possible limitations of the method (memory, disk space, parallelism, etc...)</li>
 </ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Jupyter-notebooks">Jupyter notebooks<a class="anchor-link" href="#Jupyter-notebooks">&#182;</a></h2><p>Do not use Jupyter notebooks to store functions, classes and testing.</p>
+<p>Palce them in separate files and import them in the notebook.</p>
+<p>Jupyter notebooks are not designed for lont term, clean code storage, but rather to keep trace of the execution of said code. 
+They are ideal for tutorial, how-to and similar, and their use is welcome to show an actual execution of your code.</p>
 
 </div>
 </div>
