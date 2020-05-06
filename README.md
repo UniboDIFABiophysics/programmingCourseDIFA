@@ -44,7 +44,7 @@ the slides can be seen live at:
 
 ### suggestions for the project
 
-[details about the exam (lesson 00)](./Lesson_00_details_about_the_exam.slides.html)
+[details about the exam (lesson 00)](./Lesson_00_details_about_the_exam.html)
 
 
 ## Reference material
