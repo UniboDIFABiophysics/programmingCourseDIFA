@@ -46,6 +46,11 @@ the slides can be seen live at:
 
 [details about the exam (lesson 00)](./Lesson_00_details_about_the_exam.html)
 
+## Suggested Books
+
+Effective Computation in Python, O'Reilly
+* [http://physics.codes/](http://physics.codes/)
+
 
 ## Reference material
 
