@@ -13211,51 +13211,9 @@ a.anchor-link {
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Command line applications are a generalization of the idea of script: the execution of the program is conditioned on some parameters provided by the user.</p>
 <p>This is typically done using <strong>options</strong>, <strong>parameters</strong> and <strong>flags</strong>, and are the typical interface used by bash programs.</p>
-<p>In this lesson we will (quickly) overview how to implement one of these program, leveraging a 3rd party library called <strong>plumbum</strong></p>
 
 </div>
 </div>
-</div></section></section><section><section>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Everything we are doing today with <strong>plumbum</strong> can be done in a reasonable way in basic python, but plumbum will provide us a more simple and consistent way of doing it.</p>
-
-</div>
-</div>
-</div></section></section><section><section>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[1]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">plumbum</span>
-<span class="c1"># this script uses plumbum version 1.6.7</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">plumbum</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>(1, 6, 7)
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
 </div></section></section><section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
@@ -13275,6 +13233,227 @@ a.anchor-link {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p>In this lesson we will (quickly) overview how to implement one of these program, leveraging a 3rd party library called <strong>plumbum</strong></p>
+<p>Everything we are doing today with <strong>plumbum</strong> can be done in a reasonable way in basic python, but plumbum will provide us a more simple and consistent way of doing it.</p>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">plumbum</span>
+<span class="c1"># this script uses plumbum version 1.6.9</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">plumbum</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>(1, 6, 9)
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="CLI-application-good-practices">CLI application good practices<a class="anchor-link" href="#CLI-application-good-practices">&#182;</a></h2>
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Errors-management">Errors management<a class="anchor-link" href="#Errors-management">&#182;</a></h3><h4 id="clean-up-after-yourself,-especially-on-errors">clean up after yourself, especially on errors<a class="anchor-link" href="#clean-up-after-yourself,-especially-on-errors">&#182;</a></h4><p>If something goes wrong, try to avoid leaving the system in an invalid state, and clean unnecessary files</p>
+<h4 id="allow-if-possible-to-recover-partial-results">allow if possible to recover partial results<a class="anchor-link" href="#allow-if-possible-to-recover-partial-results">&#182;</a></h4><p>This is especially important in long executions: take a hint from the snakemake approach, and try to have partial results stored as temporary files to avoid unnecessary repetition when possible</p>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="try-to-be-robust-to-bad-data-and-configuration">try to be robust to bad data and configuration<a class="anchor-link" href="#try-to-be-robust-to-bad-data-and-configuration">&#182;</a></h4><p>it is better to do less things, but making sure that those things are well covered and the program will not trow a fit for some input data in an awkward format.</p>
+<p>Utilities should handle arbitrarily long lines, huge files, and so on.
+It is perhaps tolerable for a utility to fail on a data set larger than it can hold in memory, but some utilities don't do this.
+for instance, sort, by using temporary files, can generally sort data sets much larger than it can hold in memory.</p>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Exit-with-different-error-codes">Exit with different error codes<a class="anchor-link" href="#Exit-with-different-error-codes">&#182;</a></h4><p>this is the values that is returned by the <strong>main</strong>
+0 means success, any other number means failure
+the best solution is to code each error to a specific return value (and document it)</p>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="User-interaction">User interaction<a class="anchor-link" href="#User-interaction">&#182;</a></h3><h4 id="give-feedback-for-task-longer-than-a-second-or-two-(such-as-progress-bars)">give feedback for task longer than a second or two (such as progress bars)<a class="anchor-link" href="#give-feedback-for-task-longer-than-a-second-or-two-(such-as-progress-bars)">&#182;</a></h4><p>Users might worry that something has gone wrong and just kill the process if they have to wait without any prompt that the program is doing something.
+Even better, try to use a progress bar with a time estimate (plumbum has you covered)</p>
+<h4 id="let-the-user-control-the-level-of-verbosity-of-the-output">let the user control the level of verbosity of the output<a class="anchor-link" href="#let-the-user-control-the-level-of-verbosity-of-the-output">&#182;</a></h4><p>include a <code>--verbose</code>, a <code>--terse</code> and a <code>--silent</code> option to allow the user to control the level of feedback they wants</p>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Colour-code-your-output">Colour code your output<a class="anchor-link" href="#Colour-code-your-output">&#182;</a></h4><p>Ideally, your script should:</p>
+<ul>
+<li>output white/default (it’s the foreground process), </li>
+<li>child processes should output grey (usually not needed unless things screw up), </li>
+<li>success should be denoted with green, </li>
+<li>failure, red, and </li>
+<li>warnings in yellow.</li>
+</ul>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Have-both-short-ie-one-letter-(Eg--h)-and-long-forms-(eg---help)-of-the-command's-switches">Have both short ie one letter (Eg <code>-h</code>) and long forms (eg <code>--help</code>) of the command's switches<a class="anchor-link" href="#Have-both-short-ie-one-letter-(Eg--h)-and-long-forms-(eg---help)-of-the-command's-switches">&#182;</a></h4><p>long format helps readability and long term maintanability, and are good for scripting and manuals</p>
+<p>short forms are useful for manual input, especially of commonly used options (don't waste the user time)</p>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Ask-for-confirmation-for-irreversible-action">Ask for confirmation for irreversible action<a class="anchor-link" href="#Ask-for-confirmation-for-irreversible-action">&#182;</a></h4><p>such as deleting data, changing informations without backup, etc...</p>
+<p>there should be an option to make this automatic, but the user should be protected from involuntary changes to the system.</p>
+<p>Even better, while asking for confirmation, also suggest which is the option to turn it off</p>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Documentation">Documentation<a class="anchor-link" href="#Documentation">&#182;</a></h3><h4 id="consider-adding-a-help-sub-command">consider adding a <code>help</code> sub command<a class="anchor-link" href="#consider-adding-a-help-sub-command">&#182;</a></h4><p>alongside the <code>--help</code> flag, consider including an help command that contains information about various topics</p>
+<h4 id="provide-some-use-cases-in-the-documentation">provide some use cases in the documentation<a class="anchor-link" href="#provide-some-use-cases-in-the-documentation">&#182;</a></h4><p>Especially if the case uses are not trivial, with many interlocked features interacting with each other.</p>
+<p>And, is possible, put them nearby the start of the documentation, rather than at the end.</p>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="In-case-of-mistakes-try-suggesting-common-correction-techniques">In case of mistakes try suggesting common correction techniques<a class="anchor-link" href="#In-case-of-mistakes-try-suggesting-common-correction-techniques">&#182;</a></h4><p>Git again does this perfectly: when something goes wrong, it also suggest reliable methods to correct the bad situation, without covering this information in "output noise"</p>
+<h4 id="make-common-commands-memorable">make common commands memorable<a class="anchor-link" href="#make-common-commands-memorable">&#182;</a></h4><p>Don't use weird names, inside jokes, abstract references, words referring to implementation details (unless relevant).</p>
+<p>keep it simple and easy to remember.</p>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Configuration">Configuration<a class="anchor-link" href="#Configuration">&#182;</a></h3><h4 id="Work-independently-of-current-working-directory">Work independently of current working directory<a class="anchor-link" href="#Work-independently-of-current-working-directory">&#182;</a></h4><p>use only absolute paths (/path/to/something) and paths relative to the script (demonstrated below)</p>
+<h4 id="consider-using-configuration-files">consider using configuration files<a class="anchor-link" href="#consider-using-configuration-files">&#182;</a></h4><p>This allows a greater deal of automation and configurability, reducing the load on the user to write all the options by hand.</p>
+<p>on the other hand, a configuration file should never be a necessity, and everything should be used as an option</p>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="all-the-options-that-can-have-a-default-value,-should-have-one">all the options that can have a default value, should have one<a class="anchor-link" href="#all-the-options-that-can-have-a-default-value,-should-have-one">&#182;</a></h4><p>Ideally, the program should be executable without specifying any option.</p>
+<p>compulsory options are probably candidates for sub-commands</p>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Interface">Interface<a class="anchor-link" href="#Interface">&#182;</a></h3><h4 id="try-to-be-consistent-with-other-GNU-tools-:">try to be consistent with other GNU tools :<a class="anchor-link" href="#try-to-be-consistent-with-other-GNU-tools-:">&#182;</a></h4><p>For example see a list of options from other GNU tools and if possible try to align to them</p>
+<p><a href="http://www.catb.org/esr/writings/taoup/html/ch10s05.html">http://www.catb.org/esr/writings/taoup/html/ch10s05.html</a></p>
+<p><a href="https://www.gnu.org/prep/standards/standards.html">https://www.gnu.org/prep/standards/standards.html</a></p>
+<h4 id="play-well-with-pipes-and-allow-input-and-output-to-files">play well with pipes and allow input and output to files<a class="anchor-link" href="#play-well-with-pipes-and-allow-input-and-output-to-files">&#182;</a></h4><p>To play well with pipes it should read and write to stdout by default, but the user should be free to redirect to file if necessary</p>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="If-a-command-has-a-side-effect-provide-a-dry-run/whatif/no_post-option.">If a command has a side effect provide a dry-run/whatif/no_post option.<a class="anchor-link" href="#If-a-command-has-a-side-effect-provide-a-dry-run/whatif/no_post-option.">&#182;</a></h4><p>don't let the user jump blindly without checking what would happen.</p>
+<p>This also allows the user to find possible mistakes faster and with less risks</p>
+<p>Snakemake perfors this very well.</p>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="everything-should-be-doable-in-a-script,-without-human-interaction">everything should be doable in a script, without human interaction<a class="anchor-link" href="#everything-should-be-doable-in-a-script,-without-human-interaction">&#182;</a></h4><p>To allow the program to be fully used in script and automated, it should always be possible to execute it without any input from the user.</p>
+<p>When possible, this should be the preferred behavior</p>
+<h4 id="try-to-make-it-composable">try to make it composable<a class="anchor-link" href="#try-to-make-it-composable">&#182;</a></h4><p>programs that play nicely with other can be used to implement even more complicated pipelines and programs.</p>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="conside-adding-switches-to-both-turn-on-and-off-behaviors">conside adding switches to both turn on and off behaviors<a class="anchor-link" href="#conside-adding-switches-to-both-turn-on-and-off-behaviors">&#182;</a></h4><p>If a switch is in the long-form (for example --foo), which turns “on” some behavior (that is off by default), there should also be another switch that turns “off” the behavior.</p>
+<p>This allow the user to be more explicit and change-proof the script for future change of default behavior</p>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="consider-using-a-long-informative-name-for-you-app">consider using a long informative name for you app<a class="anchor-link" href="#consider-using-a-long-informative-name-for-you-app">&#182;</a></h4><p>the GNU convention is to use 2 or 3 letters names, but if one can avoid it, the deafult program name should be something either explicit or memorable.</p>
+<p>The user has always the option to alias it to something shorter.</p>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="if-no-output-is-necessary,-avoid-output-unless-required">if no output is necessary, avoid output unless required<a class="anchor-link" href="#if-no-output-is-necessary,-avoid-output-unless-required">&#182;</a></h4><p>that's what the <code>--verbose</code> option is for.</p>
+<p>if the program performs an action and doesn't have to return a result in case of success (such as moving a file, changing directory, etc...), the user should see an output only in case of errors or if the verbose option is selected.</p>
+<p>This makes the program more script friendly</p>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Preface---utilities">Preface - utilities<a class="anchor-link" href="#Preface---utilities">&#182;</a></h2><p>Plumbum provides us some simple utilities to quickly improve the experience of the user when using the application we are writing</p>
 
 </div>
@@ -13287,6 +13466,19 @@ a.anchor-link {
 <span class="c1"># this will not work in jupyter notebooks</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">colors</span><span class="o">.</span><span class="n">green</span> <span class="o">&amp;</span> <span class="n">colors</span><span class="o">.</span><span class="n">bold</span> <span class="o">|</span> <span class="s2">&quot;This is green and bold.&quot;</span><span class="p">)</span>
 </pre></div>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="note-on-windows-terminal">note on windows terminal<a class="anchor-link" href="#note-on-windows-terminal">&#182;</a></h4><p>terminal on windows does not agree with standard color commands.</p>
+<p>If you want to have colored output you can either:</p>
+<ul>
+<li>force the usage of color with the global flag <code>colors.use_color=True</code></li>
+<li>use a different library called <strong>colorama</strong></li>
+</ul>
 
 </div>
 </div>
@@ -13349,7 +13541,8 @@ a.anchor-link {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="configurations-files">configurations files<a class="anchor-link" href="#configurations-files">&#182;</a></h3>
+<h3 id="configurations-files">configurations files<a class="anchor-link" href="#configurations-files">&#182;</a></h3><p>python equivalent - <strong>ConfigParser</strong></p>
+
 </div>
 </div>
 </div></section></section><section><section>
@@ -13470,7 +13663,8 @@ b = 4
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="reading-user-input">reading user input<a class="anchor-link" href="#reading-user-input">&#182;</a></h3>
+<h3 id="reading-user-input">reading user input<a class="anchor-link" href="#reading-user-input">&#182;</a></h3><p>python equivalent -- <code>rawinput</code> function</p>
+
 </div>
 </div>
 </div>
@@ -13526,7 +13720,8 @@ Choice [3]: </pre>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="the-local-computer">the local computer<a class="anchor-link" href="#the-local-computer">&#182;</a></h3>
+<h3 id="the-local-computer">the local computer<a class="anchor-link" href="#the-local-computer">&#182;</a></h3><p>python equivalent - <strong>subprocesses</strong></p>
+
 </div>
 </div>
 </div><div class="fragment">
@@ -13840,7 +14035,7 @@ users_and_groups.png
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Command-line-programs">Command line programs<a class="anchor-link" href="#Command-line-programs">&#182;</a></h1><p>In python any script can be at the same time a library and a command line program.</p>
+<h1 id="Command-line-programs">Command line programs<a class="anchor-link" href="#Command-line-programs">&#182;</a></h1><p>In python any script can be at the same time a library and a command line program. (better to keep them separate anyway, just because you can, doesn't mean that you should!)</p>
 <p>All the code in the general section of the script is executed everytime the script is imported as a library, but one can set a part of the code to be run only when the script is called as a command line program.</p>
 <p>this is achieved by testing the <code>__name__</code> parameter of the program (a special variable that the interpreter set at the start), that when executed as a program is set to the string <code>"__main__"</code>.</p>
 
@@ -15386,185 +15581,6 @@ Sub-commands:
 </div>
 </div>
 
-</div></section></section><section><section>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="CLI-application-good-practices">CLI application good practices<a class="anchor-link" href="#CLI-application-good-practices">&#182;</a></h2>
-</div>
-</div>
-</div></section></section><section><section>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Errors-management">Errors management<a class="anchor-link" href="#Errors-management">&#182;</a></h3><h4 id="clean-up-after-yourself,-especially-on-errors">clean up after yourself, especially on errors<a class="anchor-link" href="#clean-up-after-yourself,-especially-on-errors">&#182;</a></h4><p>If something goes wrong, try to avoid leaving the system in an invalid state, and clean unnecessary files</p>
-<h4 id="allow-if-possible-to-recover-partial-results">allow if possible to recover partial results<a class="anchor-link" href="#allow-if-possible-to-recover-partial-results">&#182;</a></h4><p>This is especially important in long executions: take a hint from the snakemake approach, and try to have partial results stored as temporary files to avoid unnecessary repetition when possible</p>
-
-</div>
-</div>
-</div></section></section><section><section>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="try-to-be-robust-to-bad-data-and-configuration">try to be robust to bad data and configuration<a class="anchor-link" href="#try-to-be-robust-to-bad-data-and-configuration">&#182;</a></h4><p>it is better to do less things, but making sure that those things are well covered and the program will not trow a fit for some input data in an awkward format.</p>
-<p>Utilities should handle arbitrarily long lines, huge files, and so on.
-It is perhaps tolerable for a utility to fail on a data set larger than it can hold in memory, but some utilities don't do this.
-for instance, sort, by using temporary files, can generally sort data sets much larger than it can hold in memory.</p>
-
-</div>
-</div>
-</div></section></section><section><section>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Exit-with-different-error-codes">Exit with different error codes<a class="anchor-link" href="#Exit-with-different-error-codes">&#182;</a></h4><p>this is the values that is returned by the <strong>main</strong>
-0 means success, any other number means failure
-the best solution is to code each error to a specific return value (and document it)</p>
-
-</div>
-</div>
-</div></section></section><section><section>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="User-interaction">User interaction<a class="anchor-link" href="#User-interaction">&#182;</a></h3><h4 id="give-feedback-for-task-longer-than-a-second-or-two-(such-as-progress-bars)">give feedback for task longer than a second or two (such as progress bars)<a class="anchor-link" href="#give-feedback-for-task-longer-than-a-second-or-two-(such-as-progress-bars)">&#182;</a></h4><p>Users might worry that something has gone wrong and just kill the process if they have to wait without any prompt that the program is doing something.
-Even better, try to use a progress bar with a time estimate (plumbum has you covered)</p>
-<h4 id="let-the-user-control-the-level-of-verbosity-of-the-output">let the user control the level of verbosity of the output<a class="anchor-link" href="#let-the-user-control-the-level-of-verbosity-of-the-output">&#182;</a></h4><p>include a <code>--verbose</code>, a <code>--terse</code> and a <code>--silent</code> option to allow the user to control the level of feedback they wants</p>
-
-</div>
-</div>
-</div></section></section><section><section>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Colour-code-your-output">Colour code your output<a class="anchor-link" href="#Colour-code-your-output">&#182;</a></h4><p>Ideally, your script should:</p>
-<ul>
-<li>output white/default (it’s the foreground process), </li>
-<li>child processes should output grey (usually not needed unless things screw up), </li>
-<li>success should be denoted with green, </li>
-<li>failure, red, and </li>
-<li>warnings in yellow.</li>
-</ul>
-
-</div>
-</div>
-</div></section></section><section><section>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Have-both-short-ie-one-letter-(Eg--h)-and-long-forms-(eg---help)-of-the-command's-switches">Have both short ie one letter (Eg <code>-h</code>) and long forms (eg <code>--help</code>) of the command's switches<a class="anchor-link" href="#Have-both-short-ie-one-letter-(Eg--h)-and-long-forms-(eg---help)-of-the-command's-switches">&#182;</a></h4><p>long format helps readability and long term maintanability, and are good for scripting and manuals</p>
-<p>short forms are useful for manual input, especially of commonly used options (don't waste the user time)</p>
-
-</div>
-</div>
-</div></section></section><section><section>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Ask-for-confirmation-for-irreversible-action">Ask for confirmation for irreversible action<a class="anchor-link" href="#Ask-for-confirmation-for-irreversible-action">&#182;</a></h4><p>such as deleting data, changing informations without backup, etc...</p>
-<p>there should be an option to make this automatic, but the user should be protected from involuntary changes to the system.</p>
-<p>Even better, while asking for confirmation, also suggest which is the option to turn it off</p>
-
-</div>
-</div>
-</div></section></section><section><section>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Documentation">Documentation<a class="anchor-link" href="#Documentation">&#182;</a></h3><h4 id="consider-adding-a-help-sub-command">consider adding a <code>help</code> sub command<a class="anchor-link" href="#consider-adding-a-help-sub-command">&#182;</a></h4><p>alongside the <code>--help</code> flag, consider including an help command that contains information about various topics</p>
-<h4 id="provide-some-use-cases-in-the-documentation">provide some use cases in the documentation<a class="anchor-link" href="#provide-some-use-cases-in-the-documentation">&#182;</a></h4><p>Especially if the case uses are not trivial, with many interlocked features interacting with each other.</p>
-<p>And, is possible, put them nearby the start of the documentation, rather than at the end.</p>
-
-</div>
-</div>
-</div></section></section><section><section>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="In-case-of-mistakes-try-suggesting-common-correction-techniques">In case of mistakes try suggesting common correction techniques<a class="anchor-link" href="#In-case-of-mistakes-try-suggesting-common-correction-techniques">&#182;</a></h4><p>Git again does this perfectly: when something goes wrong, it also suggest reliable methods to correct the bad situation, without covering this information in "output noise"</p>
-<h4 id="make-common-commands-memorable">make common commands memorable<a class="anchor-link" href="#make-common-commands-memorable">&#182;</a></h4><p>Don't use weird names, inside jokes, abstract references, words referring to implementation details (unless relevant).</p>
-<p>keep it simple and easy to remember.</p>
-
-</div>
-</div>
-</div></section></section><section><section>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Configuration">Configuration<a class="anchor-link" href="#Configuration">&#182;</a></h3><h4 id="Work-independently-of-current-working-directory">Work independently of current working directory<a class="anchor-link" href="#Work-independently-of-current-working-directory">&#182;</a></h4><p>use only absolute paths (/path/to/something) and paths relative to the script (demonstrated below)</p>
-<h4 id="consider-using-configuration-files">consider using configuration files<a class="anchor-link" href="#consider-using-configuration-files">&#182;</a></h4><p>This allows a greater deal of automation and configurability, reducing the load on the user to write all the options by hand.</p>
-<p>on the other hand, a configuration file should never be a necessity, and everything should be used as an option</p>
-
-</div>
-</div>
-</div></section></section><section><section>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="all-the-options-that-can-have-a-default-value,-should-have-one">all the options that can have a default value, should have one<a class="anchor-link" href="#all-the-options-that-can-have-a-default-value,-should-have-one">&#182;</a></h4><p>Ideally, the program should be executable without specifying any option.</p>
-<p>compulsory options are probably candidates for sub-commands</p>
-
-</div>
-</div>
-</div></section></section><section><section>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Interface">Interface<a class="anchor-link" href="#Interface">&#182;</a></h3><h4 id="try-to-be-consistent-with-other-GNU-tools-:">try to be consistent with other GNU tools :<a class="anchor-link" href="#try-to-be-consistent-with-other-GNU-tools-:">&#182;</a></h4><p>For example see a list of options from other GNU tools and if possible try to align to them</p>
-<p><a href="http://www.catb.org/esr/writings/taoup/html/ch10s05.html">http://www.catb.org/esr/writings/taoup/html/ch10s05.html</a></p>
-<p><a href="https://www.gnu.org/prep/standards/standards.html">https://www.gnu.org/prep/standards/standards.html</a></p>
-<h4 id="play-well-with-pipes-and-allow-input-and-output-to-files">play well with pipes and allow input and output to files<a class="anchor-link" href="#play-well-with-pipes-and-allow-input-and-output-to-files">&#182;</a></h4><p>To play well with pipes it should read and write to stdout by default, but the user should be free to redirect to file if necessary</p>
-
-</div>
-</div>
-</div></section></section><section><section>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="If-a-command-has-a-side-effect-provide-a-dry-run/whatif/no_post-option.">If a command has a side effect provide a dry-run/whatif/no_post option.<a class="anchor-link" href="#If-a-command-has-a-side-effect-provide-a-dry-run/whatif/no_post-option.">&#182;</a></h4><p>don't let the user jump blindly without checking what would happen.</p>
-<p>This also allows the user to find possible mistakes faster and with less risks</p>
-<p>Snakemake perfors this very well.</p>
-
-</div>
-</div>
-</div></section></section><section><section>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="everything-should-be-doable-in-a-script,-without-human-interaction">everything should be doable in a script, without human interaction<a class="anchor-link" href="#everything-should-be-doable-in-a-script,-without-human-interaction">&#182;</a></h4><p>To allow the program to be fully used in script and automated, it should always be possible to execute it without any input from the user.</p>
-<p>When possible, this should be the preferred behavior</p>
-<h4 id="try-to-make-it-composable">try to make it composable<a class="anchor-link" href="#try-to-make-it-composable">&#182;</a></h4><p>programs that play nicely with other can be used to implement even more complicated pipelines and programs.</p>
-
-</div>
-</div>
-</div></section></section><section><section>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="conside-adding-switches-to-both-turn-on-and-off-behaviors">conside adding switches to both turn on and off behaviors<a class="anchor-link" href="#conside-adding-switches-to-both-turn-on-and-off-behaviors">&#182;</a></h4><p>If a switch is in the long-form (for example --foo), which turns “on” some behavior (that is off by default), there should also be another switch that turns “off” the behavior.</p>
-<p>This allow the user to be more explicit and change-proof the script for future change of default behavior</p>
-
-</div>
-</div>
-</div></section></section><section><section>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="consider-using-a-long-informative-name-for-you-app">consider using a long informative name for you app<a class="anchor-link" href="#consider-using-a-long-informative-name-for-you-app">&#182;</a></h4><p>the GNU convention is to use 2 or 3 letters names, but if one can avoid it, the deafult program name should be something either explicit or memorable.</p>
-<p>The user has always the option to alias it to something shorter.</p>
-
-</div>
-</div>
-</div></section></section><section><section>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="if-no-output-is-necessary,-avoid-output-unless-required">if no output is necessary, avoid output unless required<a class="anchor-link" href="#if-no-output-is-necessary,-avoid-output-unless-required">&#182;</a></h4><p>that's what the <code>--verbose</code> option is for.</p>
-<p>if the program performs an action and doesn't have to return a result in case of success (such as moving a file, changing directory, etc...), the user should see an output only in case of errors or if the verbose option is selected.</p>
-<p>This makes the program more script friendly</p>
-
-</div>
-</div>
 </div></section></section><section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
