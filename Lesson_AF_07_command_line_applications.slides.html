@@ -14341,7 +14341,9 @@ optional arguments:
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Command-line-classes">Command line classes<a class="anchor-link" href="#Command-line-classes">&#182;</a></h1><p>command line applications can be imagined as structured in a similar way to a function:</p>
 <p>There are a certain number of ordinal arguments, and a certain number of named options.</p>
-<p>The arguments are the main focus of the program, while the option determines exactly how the execution is performed.</p>
+<p><em>flags</em> are thebinary options, so they relate to named paramaters with boolean options.</p>
+<p>Tipically the arguments are the main focus of the program, while the option determines exactly how the execution is performed.
+My suggestion would be to allow to always pass values as optsion alongside as arguments, as it allows to improve the readibility of the commands in a script.</p>
 
 </div>
 </div>
@@ -14368,8 +14370,8 @@ optional arguments:
 <span class="k">class</span> <span class="nc">MyApp</span><span class="p">(</span><span class="n">cli</span><span class="o">.</span><span class="n">Application</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;returns the square of a number</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">PROGNAME</span> <span class="o">=</span> <span class="s2">&quot;MyGloriousApp&quot;</span>
-    <span class="n">VERSION</span> <span class="o">=</span> <span class="s2">&quot;0.1&quot;</span>
+    <span class="n">PROGNAME</span> <span class="o">=</span> <span class="s2">&quot;MyGloriousApp&quot;</span> <span class="c1"># these are special values that Plumbum parses</span>
+    <span class="n">VERSION</span> <span class="o">=</span> <span class="s2">&quot;0.1&quot;</span> <span class="c1"># these are special values that Plumbum parses</span>
     
     <span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
         <span class="c1">#value = float(value)</span>
@@ -14522,6 +14524,14 @@ Meta-switches:
 </div>
 
 </div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="using-flags">using flags<a class="anchor-link" href="#using-flags">&#182;</a></h3><p>flags and options are separated from the main, and are either functions of attributes of the class</p>
+
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[65]:</div>
@@ -14785,7 +14795,7 @@ Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Ya
 </div>
 </div>
 
-</div><div class="fragment">
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[79]:</div>
@@ -14816,7 +14826,7 @@ Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Ya
 </div>
 </div>
 
-</div></div><div class="fragment">
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[80]:</div>
@@ -14847,12 +14857,14 @@ Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Ya
 </div>
 </div>
 
-</div></div></section></section><section><section>
+</div></section></section><section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="sub-commands">sub commands<a class="anchor-link" href="#sub-commands">&#182;</a></h3><p>sub-commands are a way to group together several related program under a single umbrella.</p>
 <p>a classical example is <strong>git</strong>.</p>
+<p>They are create in plumbum as classes that are linked to the original one.</p>
+<p>In argparsers they are defined as subparsers.</p>
 
 </div>
 </div>
@@ -15141,7 +15153,7 @@ Meta-switches:
 </div>
 </div>
 
-</div>
+</div></div></section></section><section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -15156,7 +15168,7 @@ Designing your CLI is going to take work to obtain a good interface!</p>
 
 </div>
 </div>
-</div></div></section></section><section><section>
+</div></section></section><section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -15342,7 +15354,7 @@ Inside this parameter we specify that two entry points are <code>console_scripts
 
 </div>
 </div>
-</div></section></section><section><section>
+</div><div class="fragment">
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -15352,7 +15364,7 @@ In our case the only dependency that we have is for the <code>plumbum</code> pac
 
 </div>
 </div>
-</div></section></section><section><section>
+</div></div></section></section><section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -15616,7 +15628,7 @@ Sub-commands:
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>there are again two level of testing:</p>
 <ul>
-<li>fylesystem I/O</li>
+<li>filesystem I/O</li>
 <li>printing</li>
 </ul>
 <p>the printing testing refers to test the output of the program to the stdout and stderr in response to different inputs (for example testing that the <code>--verbose</code> flag turn off the printing, while something get printed without it).
@@ -15767,6 +15779,14 @@ In th same way, try to avoid testing for things that might be platform dependent
 </div>
 
 </div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>subprocesses allow us also to pass some input to simulate pipes or the interaction with the user.</p>
+
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[26]:</div>
@@ -15834,6 +15854,14 @@ In th same way, try to avoid testing for things that might be platform dependent
 </div>
 
 </div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>It also allow us to keep the process alive and to interact with it by using the PIPE object</p>
+
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[28]:</div>
@@ -15870,6 +15898,14 @@ In th same way, try to avoid testing for things that might be platform dependent
 </div>
 
 </div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Finally, we can also simulate multiple programs feeding each other I/O to test how are program would behave in a pipeline of various programs.</p>
+
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
@@ -15879,9 +15915,9 @@ In th same way, try to avoid testing for things that might be platform dependent
 <span class="c1"># $ cat index.rst | grep &quot;.. literal&quot; | cut -f 3 -d:</span>
 <span class="kn">import</span> <span class="nn">subprocess</span> <span class="k">as</span> <span class="nn">sp</span>
 
-<span class="n">cat</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">([</span><span class="s1">&#39;cat&#39;</span><span class="p">,</span> <span class="s1">&#39;index.rst&#39;</span><span class="p">],</span> <span class="n">stdout</span><span class="o">=</span><span class="n">sp</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,)</span>
-<span class="n">grep</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">([</span><span class="s1">&#39;grep&#39;</span><span class="p">,</span> <span class="s1">&#39;.. literal::&#39;</span><span class="p">],</span> <span class="n">stdin</span><span class="o">=</span><span class="n">cat</span><span class="o">.</span><span class="n">stdout</span><span class="p">,</span> <span class="n">stdout</span><span class="o">=</span><span class="n">sp</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,)</span>
-<span class="n">cut</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">([</span><span class="s1">&#39;cut&#39;</span><span class="p">,</span> <span class="s1">&#39;-f&#39;</span><span class="p">,</span> <span class="s1">&#39;3&#39;</span><span class="p">,</span> <span class="s1">&#39;-d:&#39;</span><span class="p">],</span> <span class="n">stdin</span><span class="o">=</span><span class="n">grep</span><span class="o">.</span><span class="n">stdout</span><span class="p">,</span> <span class="n">stdout</span><span class="o">=</span><span class="n">sp</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,)</span>
+<span class="n">cat</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">Popen</span><span class="p">([</span><span class="s1">&#39;cat&#39;</span><span class="p">,</span> <span class="s1">&#39;index.rst&#39;</span><span class="p">],</span> <span class="n">stdout</span><span class="o">=</span><span class="n">sp</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,)</span>
+<span class="n">grep</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">Popen</span><span class="p">([</span><span class="s1">&#39;grep&#39;</span><span class="p">,</span> <span class="s1">&#39;.. literal::&#39;</span><span class="p">],</span> <span class="n">stdin</span><span class="o">=</span><span class="n">cat</span><span class="o">.</span><span class="n">stdout</span><span class="p">,</span> <span class="n">stdout</span><span class="o">=</span><span class="n">sp</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,)</span>
+<span class="n">cut</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">Popen</span><span class="p">([</span><span class="s1">&#39;cut&#39;</span><span class="p">,</span> <span class="s1">&#39;-f&#39;</span><span class="p">,</span> <span class="s1">&#39;3&#39;</span><span class="p">,</span> <span class="s1">&#39;-d:&#39;</span><span class="p">],</span> <span class="n">stdin</span><span class="o">=</span><span class="n">grep</span><span class="o">.</span><span class="n">stdout</span><span class="p">,</span> <span class="n">stdout</span><span class="o">=</span><span class="n">sp</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,)</span>
 <span class="n">end_of_pipe</span> <span class="o">=</span> <span class="n">cut</span><span class="o">.</span><span class="n">stdout</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Included files:&#39;</span><span class="p">)</span>
@@ -15897,7 +15933,9 @@ In th same way, try to avoid testing for things that might be platform dependent
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="testing-filesystem-I/O">testing filesystem I/O<a class="anchor-link" href="#testing-filesystem-I/O">&#182;</a></h3>
+<h3 id="testing-filesystem-I/O">testing filesystem I/O<a class="anchor-link" href="#testing-filesystem-I/O">&#182;</a></h3><p>first we need to create unique files that will not likely conflict with existing one.</p>
+<p>To do this we can leverage the <code>uuid</code> module</p>
+
 </div>
 </div>
 </div>
@@ -15986,9 +16024,17 @@ In th same way, try to avoid testing for things that might be platform dependent
 </div>
 
 </div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>At this point we can test that our progrma write to the destination as intended we we pass it as an argument!</p>
+
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[48]:</div>
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%file</span> temp.py
@@ -16067,8 +16113,8 @@ printed in file: [&#39;printed to file!\n&#39;]
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Input-and-Output-of-CLI-programs">Input and Output of CLI programs<a class="anchor-link" href="#Input-and-Output-of-CLI-programs">&#182;</a></h1><p>parse and print one line at the time, reading from <code>sys.stdin</code> and writing to <code>sys.stdout</code>.
-They might be printing to screen, to file or piped to a different program, depending on the way the program is called.</p>
+<h1 id="Input-and-Output-of-CLI-programs">Input and Output of CLI programs<a class="anchor-link" href="#Input-and-Output-of-CLI-programs">&#182;</a></h1><p>Whenever possible parse and print one line at the time, reading from <code>sys.stdin</code> and writing to <code>sys.stdout</code>.</p>
+<p>They might be printing to screen, to file or piped to a different program, depending on the way the program is called.</p>
 <p>It is the same philosophy of the iterators!</p>
 
 </div>
@@ -16717,6 +16763,14 @@ Dave        32
 </div>
 
 </div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="tetwrapping---adatting-to-different-terminal-lenght">tetwrapping - adatting to different terminal lenght<a class="anchor-link" href="#tetwrapping---adatting-to-different-terminal-lenght">&#182;</a></h4><p>the library <code>textwrap</code> allow us to flow the text inside a narrow terminal, or to clip the text if the line is too long.</p>
+
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[94]:</div>
@@ -16729,7 +16783,7 @@ Dave        32
 </div>
 </div>
 
-</div>
+</div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[96]:</div>
@@ -16765,7 +16819,7 @@ multiple lines
 </div>
 </div>
 
-</div>
+</div></div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[105]:</div>
@@ -16799,13 +16853,14 @@ multiple lines
 </div>
 </div>
 
-</div></section></section><section><section>
+</div></div></section></section><section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Differentiate-output-if-on-terminal-or-not">Differentiate output if on terminal or not<a class="anchor-link" href="#Differentiate-output-if-on-terminal-or-not">&#182;</a></h3><p>this is really tricky to test, but it might be useful to print something different when talking to other programs (probably JSONlines) and humans (simple english, maybe with colors and decorations).</p>
-<p>the tick is to use <code>sys.stdout.isatty()</code>, that returns true for a terminal aimed to be read by a human.
-The problem is that captuing the output (such as what the notebook does) trick the program into thinking that it's talking to a machine, and so the output will be the machine-oriented one!</p>
+<p>the trick is to use <code>sys.stdout.isatty()</code>, that returns true for a terminal aimed to be read by a human.</p>
+<p>The only problem is that capturing the output (such as what the notebook does) trick the program into thinking that it's talking to a machine, and so the output will be the machine-oriented one!
+This can make testing this functionality a pain...</p>
 
 </div>
 </div>
@@ -16833,7 +16888,7 @@ The problem is that captuing the output (such as what the notebook does) trick t
     <span class="k">if</span> <span class="n">stdout</span><span class="o">.</span><span class="n">isatty</span><span class="p">():</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The output device is a teletype. Or something like a teletype.&#39;</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">outfile</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The output device isn</span><span class="se">\&#39;</span><span class="s1">t like a teletype.&#39;</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">outfile</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The output device isn&#39;t like a teletype.&quot;</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">outfile</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -17070,12 +17125,46 @@ It's not covering all corner cases, but it provides a reasonable starting point 
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Python can print almost the full unicode spectrum, use it!</p>
+<h4 id="Special-characters">Special characters<a class="anchor-link" href="#Special-characters">&#182;</a></h4><p>Python can print almost the full unicode spectrum, use it!</p>
 <p>Dingbats: <code>"✓"</code>, <code>"✗"</code></p>
 <p>blocks: <code>"▀▁▂▃▄▅▆▇█▉▊▋▌▍▎▏▐░▒▓▔▕▖▗▘▙▚▛▜▝▞▟"</code></p>
+<p>emoji: <code>"😆"</code>, <code>"👍"</code></p>
 
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\U0001F606</span><span class="s1">&#39;</span><span class="p">)</span> 
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;👍&quot;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>😆
+👍
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
 </div></section></section><section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
@@ -17460,13 +17549,139 @@ To do this you can use some special characters to show your results in a sinteti
 </div>
 
 </div></section></section><section><section>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[153]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">blocks</span><span class="o">=</span>  <span class="s2">&quot;▀▁▂▃▄▅▆▇█▉▊▋▌▍▎▏▐░▒▓▔▕▖▗▘▙▚▛▜▝▞▟&quot;</span>
+<span class="c1"># https://en.wikipedia.org/wiki/Geometric_Shapes</span>
+<span class="n">symbols_set_1</span> <span class="o">=</span> <span class="s2">&quot;■□▢▣▤▥▦▧▨▩▪▫▬▭▮▯&quot;</span>
+<span class="n">symbols_set_2</span> <span class="o">=</span> <span class="s2">&quot;▰▱▲△▴▵▶▷▸▹►▻▼▽▾▿&quot;</span>
+<span class="n">symbols_set_3</span> <span class="o">=</span> <span class="s2">&quot;◀◁◂◃◄◅◆◇◈◉◊○◌◍◎●&quot;</span>
+<span class="n">symbols_set_4</span> <span class="o">=</span> <span class="s2">&quot;◐◑◒◓◔◕◖◗◘◙◚◛◜◝◞◟&quot;</span>
+<span class="n">symbols_set_5</span> <span class="o">=</span> <span class="s2">&quot;◠◡◢◣◤◥◦◧◨◩◪◫◬◭◮◯&quot;</span>
+<span class="n">symbols_set_6</span> <span class="o">=</span> <span class="s2">&quot;◰◱◲◳◴◵◶◷◸◹◺◻◼◽◾◿&quot;</span>
+<span class="c1"># tables and box drawing</span>
+<span class="c1"># https://en.wikipedia.org/wiki/Box_Drawing_(Unicode_block)</span>
+<span class="n">box_borders_1_of_many</span> <span class="o">=</span> <span class="s2">&quot;─━│┃┄┅┆┇┈┉┊┋┌┍┎┏&quot;</span>
+<span class="c1"># arrows and symbols</span>
+<span class="c1"># https://en.wikipedia.org/wiki/Miscellaneous_Symbols_and_Arrows</span>
+<span class="n">arrows_1_of_many</span> <span class="o">=</span> <span class="s2">&quot;⬀⬁⬂⬃⬄⬅⬆⬇⬈⬉⬊⬋⬌⬍⬎⬏&quot;</span>
+<span class="c1">#https://en.wikipedia.org/wiki/Mathematical_operators_and_symbols_in_Unicode</span>
+<span class="n">math_1_of_too_many</span> <span class="o">=</span> <span class="s2">&quot;∀∁∂∃∄∅∆∇∈∉∊∋∌∍∎∏&quot;</span>
+<span class="n">superscripts</span> <span class="o">=</span> <span class="s2">&quot;⁰¹²³⁴⁵⁶⁷⁸⁹&quot;</span> <span class="o">+</span> <span class="s2">&quot;ⁱ ⁺ ⁻ ⁼ ⁽ ⁾ ⁿ&quot;</span>
+<span class="n">underscripts</span> <span class="o">=</span> <span class="s2">&quot;₀₁₂₃₄₅₆₇₈₉ ₊ ₋ ₌ ₍ ₎&quot;</span> <span class="o">+</span> <span class="s2">&quot;ₐₑₒₓₔₕ ₖ ₗ ₘ ₙ ₚ ₛ ₜ &quot;</span>
+<span class="n">greek_letters</span><span class="o">=</span> <span class="s2">&quot;αβγ…&quot;</span> <span class="c1"># and all the others</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div></section></section><section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>you can use the carriage return character <code>'\r'</code> to move back on the line and the print over the old content</p>
+<p>you can use the <code>'\b'</code> (<strong>b</strong>ackspace) character to delete the previous one</p>
+<p>you can use the carriage return character <code>'\r'</code> (carriage <strong>r</strong>eturn) to move back on the line and the print over the old content.</p>
+<p>the character <code>'\r'</code> <strong>does not delete</strong> the previous characters, just move the position of the cursor to the start of the line!</p>
 
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;a</span><span class="se">\b</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>a
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;a</span><span class="se">\r</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>a
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;aa</span><span class="se">\r</span><span class="s2">b&quot;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>b
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -17506,37 +17721,6 @@ To do this you can use some special characters to show your results in a sinteti
 </div>
 
 </div></section></section><section><section>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[153]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">blocks</span><span class="o">=</span>  <span class="s2">&quot;▀▁▂▃▄▅▆▇█▉▊▋▌▍▎▏▐░▒▓▔▕▖▗▘▙▚▛▜▝▞▟&quot;</span>
-<span class="c1"># https://en.wikipedia.org/wiki/Geometric_Shapes</span>
-<span class="n">symbols_set_1</span> <span class="o">=</span> <span class="s2">&quot;■□▢▣▤▥▦▧▨▩▪▫▬▭▮▯&quot;</span>
-<span class="n">symbols_set_2</span> <span class="o">=</span> <span class="s2">&quot;▰▱▲△▴▵▶▷▸▹►▻▼▽▾▿&quot;</span>
-<span class="n">symbols_set_3</span> <span class="o">=</span> <span class="s2">&quot;◀◁◂◃◄◅◆◇◈◉◊○◌◍◎●&quot;</span>
-<span class="n">symbols_set_4</span> <span class="o">=</span> <span class="s2">&quot;◐◑◒◓◔◕◖◗◘◙◚◛◜◝◞◟&quot;</span>
-<span class="n">symbols_set_5</span> <span class="o">=</span> <span class="s2">&quot;◠◡◢◣◤◥◦◧◨◩◪◫◬◭◮◯&quot;</span>
-<span class="n">symbols_set_6</span> <span class="o">=</span> <span class="s2">&quot;◰◱◲◳◴◵◶◷◸◹◺◻◼◽◾◿&quot;</span>
-<span class="c1"># tables and box drawing</span>
-<span class="c1"># https://en.wikipedia.org/wiki/Box_Drawing_(Unicode_block)</span>
-<span class="n">box_borders_1_of_many</span> <span class="o">=</span> <span class="s2">&quot;─━│┃┄┅┆┇┈┉┊┋┌┍┎┏&quot;</span>
-<span class="c1"># arrows and symbols</span>
-<span class="c1"># https://en.wikipedia.org/wiki/Miscellaneous_Symbols_and_Arrows</span>
-<span class="n">arrows_1_of_many</span> <span class="o">=</span> <span class="s2">&quot;⬀⬁⬂⬃⬄⬅⬆⬇⬈⬉⬊⬋⬌⬍⬎⬏&quot;</span>
-<span class="c1">#https://en.wikipedia.org/wiki/Mathematical_operators_and_symbols_in_Unicode</span>
-<span class="n">math_1_of_too_many</span> <span class="o">=</span> <span class="s2">&quot;∀∁∂∃∄∅∆∇∈∉∊∋∌∍∎∏&quot;</span>
-<span class="n">superscripts</span> <span class="o">=</span> <span class="s2">&quot;⁰¹²³⁴⁵⁶⁷⁸⁹&quot;</span> <span class="o">+</span> <span class="s2">&quot;ⁱ ⁺ ⁻ ⁼ ⁽ ⁾ ⁿ&quot;</span>
-<span class="n">underscripts</span> <span class="o">=</span> <span class="s2">&quot;₀₁₂₃₄₅₆₇₈₉ ₊ ₋ ₌ ₍ ₎&quot;</span> <span class="o">+</span> <span class="s2">&quot;ₐₑₒₓₔₕ ₖ ₗ ₘ ₙ ₚ ₛ ₜ &quot;</span>
-<span class="n">greek_letters</span><span class="o">=</span> <span class="s2">&quot;αβγ…&quot;</span> <span class="c1"># and all the others</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div></section></section><section><section>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -17568,6 +17752,158 @@ To do this you can use some special characters to show your results in a sinteti
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Internationalization-(i18n)">Internationalization (i18n)<a class="anchor-link" href="#Internationalization-(i18n)">&#182;</a></h1><p>is based on the locale module, allow to print numbers and currencies according to the user preferences (if set)</p>
+<p>you would also need to take care of timezones, and translations.</p>
+<p>They are all a massive pain, be aware!</p>
+<p><a href="https://lokalise.com/blog/beginners-guide-to-python-i18n/">https://lokalise.com/blog/beginners-guide-to-python-i18n/</a></p>
+<p><a href="https://phrase.com/blog/posts/translate-python-gnu-gettext/">https://phrase.com/blog/posts/translate-python-gnu-gettext/</a></p>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[32]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">locale</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="c1"># Default settings based on the user&#39;s environment.</span>
+<span class="n">locale</span><span class="o">.</span><span class="n">setlocale</span><span class="p">(</span><span class="n">locale</span><span class="o">.</span><span class="n">LC_ALL</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+
+<span class="c1"># What is the locale?</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Locale from environment:&#39;</span><span class="p">,</span> <span class="n">locale</span><span class="o">.</span><span class="n">getlocale</span><span class="p">())</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+Locale from environment: (&#39;English_United States&#39;, &#39;1252&#39;)
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div></section></section><section><section>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[28]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sample_locales</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s1">&#39;UK&#39;</span><span class="p">,</span> <span class="s1">&#39;en_GB&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;France&#39;</span><span class="p">,</span> <span class="s1">&#39;fr_FR&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;China&#39;</span><span class="p">,</span> <span class="s1">&#39;zh-cn&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;Italy&#39;</span><span class="p">,</span> <span class="s1">&#39;it_IT&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;Poland&#39;</span><span class="p">,</span> <span class="s1">&#39;pl_PL&#39;</span><span class="p">),</span>
+<span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div></section></section><section><section>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[30]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">loc</span> <span class="ow">in</span> <span class="n">sample_locales</span><span class="p">:</span>
+    <span class="n">locale</span><span class="o">.</span><span class="n">setlocale</span><span class="p">(</span><span class="n">locale</span><span class="o">.</span><span class="n">LC_ALL</span><span class="p">,</span> <span class="n">loc</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{:&gt;13}</span><span class="s1">: </span><span class="si">{:&gt;13}</span><span class="s1">  </span><span class="si">{:&gt;13}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+        <span class="n">name</span><span class="p">,</span>
+        <span class="n">locale</span><span class="o">.</span><span class="n">currency</span><span class="p">(</span><span class="mf">1234.5678</span><span class="p">),</span>
+        <span class="n">locale</span><span class="o">.</span><span class="n">currency</span><span class="p">(</span><span class="o">-</span><span class="mf">1234.5689</span><span class="p">),</span>
+    <span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>           UK:      £1234.57      £-1234.57
+       France:     1234,57 €     -1234,57 €
+        China:      ￥1234.57      ￥1234.57-
+        Italy:     1234,57 €     -1234,57 €
+       Poland:    1234,57 zł    -1234,57 zł
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[31]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{:&gt;10}</span><span class="s1"> </span><span class="si">{:&gt;10}</span><span class="s1"> </span><span class="si">{:&gt;15}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;Locale&#39;</span><span class="p">,</span> <span class="s1">&#39;Integer&#39;</span><span class="p">,</span> <span class="s1">&#39;Float&#39;</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">loc</span> <span class="ow">in</span> <span class="n">sample_locales</span><span class="p">:</span>
+    <span class="n">locale</span><span class="o">.</span><span class="n">setlocale</span><span class="p">(</span><span class="n">locale</span><span class="o">.</span><span class="n">LC_ALL</span><span class="p">,</span> <span class="n">loc</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{:&gt;10}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">locale</span><span class="o">.</span><span class="n">format_string</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%10d</span><span class="s1">&#39;</span><span class="p">,</span> <span class="mi">123456</span><span class="p">,</span> <span class="n">grouping</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">locale</span><span class="o">.</span><span class="n">format_string</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%15.2f</span><span class="s1">&#39;</span><span class="p">,</span> <span class="mf">123456.78</span><span class="p">,</span> <span class="n">grouping</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>    Locale    Integer           Float
+        UK    123,456      123,456.78
+    France    123 456      123 456,78
+     China    123,456      123,456.78
+     Italy    123.456      123.456,78
+    Poland    123 456      123 456,78
 </pre>
 </div>
 </div>
