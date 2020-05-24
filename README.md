@@ -42,6 +42,8 @@ the slides can be seen live at:
 
 [AF_07_command_line_applications](./Lesson_AF_07_command_line_applications.slides.html)
 
+[AF_08_Documentation_and_API](./Lesson_AF_08_Documentation_and_API.slides.html)
+
 ### suggestions for the project
 
 [details about the exam (lesson 00)](./Lesson_00_details_about_the_exam.html)
