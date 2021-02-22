@@ -53,8 +53,13 @@ the slides can be seen live at:
 Effective Computation in Python, O'Reilly
 * [http://physics.codes/](http://physics.codes/)
 
+## Repositories with How To's
 
-## Reference material
+[https://github.com/physycom/sysconfig](https://github.com/physycom/sysconfig)
+
+[https://github.com/UniboDIFABiophysics/HOWto](https://github.com/UniboDIFABiophysics/HOWto)
+
+## Reference material for the scientific Python programming
 
 Think Python v2 - free online book
 * [https://greenteapress.com/wp/think-python-2e/](https://greenteapress.com/wp/think-python-2e/)
