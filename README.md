@@ -6,6 +6,10 @@ the slides can be seen live at:
 
 [https://unibodifabiophysics.github.io/programmingCourseDIFA/](https://unibodifabiophysics.github.io/programmingCourseDIFA/)
 
+### suggestions for the project
+
+[details about the exam (lesson 00)](./Lesson_00_details_about_the_exam.html)
+
 ### general module
 [01_introduction](./Lesson_01_introduction.slides.html)
 
@@ -44,17 +48,18 @@ the slides can be seen live at:
 
 [AF_08_Documentation_and_API](./Lesson_AF_08_Documentation_and_API.slides.html)
 
-### suggestions for the project
-
-[details about the exam (lesson 00)](./Lesson_00_details_about_the_exam.html)
-
 ## Suggested Books
 
 Effective Computation in Python, O'Reilly
 * [http://physics.codes/](http://physics.codes/)
 
+## Repositories with How To's
 
-## Reference material
+[https://github.com/physycom/sysconfig](https://github.com/physycom/sysconfig)
+
+[https://github.com/UniboDIFABiophysics/HOWto](https://github.com/UniboDIFABiophysics/HOWto)
+
+## Reference material for the scientific Python programming
 
 Think Python v2 - free online book
 * [https://greenteapress.com/wp/think-python-2e/](https://greenteapress.com/wp/think-python-2e/)
