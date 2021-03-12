@@ -1,7 +1,6 @@
-temp.*
-test.*
-.ipynb_checkpoints
+*.py
+temp*
+test*
 .snakemake
-JSONifier.py
-count_by.py
+.ipynb_checkpoints
 
