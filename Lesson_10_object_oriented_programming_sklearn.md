@@ -34,6 +34,8 @@ A script can be seen as a way of repeating a series of commands.
 It has a very well defined scope and does not need configurations, option managements, and so on.
 They are mostly run just once to perform a specific job and that's it
 
+(continue...)
+
 #### libraries
 
 A library is an organized collection of functions, routines and objects that are designed to be used by someone else than the original writer.
@@ -41,6 +43,8 @@ This is where good programming practice start to matter seriously.
 Library need an API (Application Programming Interface) that defines what and how is possible to do with the library.
 
 Library design is one of the main reasons for object oriented programming: it allows to design consistent and well structured interfaces that helps the user obtaining what they wants and guide them down the right path avoiding bad practices
+
+(continue...)
 
 #### programs
 
@@ -55,6 +59,8 @@ they are often classified based on their interface (even if this is often just d
 
 there are more exotic ones, such are Voice User Interface (Siri), Tangible User Interface (joysticks and buttons) and so on, but they go out of the scope of this discussion.
 
+(continue...)
+
 #### frameworks
 
 a framework is basically a program (or a set of libraries that can be compiled as such) that can be configured by writing code, typically in the form of classes.
@@ -64,9 +70,485 @@ Your program call the library, while a framework calls the code you wrote.
 
 A very well known framework in python is Django, a web content management systems, where the user need to write the code for database connection and display, and runs calling the user code.
 
+# What is an Object Oriented Programming? and why do we care?
+
+In python you've been using objects without knowing what they are already.
+
+Literally everything is an object in python.
+
+**And I mean LITERALLY**
+
+Today we will talk about Object Oriented Programming (OOP), with particular focus on Python's approach to it.
+
+The advantage of OOP is that it allows to write beautiful and robust libraries and programs.
+
+If done well.
+
+It requires a specific way of thinking about your program, and it need some time to be internalized.
+
+# What is an object?
+
+Starting from a very abstract perspective, an object is a black box with whom we can communicate, giving commands to perform and asking questions (think of the routines and functions we talked previously).
+
+How does the object work internally should not interest us (in an ideal world), we just care about how to communicate with it.
+
+Take for example the python's `list`.
+
+We know it stores things inside it, and we can ask to retrieve them, add and remove them, put them in order and so forth.
+
+How does a list work under the hood? **I don't have to care**
+
+We might choose to use a list or an array based on their properties, but I don't (almost) ever need to know how they function to use them. 
+
+A good object should be self sufficient (have high *cohesion*) and not depend on specific other object (have low *coupling*)
+
+# Classes and Interfaces: describing common properties
+
+In OOP one of the most common concepts is the idea of a specific object being referred to as an **instance** of a **class**, which implements several **interfaces**.
+
+Rather than trying to describe them in abstract terms, I'll give you an example.
+
+Consider the ideas of:
+* animal (something that needs to be fed and cared for)
+* mechanical object (something non living that can be repaired)
+* vehicle (something that I can use to move around)
+* producer (something that I can use to make things)
+
+|                | producer       | vehicle |
+|----------------|----------------|---------|
+| **animal**     | cow            | horse   |
+| **mechanical** | coffee machine | car     |
+
+* Coffee machine is a class that implements two interfaces (mechanical and producer) that describe how you can interact with them
+* **My Coffee Machine** is an instance of the Coffee machine class
+
+---
+
+* the instance is the object with which I interact
+* the class describe the "kind" of object I'm interacting with, telling me how I can interact with it
+* the interfaces are the various ways I can interact with it
+* the interface **should not** specify how the class works internally, only how I can interact with it!
+
+## Example of Python Interfaces and Classes
+
+
+|                 | indexable | non-indexable |
+|-----------------|-----------|---------------|
+| **mutable**     | list      | set           |
+| **non-mutable** | string    | int           |
+
+* mutability: I can change the values inside the object once it has been created
+* indexable: I can extract items from inside the object with the `[ ]` syntax
+
+## How to comunicate with an object?
+
+**methods**, we communicate with methods.
+
+Methods have the same logic as normal functions, and they can behave like *routines* (change the state of the object and don't return anything) of *functions* (return something without changing the state of the object).
+
+the syntax of method calling is:
+
+    <instance>.<method>(<parameters>)
+    
+for example, for lists:
+
+```python
+a = [1, 2, 3]
+a.append(4) # add a new element to the list
+a.index(3) # return the index of the element, without changing the object
+```
+
+## Internal state
+
+As users we are interested in the object only for its behavior, so ideally we only approch it by its methods, but to do something useful they have to have a way to store some internal state.
+
+This internal state is represented by the object's **attributes**.
+
+Attributes management is one point where python tends to differ from most other programming languages (that I know of), but we'll talk about that later
+
+## Using objects: Polymorphism and Substitution Principle
+
+When we pass objects around, what we care about is some idea of how we can interact with it.
+
+the function:
+
+```python
+def add(a, b):
+    return a+b
+```
+
+assumes that a and b know how to be added together, but does not make assumptions on what they are.
+It can work with integers, floating points, strings, numpy array, etc..
+As long as they implement the `+` interface, they are fine to work with.
+
+```python
+def head(sequence):
+    return sequence[0]
+```
+
+In this case we only care that our object can be indexed with numbers: lists, dictionaries, numpy arrays, strings, they are all fine.
+
+the idea is that when I define a function, I'm defining the interface I expect from my objects.
+
+In some languages I do that explicitely (C++, Java, etc..), in others I do it implicitely (Python, R, etc...), but the idea is the same.
+O
+ften this is done by fixing the **class** that the function accept, but this is generally incorrect, we should be fixing the **interface** we want our objects to provide.
+
+We should try to be as general as possible in the definition of the interface we require: if we only need to iterate over an object, we should just state that it should be an `Iterable`, not a `list`, we would be limiting ourselves for no reason.
+
+The principle of substitusion states that once I've defined the interface, any object that follows that interface should be accepted (the original one is referred to inheritance, but don't worry about that for now).
+
+## A simple class
+
+
+```python
+class Formatter: # create the class
+    def __init__(self, precision): # how to generate an instance
+        self.change_precision(precision) # we set the state using its own function
+        
+    def change_precision(self, precision): # define a method (routine-like)
+        self._precision = precision # this is where we change the internal state
+        
+    def format(self, value): # define a method (function-like)
+        return "{:.{}f}".format(value, self._precision) # this is where we use it
+    
+f = Formatter(2) # create the instance
+print(f.format(3.1415)) # call a method (function-like)
+f.change_precision(6) # call a method (routine-like)
+print(f.format(3.1415))
+```
+
+    3.14
+    3.141500
+
+
+
+```python
+f._precision
+```
+
+
+
+
+    6
+
+
+
+When designing classes, think of the unix principles:
+
+* one class should have one goal (or job), and only one, and should do it well
+* the class should be as small as you can get away with to do the job
+* it should not make assumptions on who (which other object) is going to communicate with it
+
+# How to use objects to make a library
+
+rule number 1:
+> don't start writing the code to implement the features, write the code you want to be able to write!
+
+* write how the features should look like in real code
+* write tests that assert that behavior (and initially fail)
+* now you can implement them!
+
+Let's say that we want to implement a class to represent and manage some kind of object.
+
+to do this, the best starting point is to try and write the code that we would like to have with that class, and then proceed to implement it.
+
+This has two advantages:
+* it guides us on which are the most important feature first
+* it paved the road for testing in a very easy way
+
+### note
+previous years' lectures used seaborn `distplot` for this demonstration, but the function has been deprecated and not suitable for use anymore, don't use that code if you find it!
+
+## example - logging timer
+
+For our simulations we might want to have a timer/logger of events,
+ but without the overhead of printing to screen during execution to avoid slowind down the computation!
+
+```python
+>>> timer = Timer()
+>>> timer.tick("event")
+>>> timer.log()
+```
+
+    'event' at time xx:xx
+
+
+
+```python
+import time
+
+class Timer:
+    def __init__(self):
+        self._ticks: dict[str, int] = {}
+            
+    def tick(self, event_name: str):
+        self._ticks[event_name] = time.time()
+            
+    def log(self):
+        for name, epoch in self._ticks.items():
+            print(repr(name), "happened at", epoch)
+                
+timer = Timer()
+timer.tick("hello, world!")
+timer.log()
+```
+
+    'hello, world!' happened at 1615649618.2291648
+
+
+how do we deal with duplicated events?
+
+```python
+>>> timer = Timer()
+>>> timer.tick("event")
+>>> timer.tick("event")
+>>> timer.log()
+```
+
+    'event' at time xx:xx and time xx:xx
+
+
+
+```python
+import time
+from collections import defaultdict
+
+class Timer:
+    def __init__(self):
+        self._ticks: dict[str, list[int]] = defaultdict(list)
+            
+    def tick(self, event_name: str):
+        self._ticks[event_name].append(time.time())
+            
+    def log(self):
+        for name, epochs in self._ticks.items():
+            joined_str = " and ".join(str(e) for e in epochs)
+            print(repr(name), "happened at", joined_str)
+            
+                
+timer = Timer()
+timer.tick("hello, world!")
+timer.tick("hello, world!")
+timer.log()
+```
+
+    'hello, world!' happened at 1615649833.8234465 and 1615649833.8235137
+
+
+We could decide to filter the events we want to see:
+
+```python
+>>> timer = Timer()
+>>> timer.tick("fun1/event")
+>>> timer.tick("fun2/event")
+>>> timer.log("fun1/")
+```
+
+    'fun1/event' at time xx:xx and time xx:xx
+
+
+
+```python
+import time
+from collections import defaultdict
+
+class Timer:
+    def __init__(self):
+        self._ticks: dict[str, list[int]] = defaultdict(list)
+            
+    def tick(self, event_name: str):
+        self._ticks[event_name].append(time.time())
+            
+    def log(self, filter=""):
+        for name, epochs in self._ticks.items():
+            if filter not in name:
+                continue
+            joined_str = " and ".join(str(e) for e in epochs)
+            print(repr(name), "happened at", joined_str)
+            
+                
+timer = Timer()
+timer.tick("fun1/event")
+timer.tick("fun2/event")
+timer.log()
+print("-"*60)
+timer.log("fun1/")
+```
+
+    'fun1/event' happened at 1615651954.5938675
+    'fun2/event' happened at 1615651954.5939393
+    ------------------------------------------------------------
+    'fun1/event' happened at 1615651954.5938675
+
+
+# Scikit-learn (sklearn) use case
+
+scikit learn is the main machine learning library in python.
+For our current discussion, we can say that sklearn is based on two pillars:
+
+* Classifiers, Regressors and Transformers
+* pipelines and unions
+
+Sklearn employs a very simple interface api for the first group, and leverage the second group to hierarchically create the whole analysis pipeline
+
+This allowed anyone to write classes compatible with all the other sklearn compatible classes, driving an explosion of methods and libraries that all work together nicely.
+
+These good API choices basically singlehandedly put python in the machine learning community attention
+
+The basic idea of `Classifiers`, `Regressors` and `Transformers`, is that all of them implement a compatible interface:
+
+* **Transformers** implements a method `fit` and a method `transform`
+* **Regressors** and **Classifiers** implement the methods `fit` and `predict`
+
+the idea is that with the `fit` function this object "learns" from the data, then they apply to (ideally) new data to predict the expected value or to transform them.
+
+* **fit(X, y)** should take:
+    * an array-like **X** (rows for the obsersations, columns for the features)
+    * an array-like **y** (rows for the observations, potentially multiple column values)
+    * **returns**: the predictor itself
+* **predict(X)** should take:
+    * an array-like **X** (rows for the obsersations, columns for the features)
+    * **returns**: an array-like (rows for the observations, potentially multiple column values)
+* **transform(X)** should take:
+    * an array-like **X** (rows for the obsersations, columns for the features)
+    * **returns**: an array-like (rows for the observations, potentially multiple column values)
+
+The real magic bits are **pipelines** and **unions**.
+
+* **unions** take a series of transformers and combined all of their output in a single transformed dataset. **it behaves like a transformer itself**
+* **pipelines** take a list of transformers (and optionally a classifier/regressor at the end) and pipe the data from one to the other. **it behaves like a transformer or estimator itself**
+
+the fact that both unions and pipelines expose the same interface as the objects that they are wrapping means that they can be used inside other unions and pipelines, creating a full data-flow structure that behaves correctly (for example about data leaking).
+
+
+```python
+from sklearn.preprocessing import StandardScaler
+from sklearn.pipeline import make_pipeline
+from sklearn.linear_model import LinearRegression
+
+import numpy as np
+import numpy.random as rn
+```
+
+
+```python
+rn.seed(42)               # fix the random seed to have replicability
+data = rn.randn(200, 2)   # 200 bidimensional data points
+y = (
+    + 1.0 * data[:, 0]    # first component, weight 1
+    + 0.5 * data[:, 1]    # second component, weight 0.5
+    + rn.randn(len(data)) # noise component
+)
+```
+
+
+```python
+# this is the data that we want to do the prediction about
+new_data = rn.randn(10, 2)
+```
+
+
+```python
+sc = StandardScaler()
+sc.fit(data)# estimate the parameters for the standardization
+print(sc.transform(data)[:5, :]) # apply the standardization to the OLD data
+# apply the standardization to the NEW data with the estimates of the old
+print(sc.transform(new_data)[:5, :]) 
+```
+
+    [[ 0.51326213 -0.18391283]
+     [ 0.67128389  1.542076  ]
+     [-0.25172177 -0.28351899]
+     [ 1.64629106  0.75705623]
+     [-0.4980274   0.5234244 ]]
+    [[ 0.78568602 -0.99834079]
+     [ 0.90356022  1.36816536]
+     [ 0.42609546  1.90961842]
+     [-0.81654741 -1.33338866]
+     [-1.86838793  1.51403957]]
+
+
+
+```python
+lr = LinearRegression()
+lr.fit(data, y)          # fit the regressor on the OLD data
+lr.predict(new_data)[:5] # use the learned parameter to predict the NEW ones
+```
+
+
+
+
+    array([ 0.21489663,  1.58054749,  1.37919105, -1.59348275, -1.16617208])
+
+
+
+
+```python
+lr.coef_
+```
+
+
+
+
+    array([1.06614468, 0.54683588])
+
+
+
+
+```python
+pipe = make_pipeline(
+    StandardScaler(),    # scale the data
+    LinearRegression(),  # perform the linear regression
+)
+
+pipe.fit(data, y)        # fit the linear regressor 
+pipe.predict(new_data)   # predict for the new values
+```
+
+
+
+
+    array([ 0.21489663,  1.58054749,  1.37919105, -1.59348275, -1.16617208,
+            0.57936311, -0.4048604 ,  2.59029857,  0.42561625,  0.54736359])
+
+
+
+Can we make a class that can blend in with the native sklearn ones?
+
+Quite easily! (at least a basic version, we'll see a more advanced one later)
+
+we just need to implement the same interface of **fit** and **predict** (for a predictor, **transform** otherwise)
+
+
+```python
+class AvgPredictor:
+    def fit(self, X, y):
+        self.avg = np.mean(y)
+        return self # flow interface, debatable
+    
+    def predict(self, X):
+        return np.ones(len(X))*self.avg
+    
+pipe = make_pipeline(
+    StandardScaler(), 
+    AvgPredictor(),
+)
+pipe.fit(data, y)
+pipe.predict(new_data)
+```
+
+
+
+
+    array([-0.05993531, -0.05993531, -0.05993531, -0.05993531, -0.05993531,
+           -0.05993531, -0.05993531, -0.05993531, -0.05993531, -0.05993531])
+
+
+
 # Objects anatomy
 
-before discussing how to use objects to write libraries and APIs, we have to discuss what an object is and how it does work internally.
+To fully understand how to implement good quality OOP in python, we have to discuss what an object is and how it does work internally.
 
 This is contrary to how we usually approach topics, but the fact is that in python one does not really needs to write objects if they are not trying to write a nice library, and to use them effectively to do so one needs to have a basic understaing on what is possible with them.
 
@@ -122,7 +604,7 @@ Always write docstrings in real code!
 
 When we want to do object oriented programming, we usually start by creating a new class.
 
-This is done using the `class` reverved keyword, in a similar fashion to how we can define a function using `def`.
+This is done using the `class` reserved keyword, in a similar fashion to how we can define a function using `def`.
 
 ```python
 class MyclassName:
@@ -630,6 +1112,76 @@ Something.multiply(weird, b=3)
 
 
 
+Note that, due to the substitution principle, calling `obj.method(*args)` and `Class.method(obj, *args)` is not the same!
+
+In a function that takes a certain kind Class, we might receive a subclass that implements a variant of that methods, and if we use `Class.method(obj)` we are forcing it to use the other class' one.
+
+if we want to retain the "functional" look while ensuring to call the right method, we can use the `methodcaller` method of the `operator` module
+
+
+```python
+from operator import methodcaller
+```
+
+
+```python
+obj_set = set([1, 2])
+updater = methodcaller("update", [3])
+updater(obj_set)
+print(obj_set)
+```
+
+    {1, 2, 3}
+
+
+
+```python
+obj_dict = dict(a=1, b=2)
+updater = methodcaller("update", [('c', 3)])
+updater(obj_dict)
+print(obj_dict)
+```
+
+    {'a': 1, 'b': 2, 'c': 3}
+
+
+If you don't like the two steps of creating it and executing it, you can define an apply function:
+
+
+```python
+# wrapping
+def apply(fname, obj, *args, **kwargs):
+    return methodcaller(fname, *args, **kwargs)(obj)
+
+obj_dict = dict(a=1, b=2)
+apply("update", obj_dict, [('c', 3)])
+print(obj_dict)
+```
+
+    {'a': 1, 'b': 2, 'c': 3}
+
+
+An even more advanced option is the following... not it looks weird, but by the end of the day you will be able to understand what is going on, don't worry!
+
+
+```python
+from functools import partial
+class DeferredMethodExecution:
+    def __getattr__(self, fname):
+        return partial(apply, fname)
+do = DeferredMethodExecution()
+
+# actual use
+obj_dict = dict(a=1, b=2)
+do.update(obj_dict, [('c', 3)])
+print(obj_dict)
+```
+
+    {'a': 1, 'b': 2, 'c': 3}
+
+
+## Monkey patching
+
 Functions can be added as methods to a class in any moment.
 
 This is often referred as **monkey patching**, and is a powerful yet dangerous technique.
@@ -811,7 +1363,7 @@ The solution is to add a second magic method, `__radd__`, that is called if the 
 
 to signal that it does not know how to handle the sum, the first addendum should return `NotImplemented` (a singleton) instead of an actual result
 
-if the adding operation is symmetrical for the object (it doesn't have to be!) one cas avoid reimplementing the `__radd__` by simply saying:
+if the adding operation is symmetrical for the object (it doesn't have to be!) one can avoid reimplementing the `__radd__` by simply saying:
 
 ```python
 __radd__ = __add__
@@ -1010,6 +1562,8 @@ This is a bit exotic and I don't suggest using it, but if you're curious there i
 #### note - privates attributes part 3 of 3
 
 A common mistake is to think that attributes with the name starting with double underscore (but not ending in them) are a way to make attributes private.
+
+names that looks like `__my_attribute`, to be clear.
 
 That is a completely different feature, called **name mangling**, and is used to solve some nasty inheritance problems, not as private attributes.
 
@@ -1301,6 +1855,7 @@ except IndexError:
 
 ### Traditional inheritance - methods
 
+Traditional inheritance is mostly about code reuse: we have a base class that performs some basic funcionality, we don't want to rewrite all that code!
 
 a child class can:
 * **add** - add a new method that didn't exist before, with no interaction with the other methods of the superclass aside of leveraging them
@@ -1363,7 +1918,6 @@ class to help create various methods from a base set of methods:
 
 ```python
 import collections
-collections.Mapping
 
 class Empty(collections.MutableMapping):
     def __getitem__(): pass
@@ -1394,7 +1948,9 @@ It can also replace some of the methods of the parent class, for example a more 
 
 ### Interface validation
 
-in this case when can define a class checking for an interface and makes it so that all the classes following that inteface will be positive when checked for subclassing or being an instance of that interface
+in this case when can define a class checking for an interface and makes it so that all the classes following that inteface will be appear as subclasses when checked for subclassing or being an instance of that interface
+
+Is a way of describing interfaces without changing the class definition and force inheritance.
 
 
 ```python
@@ -1442,7 +1998,8 @@ assert not isinstance(Myclass_3(), PippoInterface)
 Often inheritance is used to specify some very corner case of the class.
 
 In many cases this can be replace with composition.
-Composition is a way to replace the framework approach: instead of subclassing a class to specialize it's behavior, one can set an attribute as a completely different object to configure its behavior
+
+Composition is a way to replace the framework approach: instead of subclassing a class to specialize its behavior, one can set an attribute as a completely different object to configure its behavior
 
 Let's consider a very simple class that print a message.
 
@@ -1530,141 +2087,13 @@ An animal could delegate how to sense food and how to move from one place to ano
 
 On the other end, it's a very common pattern in Python: all the magic methods are nothing more than framewok logic to perform various operations
 
-# How to use objects to make a library
-
-rule number 1:
-> don't start writing the code to implement the features:
->
-> write how the features should look like in real code and implement them!
-
-Let's say that we want to implement a class to represent and manage some kind of object.
-
-to do this, the best starting point is to try and write the code that we would like to have with that class, and then proceed to implement it.
-
-This has two advantages:
-* it guides us on which are the most important feature first
-* it paved the road for testing in a very easy way
-
-## A simple use case - fitting using seaborn distplot
-
-the `distplot` method of seaborn allows to plot a density plot of some data and allow to plot a density estimation using either a Kernel Density Estimator or a distribution object.
-
-This object can be passed as the `fit` parameter to the function, and it expected to implement:
-* **fit** method, that takes the array of data and should return a tuple of parameters of the distribution
-* **pdf** that takes the same tuple of parameters and position on which to estimate the distribution pdf
-
-
-```python
-from numpy import random as rn
-import numpy as np
-import seaborn as sns
-
-data = rn.randn(1000)*2 + 3
-```
-
-
-```python
-sns.distplot(data, kde=True)
-```
-
-
-
-
-    <matplotlib.axes._subplots.AxesSubplot at 0x7fbf1eb493c8>
-
-
-
-
-    
-![png](Lesson_10_object_oriented_programming_sklearn_files/Lesson_10_object_oriented_programming_sklearn_145_1.png)
-    
-
-
-
-```python
-class NormalFit:
-    def fit(self, data):
-        return np.mean(data), np.std(data)
-    
-    def pdf(self, x, *fit_args):
-        μ, σ = fit_args
-        C_i = np.sqrt(2*np.pi*σ**2)
-        logbase =  -(x-μ)**2 / (2*σ**2) 
-        return np.exp(logbase)/C_i
-    
-sns.distplot(data, fit=NormalFit())
-```
-
-
-
-
-    <matplotlib.axes._subplots.AxesSubplot at 0x7fbf1e8e8ba8>
-
-
-
-
-    
-![png](Lesson_10_object_oriented_programming_sklearn_files/Lesson_10_object_oriented_programming_sklearn_146_1.png)
-    
-
-
-The object interface is designed to be used with scipy.stats distributions in general, so one doesn't need to write a class for **most** distributions, but it does allow to use fixed parameters, or to use bayesian priors, etc...
-
-
-```python
-import scipy.stats as st
-sns.distplot(data, fit=st.norm)
-```
-
-
-
-
-    <matplotlib.axes._subplots.AxesSubplot at 0x7fbf1ea2ed68>
-
-
-
-
-    
-![png](Lesson_10_object_oriented_programming_sklearn_files/Lesson_10_object_oriented_programming_sklearn_148_1.png)
-    
-
-
-# Scikit-learn (sklearn) use case
-
-scikit learn is the main machine learning library in python.
-For our current discussion, we can say that sklearn is based on two pillars:
-
-* Classifiers, Regressors and Transformers
-* pipelines and unions
-
-Sklearn emploies a very simple interface api for the first group, and leverage the second group to hierarchically create the whole analysis pipeline
-
-This allowed anyone to write classes compatible with all the other sklearn compatible classes, driving an explosion of methods and libraries that all work together nicely.
-
-These good API choices basically singlehandedly put python in the machine learning community attention
-
-The basic idea of `Classifiers`, `Regressors` and `Transformers`, is that all of them implement a compatible interface:
-
-* **Transformers** implements a method `fit` and a method `transform`
-* **Regressors** and **Classifiers** implement the methods `fit` and `predict`
-
-the idea is that with the `fit` function this object "learns" from the data, then they apply to (ideally) new data to predict the expected value or to transform them.
-
-* **fit(X, y)** should take:
-    * an array-like **X** (rows for the obsersations, columns for the features)
-    * an array-like **y** (rows for the observations, potentially multiple column values)
-    * **returns**: the predictor itself
-* **predict(X)** should take:
-    * an array-like **X** (rows for the obsersations, columns for the features)
-    * **returns**: an array-like (rows for the observations, potentially multiple column values)
-* **transform(X)** should take:
-    * an array-like **X** (rows for the obsersations, columns for the features)
-    * **returns**: an array-like (rows for the observations, potentially multiple column values)
+## Create scikit.learn compatible classes
 
 Any class that implements these features can inherit from `BaseEstimator` and then from `sklearn.base.ClassifierMixin`, `sklearn.base.RegressorMixin` or `sklearn.base.TransformerMixin` to have their interface completed.
 
 due to the requirements for this extension, I **strongly** suggest to create the classes using the `dataclass` decorator.
-It is also a good idea to just store the `__init__` parameters without modyfing them.
+
+It is also a good idea to just store the `__init__` parameters without modifying them.
 If you have to perform some processing and transformations, it's usually better to do them inside the `fit` function.
 
 
@@ -1756,14 +2185,19 @@ cs.fit_transform(df)
 
 
 
-The real magic bits are **pipelines** and **unions**.
+# Exercise 1 - simpler
 
-* **unions** take a series of transformers and combined all of their output in a single transformed dataset. **it behaves like a transformer itself**
-* **pipelines** take a list of transformers (and optionally a classifier/regressor at the end) and pipe the data from one to the other. **it behaves like a transformer or estimator itself**
+Our goal is to implement a predictor transformer: use the prediction of one or more Regressor/Classifier as the input for another one.
 
-the fact that both unions and pipelines expose the same interface as the objects that they are wrapping means that they can be used inside other unions and pipelines, creating a full data-flow structure that behaves correctly (for example about data leaking).
+I want to use come like:
 
-# The exercise
+```python
+predictor_transformer = PT(LinearRegression)
+predictor_transformer.fit(X_train, y_train)
+predictor_transformer.transform(X_test) # should return a 2d array Nx1 with the predicted y_test
+```
+
+# exercise 2 - harder
 
 Our goal might be to implement a groupby standardizer.
 
@@ -1772,6 +2206,12 @@ a standardizer subtract the average of one or more columns, and divide the data 
 The standard standardizer does use the whole data average, but we might want to do this operation separatedly on different groups, for example by country.
 
 Assuming that all the groupby categories are present in the traning data, try to implement it
+
+```python
+group_standardizer = GS(groupby_column='country')
+group_standardizer.fit(X_train, y_train)
+group_standardizer.transform(X_train)
+```
 
 # end of the general programming module
 
@@ -2141,6 +2581,10 @@ Of course there can be a mixture of all the approaches, depending on the functio
 Fluent interfaces are a variant of object oriented interfaces where methods that act on the object without creating a new one returns the object itself rather than nothing.
 
 This allows to chain the methods in a semi-pipeline form.
+
+I'm not a big fan of them, but you might find them in the wild (for example sklearn is a fluent interface, even if it does not really use it).
+
+It makes the code (marginally) prettier, but it's simply hell to debug!
 
 
 ```python
@@ -2610,3 +3054,133 @@ namespace.a = 2
 
     AttributeError: tried to rewrite an attribute!
 
+
+
+```python
+
+class Container:
+    seq = list()
+    
+instance_1 = Container()
+instance_2 = Container()
+
+instance_1.seq
+instance_1.seq.append(1)
+instance_1.seq
+instance_2.seq
+# %%
+from dataclasses import dataclass
+
+class Human:
+    def __init__(self, waist, hip):
+        self.waist = waist
+        self.hip = hip
+        self.w2h_ratio = waist/hip
+        
+giorgio = Human(110, 100)
+giorgio.w2h_ratio
+
+giorgio.waist = 100
+giorgio.w2h_ratio
+
+# %%
+class Human:
+    def __init__(self, waist, hip):
+        self.waist = waist
+        self.hip = hip
+    
+    @property
+    def w2h_ratio(self):
+        return self.waist/self.hip
+
+giorgio = Human(110, 100)
+giorgio.w2h_ratio
+
+giorgio.waist = 100
+giorgio.w2h_ratio
+
+giorgio.w2h_ratio = 2
+
+# %%
+
+class Something:
+    def __getattr__(self, name):
+        if not name.startswith('add_'):
+            raise AttributeError("don't have that attribute")
+        number_value = float(name[4:])
+        return number_value+self.a
+        
+
+namespace = Something()
+namespace.a = 3
+namespace.add_7
+
+# %%
+import pylab as plt
+from sklearn.linear_model import LinearRegression
+
+x = plt.rand(100)
+y = x**2 +1 + plt.randn(100)*0.1
+
+plt.scatter(x, y)
+lin = LinearRegression()
+lin.fit(x.reshape(-1, 1), y)
+
+base = plt.linspace(0,1, 101)
+
+y_hat = lin.predict(base.reshape(-1, 1))
+
+plt.scatter(x, y); plt.plot(base, y_hat)
+
+# %%
+from dataclasses import dataclass
+from typing import List
+from sklearn.base import BaseEstimator, TransformerMixin
+
+@dataclass
+class ColumnSelector(BaseEstimator, TransformerMixin):
+    columns: List[str]
+
+    def fit(self, X, y=None):
+        return self
+
+    def transform(self, X):
+        return X[self.columns]
+
+
+# %%
+
+df = pd.DataFrame(plt.randn(50, 5), columns=list("abcde"))
+df['y'] = df['a']*3 + 1 + plt.randn(50)
+y_train = df.loc[:30, 'y']
+X_train = df.loc[:30, ['a', 'b', 'c', 'd', 'e']]
+
+y_test = df.loc[30:, 'y']
+X_test = df.loc[30:, ['a', 'b', 'c', 'd', 'e']]
+# %%
+cs = ColumnSelector(columns=["a", "e"])
+lin = LinearRegression()
+
+x_train_reduced = cs.fit_transform(X_train)
+lin.fit(x_train_reduced, y_train)
+
+x_test_reduced = cs.transform(X_test)
+lin.predict(x_test_reduced)
+# %%
+from sklearn.pipeline import make_pipeline
+pipeline = make_pipeline(ColumnSelector(columns=["a", "e"]),
+                         LinearRegression())
+
+pipeline.fit(X_train, y_train)
+pipeline.predict(X_test)
+# %%
+from sklearn.model_selection import cross_val_predict, cross_val_score
+y = df['y']
+X = df[['a', 'b', 'c', 'd', 'e']]
+cross_val_score(pipeline, X, y, cv=5)
+
+pipeline.fit(X, y)
+y_hat = pipeline.predict(X)
+score(y, y_hat)
+
+```
