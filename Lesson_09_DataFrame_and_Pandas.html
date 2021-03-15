@@ -14301,7 +14301,7 @@ a.anchor-link {
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[3]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[2]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
@@ -14325,7 +14325,7 @@ a.anchor-link {
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>1.0.3
+<pre>1.2.3
 </pre>
 </div>
 </div>
@@ -14343,10 +14343,14 @@ a.anchor-link {
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># hidden data generation cell</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
-<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([(</span><span class="s1">&#39;Andrea&#39;</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">178</span><span class="p">,</span> <span class="s1">&#39;Male&#39;</span><span class="p">),</span>
-                     <span class="p">(</span><span class="s1">&#39;Maria&#39;</span><span class="p">,</span> <span class="mi">33</span><span class="p">,</span> <span class="mi">154</span><span class="p">,</span> <span class="s1">&#39;Female&#39;</span><span class="p">),</span>
-                     <span class="p">(</span><span class="s1">&#39;Luca&#39;</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">175</span><span class="p">,</span> <span class="s1">&#39;Male&#39;</span><span class="p">)],</span>
-                    <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;age&#39;</span><span class="p">,</span> <span class="s1">&#39;height&#39;</span><span class="p">,</span> <span class="s1">&#39;sex&#39;</span><span class="p">])</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="p">(</span><span class="s1">&#39;Andrea&#39;</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">178</span><span class="p">,</span> <span class="s1">&#39;Male&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;Maria&#39;</span><span class="p">,</span> <span class="mi">33</span><span class="p">,</span> <span class="mi">154</span><span class="p">,</span> <span class="s1">&#39;Female&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;Luca&#39;</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">175</span><span class="p">,</span> <span class="s1">&#39;Male&#39;</span><span class="p">),</span>
+    <span class="p">],</span>
+    <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;age&#39;</span><span class="p">,</span> <span class="s1">&#39;height&#39;</span><span class="p">,</span> <span class="s1">&#39;sex&#39;</span><span class="p">],</span>
+<span class="p">)</span>
 <span class="n">data</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 
@@ -14453,16 +14457,19 @@ a.anchor-link {
 
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
-<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([(</span><span class="s1">&#39;Andrea&#39;</span><span class="p">,</span> <span class="s1">&#39;2015&#39;</span><span class="p">,</span> <span class="s1">&#39;residenza&#39;</span><span class="p">,</span> <span class="s1">&#39;Rimini&#39;</span><span class="p">,</span> <span class="s1">&#39;via stretta 20&#39;</span><span class="p">),</span>
-                     <span class="p">(</span><span class="s1">&#39;Andrea&#39;</span><span class="p">,</span> <span class="s1">&#39;2015&#39;</span><span class="p">,</span> <span class="s1">&#39;domicilio&#39;</span><span class="p">,</span> <span class="s1">&#39;Bologna&#39;</span><span class="p">,</span> <span class="s1">&#39;via larga 30&#39;</span><span class="p">),</span>
-                     <span class="p">(</span><span class="s1">&#39;Andrea&#39;</span><span class="p">,</span> <span class="s1">&#39;2016&#39;</span><span class="p">,</span> <span class="s1">&#39;residenza&#39;</span><span class="p">,</span> <span class="s1">&#39;Rimini&#39;</span><span class="p">,</span> <span class="s1">&#39;via stretta 20&#39;</span><span class="p">),</span>
-                     <span class="p">(</span><span class="s1">&#39;Andrea&#39;</span><span class="p">,</span> <span class="s1">&#39;2016&#39;</span><span class="p">,</span> <span class="s1">&#39;domicilio&#39;</span><span class="p">,</span> <span class="s1">&#39;Bologna&#39;</span><span class="p">,</span> <span class="s1">&#39;via larga 30&#39;</span><span class="p">),</span>
-                     <span class="p">(</span><span class="s1">&#39;Giulio&#39;</span><span class="p">,</span> <span class="s1">&#39;2015&#39;</span><span class="p">,</span> <span class="s1">&#39;residenza&#39;</span><span class="p">,</span> <span class="s1">&#39;Rimini&#39;</span><span class="p">,</span> <span class="s1">&#39;via giusta 50&#39;</span><span class="p">),</span>
-                     <span class="p">(</span><span class="s1">&#39;Giulio&#39;</span><span class="p">,</span> <span class="s1">&#39;2015&#39;</span><span class="p">,</span> <span class="s1">&#39;domicilio&#39;</span><span class="p">,</span> <span class="s1">&#39;Bologna&#39;</span><span class="p">,</span> <span class="s1">&#39;via falsa 40&#39;</span><span class="p">),</span>
-                     <span class="p">(</span><span class="s1">&#39;Giulio&#39;</span><span class="p">,</span> <span class="s1">&#39;2016&#39;</span><span class="p">,</span> <span class="s1">&#39;residenza&#39;</span><span class="p">,</span> <span class="s1">&#39;Bologna&#39;</span><span class="p">,</span> <span class="s1">&#39;via torna 10&#39;</span><span class="p">),</span>
-                     <span class="p">(</span><span class="s1">&#39;Giulio&#39;</span><span class="p">,</span> <span class="s1">&#39;2016&#39;</span><span class="p">,</span> <span class="s1">&#39;domicilio&#39;</span><span class="p">,</span> <span class="s1">&#39;Bologna&#39;</span><span class="p">,</span> <span class="s1">&#39;via torna 10&#39;</span><span class="p">),</span>
-                    <span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;nome&#39;</span><span class="p">,</span> <span class="s1">&#39;anno&#39;</span><span class="p">,</span> <span class="s1">&#39;tipologia&#39;</span><span class="p">,</span> <span class="s1">&#39;città&#39;</span><span class="p">,</span> <span class="s1">&#39;indirizzo&#39;</span><span class="p">]</span>
-                    <span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="p">(</span><span class="s1">&#39;Andrea&#39;</span><span class="p">,</span> <span class="s1">&#39;2015&#39;</span><span class="p">,</span> <span class="s1">&#39;residenza&#39;</span><span class="p">,</span> <span class="s1">&#39;Rimini&#39;</span><span class="p">,</span> <span class="s1">&#39;via stretta 20&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;Andrea&#39;</span><span class="p">,</span> <span class="s1">&#39;2015&#39;</span><span class="p">,</span> <span class="s1">&#39;domicilio&#39;</span><span class="p">,</span> <span class="s1">&#39;Bologna&#39;</span><span class="p">,</span> <span class="s1">&#39;via larga 30&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;Andrea&#39;</span><span class="p">,</span> <span class="s1">&#39;2016&#39;</span><span class="p">,</span> <span class="s1">&#39;residenza&#39;</span><span class="p">,</span> <span class="s1">&#39;Rimini&#39;</span><span class="p">,</span> <span class="s1">&#39;via stretta 20&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;Andrea&#39;</span><span class="p">,</span> <span class="s1">&#39;2016&#39;</span><span class="p">,</span> <span class="s1">&#39;domicilio&#39;</span><span class="p">,</span> <span class="s1">&#39;Bologna&#39;</span><span class="p">,</span> <span class="s1">&#39;via larga 30&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;Giulio&#39;</span><span class="p">,</span> <span class="s1">&#39;2015&#39;</span><span class="p">,</span> <span class="s1">&#39;residenza&#39;</span><span class="p">,</span> <span class="s1">&#39;Rimini&#39;</span><span class="p">,</span> <span class="s1">&#39;via giusta 50&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;Giulio&#39;</span><span class="p">,</span> <span class="s1">&#39;2015&#39;</span><span class="p">,</span> <span class="s1">&#39;domicilio&#39;</span><span class="p">,</span> <span class="s1">&#39;Bologna&#39;</span><span class="p">,</span> <span class="s1">&#39;via falsa 40&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;Giulio&#39;</span><span class="p">,</span> <span class="s1">&#39;2016&#39;</span><span class="p">,</span> <span class="s1">&#39;residenza&#39;</span><span class="p">,</span> <span class="s1">&#39;Bologna&#39;</span><span class="p">,</span> <span class="s1">&#39;via torna 10&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;Giulio&#39;</span><span class="p">,</span> <span class="s1">&#39;2016&#39;</span><span class="p">,</span> <span class="s1">&#39;domicilio&#39;</span><span class="p">,</span> <span class="s1">&#39;Bologna&#39;</span><span class="p">,</span> <span class="s1">&#39;via torna 10&#39;</span><span class="p">),</span>
+    <span class="p">],</span> 
+    <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;nome&#39;</span><span class="p">,</span> <span class="s1">&#39;anno&#39;</span><span class="p">,</span> <span class="s1">&#39;tipologia&#39;</span><span class="p">,</span> <span class="s1">&#39;città&#39;</span><span class="p">,</span> <span class="s1">&#39;indirizzo&#39;</span><span class="p">],</span>
+<span class="p">)</span>
 <span class="n">data</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s1">&#39;nome&#39;</span><span class="p">,</span> <span class="s1">&#39;anno&#39;</span><span class="p">,</span> <span class="s1">&#39;tipologia&#39;</span><span class="p">],</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">unstack</span><span class="p">()</span>
 <span class="n">data</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">swaplevel</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
@@ -14509,16 +14516,19 @@ It is a simplified form of <strong>database normalization</strong>, a series of 
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
-<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([(</span><span class="s1">&#39;Andrea&#39;</span><span class="p">,</span> <span class="s1">&#39;2015&#39;</span><span class="p">,</span> <span class="s1">&#39;residenza&#39;</span><span class="p">,</span> <span class="s1">&#39;Rimini&#39;</span><span class="p">,</span> <span class="s1">&#39;via stretta 20&#39;</span><span class="p">),</span>
-                     <span class="p">(</span><span class="s1">&#39;Andrea&#39;</span><span class="p">,</span> <span class="s1">&#39;2015&#39;</span><span class="p">,</span> <span class="s1">&#39;domicilio&#39;</span><span class="p">,</span> <span class="s1">&#39;Bologna&#39;</span><span class="p">,</span> <span class="s1">&#39;via larga 30&#39;</span><span class="p">),</span>
-                     <span class="p">(</span><span class="s1">&#39;Andrea&#39;</span><span class="p">,</span> <span class="s1">&#39;2016&#39;</span><span class="p">,</span> <span class="s1">&#39;residenza&#39;</span><span class="p">,</span> <span class="s1">&#39;Rimini&#39;</span><span class="p">,</span> <span class="s1">&#39;via stretta 20&#39;</span><span class="p">),</span>
-                     <span class="p">(</span><span class="s1">&#39;Andrea&#39;</span><span class="p">,</span> <span class="s1">&#39;2016&#39;</span><span class="p">,</span> <span class="s1">&#39;domicilio&#39;</span><span class="p">,</span> <span class="s1">&#39;Bologna&#39;</span><span class="p">,</span> <span class="s1">&#39;via larga 30&#39;</span><span class="p">),</span>
-                     <span class="p">(</span><span class="s1">&#39;Giulio&#39;</span><span class="p">,</span> <span class="s1">&#39;2015&#39;</span><span class="p">,</span> <span class="s1">&#39;residenza&#39;</span><span class="p">,</span> <span class="s1">&#39;Rimini&#39;</span><span class="p">,</span> <span class="s1">&#39;via giusta 50&#39;</span><span class="p">),</span>
-                     <span class="p">(</span><span class="s1">&#39;Giulio&#39;</span><span class="p">,</span> <span class="s1">&#39;2015&#39;</span><span class="p">,</span> <span class="s1">&#39;domicilio&#39;</span><span class="p">,</span> <span class="s1">&#39;Bologna&#39;</span><span class="p">,</span> <span class="s1">&#39;via falsa 40&#39;</span><span class="p">),</span>
-                     <span class="p">(</span><span class="s1">&#39;Giulio&#39;</span><span class="p">,</span> <span class="s1">&#39;2016&#39;</span><span class="p">,</span> <span class="s1">&#39;residenza&#39;</span><span class="p">,</span> <span class="s1">&#39;Bologna&#39;</span><span class="p">,</span> <span class="s1">&#39;via torna 10&#39;</span><span class="p">),</span>
-                     <span class="p">(</span><span class="s1">&#39;Giulio&#39;</span><span class="p">,</span> <span class="s1">&#39;2016&#39;</span><span class="p">,</span> <span class="s1">&#39;domicilio&#39;</span><span class="p">,</span> <span class="s1">&#39;Bologna&#39;</span><span class="p">,</span> <span class="s1">&#39;via torna 10&#39;</span><span class="p">),</span>
-                    <span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;nome&#39;</span><span class="p">,</span> <span class="s1">&#39;anno&#39;</span><span class="p">,</span> <span class="s1">&#39;tipologia&#39;</span><span class="p">,</span> <span class="s1">&#39;città&#39;</span><span class="p">,</span> <span class="s1">&#39;indirizzo&#39;</span><span class="p">]</span>
-                    <span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="p">(</span><span class="s1">&#39;Andrea&#39;</span><span class="p">,</span> <span class="s1">&#39;2015&#39;</span><span class="p">,</span> <span class="s1">&#39;residenza&#39;</span><span class="p">,</span> <span class="s1">&#39;Rimini&#39;</span><span class="p">,</span> <span class="s1">&#39;via stretta 20&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;Andrea&#39;</span><span class="p">,</span> <span class="s1">&#39;2015&#39;</span><span class="p">,</span> <span class="s1">&#39;domicilio&#39;</span><span class="p">,</span> <span class="s1">&#39;Bologna&#39;</span><span class="p">,</span> <span class="s1">&#39;via larga 30&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;Andrea&#39;</span><span class="p">,</span> <span class="s1">&#39;2016&#39;</span><span class="p">,</span> <span class="s1">&#39;residenza&#39;</span><span class="p">,</span> <span class="s1">&#39;Rimini&#39;</span><span class="p">,</span> <span class="s1">&#39;via stretta 20&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;Andrea&#39;</span><span class="p">,</span> <span class="s1">&#39;2016&#39;</span><span class="p">,</span> <span class="s1">&#39;domicilio&#39;</span><span class="p">,</span> <span class="s1">&#39;Bologna&#39;</span><span class="p">,</span> <span class="s1">&#39;via larga 30&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;Giulio&#39;</span><span class="p">,</span> <span class="s1">&#39;2015&#39;</span><span class="p">,</span> <span class="s1">&#39;residenza&#39;</span><span class="p">,</span> <span class="s1">&#39;Rimini&#39;</span><span class="p">,</span> <span class="s1">&#39;via giusta 50&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;Giulio&#39;</span><span class="p">,</span> <span class="s1">&#39;2015&#39;</span><span class="p">,</span> <span class="s1">&#39;domicilio&#39;</span><span class="p">,</span> <span class="s1">&#39;Bologna&#39;</span><span class="p">,</span> <span class="s1">&#39;via falsa 40&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;Giulio&#39;</span><span class="p">,</span> <span class="s1">&#39;2016&#39;</span><span class="p">,</span> <span class="s1">&#39;residenza&#39;</span><span class="p">,</span> <span class="s1">&#39;Bologna&#39;</span><span class="p">,</span> <span class="s1">&#39;via torna 10&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;Giulio&#39;</span><span class="p">,</span> <span class="s1">&#39;2016&#39;</span><span class="p">,</span> <span class="s1">&#39;domicilio&#39;</span><span class="p">,</span> <span class="s1">&#39;Bologna&#39;</span><span class="p">,</span> <span class="s1">&#39;via torna 10&#39;</span><span class="p">),</span>
+    <span class="p">],</span> 
+    <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;nome&#39;</span><span class="p">,</span> <span class="s1">&#39;anno&#39;</span><span class="p">,</span> <span class="s1">&#39;tipologia&#39;</span><span class="p">,</span> <span class="s1">&#39;città&#39;</span><span class="p">,</span> <span class="s1">&#39;indirizzo&#39;</span><span class="p">],</span>
+<span class="p">)</span>
 </pre></div>
 
      </div>
@@ -14659,7 +14669,7 @@ It is a simplified form of <strong>database normalization</strong>, a series of 
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <p>The important thing to remember with this type of data is that this might not be the ideal format for the analysis you have in mind.</p>
 <p>The tidy format is brilliant, especially for long term storage and to keep the metadata about the measurements, but some analysis might need the data to be transformed in non-tidy formats (for example to evaluate differences in various time points)</p>
-<p>For this reason, all the libraries that manage datafarme havea strong focus on data transformation, reshaping the data from one form to the other.
+<p>For this reason, all the libraries that manage dataframe have a strong focus on data transformation, reshaping the data from one form to the other.
 This allows to easily obtain the best structure for the analysis we want to do without sacrificing the data quality in long term storage.</p>
 
 </div>
@@ -14897,9 +14907,11 @@ This allows to easily obtain the best structure for the analysis we want to do w
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[6]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">wikitables</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_html</span><span class="p">(</span><span class="n">page</span><span class="p">,</span>
-                          <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;class&quot;</span><span class="p">:</span><span class="s2">&quot;wikitable sortable plainrowheaders&quot;</span><span class="p">},</span>
-                          <span class="n">index_col</span><span class="o">=</span><span class="s1">&#39;Rank&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">wikitables</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_html</span><span class="p">(</span>
+    <span class="n">page</span><span class="p">,</span>
+    <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;class&quot;</span><span class="p">:</span><span class="s2">&quot;wikitable sortable plainrowheaders&quot;</span><span class="p">},</span>
+    <span class="n">index_col</span><span class="o">=</span><span class="s1">&#39;Rank&#39;</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="n">wikitables</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
@@ -15182,7 +15194,10 @@ Name: Year, dtype: int64</pre>
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[47]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">])</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span>
+    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+    <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">],</span>
+<span class="p">)</span>
 <span class="n">a</span>
 </pre></div>
 
@@ -15223,7 +15238,10 @@ dtype: int64</pre>
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[48]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">b</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">])</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">b</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span>
+    <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span>
+    <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">],</span>
+<span class="p">)</span>
 <span class="n">b</span>
 </pre></div>
 
@@ -15310,7 +15328,10 @@ dtype: int64</pre>
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[50]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">])</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span>
+    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> 
+    <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">],</span>
+<span class="p">)</span>
 <span class="n">a</span><span class="o">&gt;</span><span class="mi">1</span>
 </pre></div>
 
@@ -15390,7 +15411,10 @@ dtype: int64</pre>
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[52]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="p">,</span> <span class="s1">&#39;e&#39;</span><span class="p">,</span> <span class="s1">&#39;f&#39;</span><span class="p">])</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span>
+    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span>
+    <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="p">,</span> <span class="s1">&#39;e&#39;</span><span class="p">,</span> <span class="s1">&#39;f&#39;</span><span class="p">],</span>
+<span class="p">)</span>
 <span class="n">idx_1</span> <span class="o">=</span> <span class="n">a</span><span class="o">&gt;</span><span class="mi">2</span>
 <span class="n">idx_2</span> <span class="o">=</span> <span class="n">a</span><span class="o">&lt;</span><span class="mi">5</span>
 <span class="n">a</span><span class="p">[</span><span class="n">idx_1</span> <span class="o">&amp;</span> <span class="n">idx_2</span><span class="p">]</span>
@@ -15557,7 +15581,7 @@ dtype: int64</pre>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>I can manipulate columns in various ways, starting from the possibility of removing unwanted</p>
+<p>I can manipulate columns in various ways, starting from the possibility of removing unwanted ones</p>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
@@ -16613,7 +16637,7 @@ Name: Year, dtype: bool</pre>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Often real data arrives in a format that can only be defined as "far from optimal"</p>
+<p>Often real data arrives in a format that can only be described as "far from optimal"</p>
 <p>The first (and major) part of data analysis is data cleaning and preprocessing in a decent form</p>
 <p>In our case, for example, we might need to adjust the earning of each movies, as we would like to treat them as a number and not strings</p>
 
@@ -16859,10 +16883,11 @@ memory usage: 1.6+ KB
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">re</span>
 <span class="n">regex</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;(\d+)\D*\d*&#39;</span><span class="p">)</span>
-<span class="n">regex</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;(\d+)&#39;</span> <span class="c1"># extract this group, composed of one or more digits</span>
-                   <span class="s1">&#39;\D*&#39;</span> <span class="c1"># can be followed by 0 or more non digits</span>
-                   <span class="s1">&#39;\d*&#39;</span> <span class="c1"># can be followed by 0 or more digits</span>
-                  <span class="p">)</span>
+<span class="n">regex</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span>
+    <span class="s1">&#39;(\d+)&#39;</span> <span class="c1"># extract this group, composed of one or more digits</span>
+    <span class="s1">&#39;\D*&#39;</span> <span class="c1"># can be followed by 0 or more non digits</span>
+    <span class="s1">&#39;\d*&#39;</span> <span class="c1"># can be followed by 0 or more digits</span>
+<span class="p">)</span>
 <span class="n">dataframe</span><span class="p">[</span><span class="s1">&#39;Peak&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">&#39;Peak&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">extract</span><span class="p">(</span><span class="n">regex</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">dataframe</span><span class="p">[</span><span class="s1">&#39;Peak&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dataframe</span><span class="p">[</span><span class="s1">&#39;Peak&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
 </pre></div>
@@ -17463,7 +17488,7 @@ memory usage: 1.6+ KB
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h3 id="Multidimensional-dataframes-using-XArray">Multidimensional dataframes using XArray<a class="anchor-link" href="#Multidimensional-dataframes-using-XArray">&#182;</a></h3><p>Pandas dataframes (and in general the dataframe structure) is designed to represent data stored in table form, with columns and rows, containing scalar data such as height, weight, age and so on...</p>
-<p>More complicated data, where different kind of data structure need to be related to each other while keeping most of the goodies that pandas provides, an alternative is <a href="http://xarray.pydata.org/en/stable/"><strong>XArray</strong></a>.</p>
+<p>For more complicated data, where different kind of data structure need to be related to each other while keeping most of the goodies that pandas provides, an alternative is <a href="http://xarray.pydata.org/en/stable/"><strong>XArray</strong></a>.</p>
 <p>This library includes the equivalent of the pandas dataframe and series (<strong>DataArray</strong> and <strong>DataSet</strong>), that provide an efficient and comfortable ways to manipulate multidimensional arrays, where several of them share one of more of their indexes</p>
 
 </div>
@@ -17619,7 +17644,8 @@ memory usage: 1.6+ KB
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">comuni_superficie</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_html</span><span class="p">(</span><span class="n">url_superficie</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">comuni_superficie</span> <span class="o">=</span> <span class="n">comuni_superficie</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="c1"># mighe change, right now the 0 it&#39;s a info box</span>
+<span class="c1"># might change, right now the 0 it&#39;s a info box</span>
+<span class="n">comuni_superficie</span> <span class="o">=</span> <span class="n">comuni_superficie</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> 
 <span class="n">comuni_superficie</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
@@ -18287,21 +18313,27 @@ the <strong>right join</strong> is exactly the opposite but using the index of t
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[106]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[3]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([(</span><span class="s1">&#39;Antonio&#39;</span><span class="p">,</span> <span class="s1">&#39;M&#39;</span><span class="p">),</span>
-                  <span class="p">(</span><span class="s1">&#39;Marco&#39;</span><span class="p">,</span> <span class="s1">&#39;M&#39;</span><span class="p">),</span>
-                  <span class="p">(</span><span class="s1">&#39;Francesca&#39;</span><span class="p">,</span> <span class="s1">&#39;F&#39;</span><span class="p">),</span>
-                  <span class="p">(</span><span class="s1">&#39;Giulia&#39;</span><span class="p">,</span> <span class="s1">&#39;F&#39;</span><span class="p">),</span>
-                 <span class="p">],</span> <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;sex&#39;</span><span class="p">])</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="p">(</span><span class="s1">&#39;Antonio&#39;</span><span class="p">,</span> <span class="s1">&#39;M&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;Marco&#39;</span><span class="p">,</span> <span class="s1">&#39;M&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;Francesca&#39;</span><span class="p">,</span> <span class="s1">&#39;F&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;Giulia&#39;</span><span class="p">,</span> <span class="s1">&#39;F&#39;</span><span class="p">),</span>
+    <span class="p">],</span> 
+    <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;sex&#39;</span><span class="p">])</span>
 
-<span class="n">b</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([(</span><span class="s1">&#39;Antonio&#39;</span><span class="p">,</span> <span class="mi">15</span><span class="p">),</span>
-                  <span class="p">(</span><span class="s1">&#39;Marco&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span>
-                  <span class="p">(</span><span class="s1">&#39;Marco&#39;</span><span class="p">,</span> <span class="mi">12</span><span class="p">),</span>
-                  <span class="p">(</span><span class="s1">&#39;Carlo&#39;</span><span class="p">,</span> <span class="mi">23</span><span class="p">),</span>
-                  <span class="p">(</span><span class="s1">&#39;Francesca&#39;</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span>
-                 <span class="p">],</span> <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;expenses&#39;</span><span class="p">])</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="p">(</span><span class="s1">&#39;Antonio&#39;</span><span class="p">,</span> <span class="mi">15</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;Marco&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;Marco&#39;</span><span class="p">,</span> <span class="mi">12</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;Carlo&#39;</span><span class="p">,</span> <span class="mi">23</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;Francesca&#39;</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span>
+    <span class="p">],</span> 
+    <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;expenses&#39;</span><span class="p">])</span>
 </pre></div>
 
      </div>
@@ -18312,7 +18344,7 @@ the <strong>right join</strong> is exactly the opposite but using the index of t
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[107]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[4]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">a</span>
@@ -18331,7 +18363,7 @@ the <strong>right join</strong> is exactly the opposite but using the index of t
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[107]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[4]:</div>
 
 
 
@@ -18393,7 +18425,7 @@ the <strong>right join</strong> is exactly the opposite but using the index of t
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[108]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[5]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">b</span>
@@ -18412,7 +18444,7 @@ the <strong>right join</strong> is exactly the opposite but using the index of t
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[108]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[5]:</div>
 
 
 
@@ -18479,7 +18511,7 @@ the <strong>right join</strong> is exactly the opposite but using the index of t
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[109]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[6]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>
@@ -18498,7 +18530,107 @@ the <strong>right join</strong> is exactly the opposite but using the index of t
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[109]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[6]:</div>
+
+
+
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>name</th>
+      <th>sex</th>
+      <th>expenses</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Antonio</td>
+      <td>M</td>
+      <td>15.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Marco</td>
+      <td>M</td>
+      <td>10.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Marco</td>
+      <td>M</td>
+      <td>12.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Francesca</td>
+      <td>F</td>
+      <td>20.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Giulia</td>
+      <td>F</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>We can validate the known relationships between these tables using the <code>validate</code> option.</p>
+<p>In this case the relationship is <code>one to many</code>.</p>
+<p>this can save us from surprises/errors in the source data!</p>
+
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[13]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">validate</span><span class="o">=</span><span class="s2">&quot;1:m&quot;</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[13]:</div>
 
 
 
@@ -18571,7 +18703,70 @@ the <strong>right join</strong> is exactly the opposite but using the index of t
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[110]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[14]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># if we validate with one to one it does fail</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">validate</span><span class="o">=</span><span class="s2">&quot;1:1&quot;</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr">
+<pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">MergeError</span>                                Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-14-c1ff55754590&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-intense-fg ansi-bold">      1</span> <span class="ansi-red-fg"># if we validate with one to one it does fail</span>
+<span class="ansi-green-fg">----&gt; 2</span><span class="ansi-red-fg"> </span>pd<span class="ansi-blue-fg">.</span>merge<span class="ansi-blue-fg">(</span>a<span class="ansi-blue-fg">,</span> b<span class="ansi-blue-fg">,</span> on<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">&#39;name&#39;</span><span class="ansi-blue-fg">,</span> how<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">&#39;left&#39;</span><span class="ansi-blue-fg">,</span> validate<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">&#34;1:1&#34;</span><span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">~/miniconda3/lib/python3.8/site-packages/pandas/core/reshape/merge.py</span> in <span class="ansi-cyan-fg">merge</span><span class="ansi-blue-fg">(left, right, how, on, left_on, right_on, left_index, right_index, sort, suffixes, copy, indicator, validate)</span>
+<span class="ansi-green-intense-fg ansi-bold">     72</span>     validate<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">     73</span> ) -&gt; &#34;DataFrame&#34;:
+<span class="ansi-green-fg">---&gt; 74</span><span class="ansi-red-fg">     op = _MergeOperation(
+</span><span class="ansi-green-intense-fg ansi-bold">     75</span>         left<span class="ansi-blue-fg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">     76</span>         right<span class="ansi-blue-fg">,</span>
+
+<span class="ansi-green-fg">~/miniconda3/lib/python3.8/site-packages/pandas/core/reshape/merge.py</span> in <span class="ansi-cyan-fg">__init__</span><span class="ansi-blue-fg">(self, left, right, how, on, left_on, right_on, axis, left_index, right_index, sort, suffixes, copy, indicator, validate)</span>
+<span class="ansi-green-intense-fg ansi-bold">    676</span>         <span class="ansi-red-fg"># are in fact unique.</span>
+<span class="ansi-green-intense-fg ansi-bold">    677</span>         <span class="ansi-green-fg">if</span> validate <span class="ansi-green-fg">is</span> <span class="ansi-green-fg">not</span> <span class="ansi-green-fg">None</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">--&gt; 678</span><span class="ansi-red-fg">             </span>self<span class="ansi-blue-fg">.</span>_validate<span class="ansi-blue-fg">(</span>validate<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    679</span> 
+<span class="ansi-green-intense-fg ansi-bold">    680</span>     <span class="ansi-green-fg">def</span> get_result<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+
+<span class="ansi-green-fg">~/miniconda3/lib/python3.8/site-packages/pandas/core/reshape/merge.py</span> in <span class="ansi-cyan-fg">_validate</span><span class="ansi-blue-fg">(self, validate)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1364</span>                 )
+<span class="ansi-green-intense-fg ansi-bold">   1365</span>             <span class="ansi-green-fg">elif</span> <span class="ansi-green-fg">not</span> right_unique<span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">-&gt; 1366</span><span class="ansi-red-fg">                 raise MergeError(
+</span><span class="ansi-green-intense-fg ansi-bold">   1367</span>                     <span class="ansi-blue-fg">&#34;Merge keys are not unique in right dataset; not a one-to-one merge&#34;</span>
+<span class="ansi-green-intense-fg ansi-bold">   1368</span>                 )
+
+<span class="ansi-red-fg">MergeError</span>: Merge keys are not unique in right dataset; not a one-to-one merge</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[7]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">)</span>
@@ -18590,7 +18785,7 @@ the <strong>right join</strong> is exactly the opposite but using the index of t
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[110]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[7]:</div>
 
 
 
@@ -18639,15 +18834,15 @@ the <strong>right join</strong> is exactly the opposite but using the index of t
     </tr>
     <tr>
       <th>3</th>
-      <td>Francesca</td>
-      <td>F</td>
-      <td>20</td>
-    </tr>
-    <tr>
-      <th>4</th>
       <td>Carlo</td>
       <td>NaN</td>
       <td>23</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Francesca</td>
+      <td>F</td>
+      <td>20</td>
     </tr>
   </tbody>
 </table>
@@ -18663,7 +18858,7 @@ the <strong>right join</strong> is exactly the opposite but using the index of t
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[111]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[8]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;inner&#39;</span><span class="p">)</span>
@@ -18682,7 +18877,7 @@ the <strong>right join</strong> is exactly the opposite but using the index of t
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[111]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[8]:</div>
 
 
 
@@ -18749,7 +18944,7 @@ the <strong>right join</strong> is exactly the opposite but using the index of t
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[112]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[9]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;outer&#39;</span><span class="p">)</span>
@@ -18768,7 +18963,7 @@ the <strong>right join</strong> is exactly the opposite but using the index of t
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[112]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[9]:</div>
 
 
 
@@ -18856,11 +19051,12 @@ the <strong>right join</strong> is exactly the opposite but using the index of t
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[113]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="p">(</span>
-<span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">comuni_popolazione</span><span class="p">,</span>
-         <span class="n">comuni_superficie</span><span class="p">,</span>
-         <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Comune&#39;</span><span class="p">,</span> <span class="s1">&#39;Regione&#39;</span><span class="p">])</span>
-<span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">_</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span>
+    <span class="n">comuni_popolazione</span><span class="p">,</span>
+    <span class="n">comuni_superficie</span><span class="p">,</span>
+    <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Comune&#39;</span><span class="p">,</span> <span class="s1">&#39;Regione&#39;</span><span class="p">],</span>
+<span class="p">)</span>
+<span class="n">_</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
      </div>
@@ -18982,8 +19178,12 @@ the <strong>right join</strong> is exactly the opposite but using the index of t
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[114]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">comuni_popolazione</span><span class="p">,</span> <span class="n">comuni_superficie</span><span class="p">,</span>
-             <span class="n">on</span><span class="o">=</span><span class="s1">&#39;Comune&#39;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span>
+    <span class="n">comuni_popolazione</span><span class="p">,</span> 
+    <span class="n">comuni_superficie</span><span class="p">,</span>
+    <span class="n">on</span><span class="o">=</span><span class="s1">&#39;Comune&#39;</span><span class="p">,</span>
+    <span class="n">how</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">,</span>
+<span class="p">))</span>
 </pre></div>
 
      </div>
@@ -19020,8 +19220,12 @@ the <strong>right join</strong> is exactly the opposite but using the index of t
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[115]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">comuni_popolazione</span><span class="p">,</span> <span class="n">comuni_superficie</span><span class="p">,</span>
-             <span class="n">on</span><span class="o">=</span><span class="s1">&#39;Comune&#39;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span>
+    <span class="n">comuni_popolazione</span><span class="p">,</span> 
+    <span class="n">comuni_superficie</span><span class="p">,</span>
+    <span class="n">on</span><span class="o">=</span><span class="s1">&#39;Comune&#39;</span><span class="p">,</span>
+    <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span>
+<span class="p">))</span>
 </pre></div>
 
      </div>
@@ -19058,8 +19262,12 @@ the <strong>right join</strong> is exactly the opposite but using the index of t
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[116]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">comuni_popolazione</span><span class="p">,</span> <span class="n">comuni_superficie</span><span class="p">,</span>
-             <span class="n">on</span><span class="o">=</span><span class="s1">&#39;Comune&#39;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;inner&#39;</span><span class="p">))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span>
+    <span class="n">comuni_popolazione</span><span class="p">,</span>
+    <span class="n">comuni_superficie</span><span class="p">,</span>
+    <span class="n">on</span><span class="o">=</span><span class="s1">&#39;Comune&#39;</span><span class="p">,</span>
+    <span class="n">how</span><span class="o">=</span><span class="s1">&#39;inner&#39;</span><span class="p">,</span>
+<span class="p">))</span>
 </pre></div>
 
      </div>
@@ -19096,8 +19304,12 @@ the <strong>right join</strong> is exactly the opposite but using the index of t
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[117]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">comuni_popolazione</span><span class="p">,</span> <span class="n">comuni_superficie</span><span class="p">,</span>
-             <span class="n">on</span><span class="o">=</span><span class="s1">&#39;Comune&#39;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;outer&#39;</span><span class="p">))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span>
+    <span class="n">comuni_popolazione</span><span class="p">,</span>
+    <span class="n">comuni_superficie</span><span class="p">,</span>
+    <span class="n">on</span><span class="o">=</span><span class="s1">&#39;Comune&#39;</span><span class="p">,</span>
+    <span class="n">how</span><span class="o">=</span><span class="s1">&#39;outer&#39;</span><span class="p">,</span>
+<span class="p">))</span>
 </pre></div>
 
      </div>
@@ -19148,15 +19360,15 @@ the <strong>right join</strong> is exactly the opposite but using the index of t
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[118]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">spese</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;Antonio&#39;</span><span class="p">,</span> <span class="s1">&#39;cat&#39;</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
-         <span class="p">(</span><span class="s1">&#39;Antonio&#39;</span><span class="p">,</span> <span class="s1">&#39;cat&#39;</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
-         <span class="p">(</span><span class="s1">&#39;Antonio&#39;</span><span class="p">,</span> <span class="s1">&#39;cat&#39;</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span>
-         
-         <span class="p">(</span><span class="s1">&#39;Giulia&#39;</span><span class="p">,</span> <span class="s1">&#39;cat&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
-         <span class="p">(</span><span class="s1">&#39;Giulia&#39;</span><span class="p">,</span> <span class="s1">&#39;dog&#39;</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span>
-         <span class="p">(</span><span class="s1">&#39;Giulia&#39;</span><span class="p">,</span> <span class="s1">&#39;dog&#39;</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span>
-         
-        <span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">spese</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s1">&#39;Antonio&#39;</span><span class="p">,</span> <span class="s1">&#39;cat&#39;</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;Antonio&#39;</span><span class="p">,</span> <span class="s1">&#39;cat&#39;</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;Antonio&#39;</span><span class="p">,</span> <span class="s1">&#39;cat&#39;</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span>
+
+    <span class="p">(</span><span class="s1">&#39;Giulia&#39;</span><span class="p">,</span> <span class="s1">&#39;cat&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;Giulia&#39;</span><span class="p">,</span> <span class="s1">&#39;dog&#39;</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;Giulia&#39;</span><span class="p">,</span> <span class="s1">&#39;dog&#39;</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span>
+<span class="p">]</span>
 
 <span class="n">spese</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">spese</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">,</span> <span class="s1">&#39;expenses&#39;</span><span class="p">])</span>
 <span class="n">spese</span>
@@ -19257,11 +19469,13 @@ the <strong>right join</strong> is exactly the opposite but using the index of t
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[119]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">pivot_table</span><span class="p">(</span><span class="n">spese</span><span class="p">,</span>
-               <span class="n">index</span><span class="o">=</span><span class="s1">&#39;name&#39;</span><span class="p">,</span>
-               <span class="n">columns</span><span class="o">=</span><span class="s1">&#39;animal&#39;</span><span class="p">,</span>
-               <span class="n">values</span><span class="o">=</span><span class="s1">&#39;expenses&#39;</span><span class="p">,</span>
-               <span class="n">aggfunc</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">pivot_table</span><span class="p">(</span>
+    <span class="n">spese</span><span class="p">,</span>
+    <span class="n">index</span><span class="o">=</span><span class="s1">&#39;name&#39;</span><span class="p">,</span>
+    <span class="n">columns</span><span class="o">=</span><span class="s1">&#39;animal&#39;</span><span class="p">,</span>
+    <span class="n">values</span><span class="o">=</span><span class="s1">&#39;expenses&#39;</span><span class="p">,</span>
+    <span class="n">aggfunc</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">,</span>
+<span class="p">)</span>
 </pre></div>
 
      </div>
@@ -19337,12 +19551,14 @@ the <strong>right join</strong> is exactly the opposite but using the index of t
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[120]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">pivot_table</span><span class="p">(</span><span class="n">spese</span><span class="p">,</span>
-               <span class="n">index</span><span class="o">=</span><span class="s1">&#39;name&#39;</span><span class="p">,</span>
-               <span class="n">columns</span><span class="o">=</span><span class="s1">&#39;animal&#39;</span><span class="p">,</span>
-               <span class="n">values</span><span class="o">=</span><span class="s1">&#39;expenses&#39;</span><span class="p">,</span>
-               <span class="n">aggfunc</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">,</span>
-               <span class="n">fill_value</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">pivot_table</span><span class="p">(</span>
+    <span class="n">spese</span><span class="p">,</span>
+    <span class="n">index</span><span class="o">=</span><span class="s1">&#39;name&#39;</span><span class="p">,</span>
+    <span class="n">columns</span><span class="o">=</span><span class="s1">&#39;animal&#39;</span><span class="p">,</span>
+    <span class="n">values</span><span class="o">=</span><span class="s1">&#39;expenses&#39;</span><span class="p">,</span>
+    <span class="n">aggfunc</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">,</span>
+    <span class="n">fill_value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+<span class="p">)</span>
 </pre></div>
 
      </div>
@@ -19418,13 +19634,15 @@ the <strong>right join</strong> is exactly the opposite but using the index of t
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[121]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">pivot_table</span><span class="p">(</span><span class="n">spese</span><span class="p">,</span>
-               <span class="n">index</span><span class="o">=</span><span class="s1">&#39;name&#39;</span><span class="p">,</span>
-               <span class="n">columns</span><span class="o">=</span><span class="s1">&#39;animal&#39;</span><span class="p">,</span>
-               <span class="n">values</span><span class="o">=</span><span class="s1">&#39;expenses&#39;</span><span class="p">,</span>
-               <span class="n">aggfunc</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">,</span>
-               <span class="n">fill_value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-               <span class="n">margins</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">pivot_table</span><span class="p">(</span>
+    <span class="n">spese</span><span class="p">,</span>
+    <span class="n">index</span><span class="o">=</span><span class="s1">&#39;name&#39;</span><span class="p">,</span>
+    <span class="n">columns</span><span class="o">=</span><span class="s1">&#39;animal&#39;</span><span class="p">,</span>
+    <span class="n">values</span><span class="o">=</span><span class="s1">&#39;expenses&#39;</span><span class="p">,</span>
+    <span class="n">aggfunc</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">,</span>
+    <span class="n">fill_value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="n">margins</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
 </pre></div>
 
      </div>
@@ -19510,12 +19728,14 @@ the <strong>right join</strong> is exactly the opposite but using the index of t
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[122]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">pivot_table</span><span class="p">(</span><span class="n">spese</span><span class="p">,</span>
-               <span class="n">index</span><span class="o">=</span><span class="s1">&#39;name&#39;</span><span class="p">,</span>
-               <span class="n">columns</span><span class="o">=</span><span class="s1">&#39;animal&#39;</span><span class="p">,</span>
-               <span class="n">values</span><span class="o">=</span><span class="s1">&#39;expenses&#39;</span><span class="p">,</span>
-               <span class="n">aggfunc</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="o">.</span><span class="n">count</span><span class="p">,</span>
-               <span class="n">fill_value</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">pivot_table</span><span class="p">(</span>
+    <span class="n">spese</span><span class="p">,</span>
+    <span class="n">index</span><span class="o">=</span><span class="s1">&#39;name&#39;</span><span class="p">,</span>
+    <span class="n">columns</span><span class="o">=</span><span class="s1">&#39;animal&#39;</span><span class="p">,</span>
+    <span class="n">values</span><span class="o">=</span><span class="s1">&#39;expenses&#39;</span><span class="p">,</span>
+    <span class="n">aggfunc</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="o">.</span><span class="n">count</span><span class="p">,</span>
+    <span class="n">fill_value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+<span class="p">)</span>
 </pre></div>
 
      </div>
@@ -19591,12 +19811,14 @@ the <strong>right join</strong> is exactly the opposite but using the index of t
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[123]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">r</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">pivot_table</span><span class="p">(</span><span class="n">spese</span><span class="p">,</span>
-               <span class="n">index</span><span class="o">=</span><span class="s1">&#39;name&#39;</span><span class="p">,</span>
-               <span class="n">columns</span><span class="o">=</span><span class="s1">&#39;animal&#39;</span><span class="p">,</span>
-               <span class="n">values</span><span class="o">=</span><span class="s1">&#39;expenses&#39;</span><span class="p">,</span>
-               <span class="n">aggfunc</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="o">.</span><span class="n">count</span><span class="p">,</span>
-               <span class="n">fill_value</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">r</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">pivot_table</span><span class="p">(</span>
+    <span class="n">spese</span><span class="p">,</span>
+    <span class="n">index</span><span class="o">=</span><span class="s1">&#39;name&#39;</span><span class="p">,</span>
+    <span class="n">columns</span><span class="o">=</span><span class="s1">&#39;animal&#39;</span><span class="p">,</span>
+    <span class="n">values</span><span class="o">=</span><span class="s1">&#39;expenses&#39;</span><span class="p">,</span>
+    <span class="n">aggfunc</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="o">.</span><span class="n">count</span><span class="p">,</span>
+    <span class="n">fill_value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="n">r</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
 <span class="n">r</span>
 </pre></div>
@@ -20239,10 +20461,12 @@ memory usage: 5.3+ KB
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[134]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">seaborn</span><span class="o">.</span><span class="n">lmplot</span><span class="p">(</span><span class="s1">&#39;sepal_length&#39;</span><span class="p">,</span>
-               <span class="s1">&#39;sepal_width&#39;</span><span class="p">,</span>
-               <span class="n">data</span><span class="o">=</span><span class="n">iris</span><span class="p">,</span>
-               <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;species&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">seaborn</span><span class="o">.</span><span class="n">lmplot</span><span class="p">(</span>
+    <span class="s1">&#39;sepal_length&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;sepal_width&#39;</span><span class="p">,</span>
+    <span class="n">data</span><span class="o">=</span><span class="n">iris</span><span class="p">,</span>
+    <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;species&#39;</span><span class="p">,</span>
+<span class="p">)</span>
 </pre></div>
 
      </div>
@@ -20295,10 +20519,12 @@ memory usage: 5.3+ KB
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[135]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">seaborn</span><span class="o">.</span><span class="n">lmplot</span><span class="p">(</span><span class="s1">&#39;sepal_length&#39;</span><span class="p">,</span>
-               <span class="s1">&#39;sepal_width&#39;</span><span class="p">,</span>
-               <span class="n">data</span><span class="o">=</span><span class="n">iris</span><span class="p">,</span>
-               <span class="n">col</span><span class="o">=</span><span class="s1">&#39;species&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">seaborn</span><span class="o">.</span><span class="n">lmplot</span><span class="p">(</span>
+    <span class="s1">&#39;sepal_length&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;sepal_width&#39;</span><span class="p">,</span>
+    <span class="n">data</span><span class="o">=</span><span class="n">iris</span><span class="p">,</span>
+    <span class="n">col</span><span class="o">=</span><span class="s1">&#39;species&#39;</span><span class="p">,</span>
+<span class="p">)</span>
 </pre></div>
 
      </div>
@@ -20351,10 +20577,12 @@ memory usage: 5.3+ KB
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[136]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">seaborn</span><span class="o">.</span><span class="n">lmplot</span><span class="p">(</span><span class="s1">&#39;sepal_length&#39;</span><span class="p">,</span>
-               <span class="s1">&#39;sepal_width&#39;</span><span class="p">,</span>
-               <span class="n">data</span><span class="o">=</span><span class="n">iris</span><span class="p">,</span>
-               <span class="n">row</span><span class="o">=</span><span class="s1">&#39;species&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">seaborn</span><span class="o">.</span><span class="n">lmplot</span><span class="p">(</span>
+    <span class="s1">&#39;sepal_length&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;sepal_width&#39;</span><span class="p">,</span>
+    <span class="n">data</span><span class="o">=</span><span class="n">iris</span><span class="p">,</span>
+    <span class="n">row</span><span class="o">=</span><span class="s1">&#39;species&#39;</span><span class="p">,</span>
+<span class="p">)</span>
 </pre></div>
 
      </div>
@@ -20407,19 +20635,25 @@ memory usage: 5.3+ KB
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[137]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fg</span> <span class="o">=</span> <span class="n">seaborn</span><span class="o">.</span><span class="n">FacetGrid</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">iris</span><span class="p">,</span>
-                       <span class="n">col</span><span class="o">=</span><span class="s1">&#39;species&#39;</span><span class="p">,</span>
-                       <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;species&#39;</span><span class="p">,</span>
-                       <span class="n">height</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
-                       <span class="n">aspect</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
-<span class="n">fg</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">,</span>
-       <span class="s1">&#39;sepal_length&#39;</span><span class="p">,</span>
-       <span class="s1">&#39;sepal_width&#39;</span><span class="p">,</span> 
-       <span class="n">s</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
-<span class="n">fg</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">seaborn</span><span class="o">.</span><span class="n">regplot</span><span class="p">,</span>
-       <span class="s1">&#39;sepal_length&#39;</span><span class="p">,</span>
-       <span class="s1">&#39;sepal_width&#39;</span><span class="p">,</span> 
-       <span class="n">scatter</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fg</span> <span class="o">=</span> <span class="n">seaborn</span><span class="o">.</span><span class="n">FacetGrid</span><span class="p">(</span>
+    <span class="n">data</span><span class="o">=</span><span class="n">iris</span><span class="p">,</span>
+    <span class="n">col</span><span class="o">=</span><span class="s1">&#39;species&#39;</span><span class="p">,</span>
+    <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;species&#39;</span><span class="p">,</span>
+    <span class="n">height</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+    <span class="n">aspect</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">fg</span><span class="o">.</span><span class="n">map</span><span class="p">(</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">,</span>
+    <span class="s1">&#39;sepal_length&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;sepal_width&#39;</span><span class="p">,</span> 
+    <span class="n">s</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">fg</span><span class="o">.</span><span class="n">map</span><span class="p">(</span>
+    <span class="n">seaborn</span><span class="o">.</span><span class="n">regplot</span><span class="p">,</span>
+    <span class="s1">&#39;sepal_length&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;sepal_width&#39;</span><span class="p">,</span> 
+    <span class="n">scatter</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="n">fg</span><span class="o">.</span><span class="n">add_legend</span><span class="p">();</span>
 </pre></div>
 
@@ -20459,9 +20693,12 @@ memory usage: 5.3+ KB
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[138]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">seaborn</span><span class="o">.</span><span class="n">jointplot</span><span class="p">(</span><span class="s1">&#39;sepal_length&#39;</span><span class="p">,</span>
-               <span class="s1">&#39;sepal_width&#39;</span><span class="p">,</span> 
-              <span class="n">data</span><span class="o">=</span><span class="n">iris</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;kde&quot;</span><span class="p">);</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">seaborn</span><span class="o">.</span><span class="n">jointplot</span><span class="p">(</span>
+    <span class="s1">&#39;sepal_length&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;sepal_width&#39;</span><span class="p">,</span> 
+    <span class="n">data</span><span class="o">=</span><span class="n">iris</span><span class="p">,</span>
+    <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;kde&quot;</span><span class="p">,</span>
+<span class="p">);</span>
 </pre></div>
 
      </div>
@@ -20500,9 +20737,11 @@ memory usage: 5.3+ KB
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[139]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">seaborn</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="s1">&#39;species&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;sepal_length&#39;</span><span class="p">,</span>
-                <span class="n">data</span><span class="o">=</span><span class="n">iris</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">seaborn</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span>
+    <span class="s1">&#39;species&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;sepal_length&#39;</span><span class="p">,</span>
+    <span class="n">data</span><span class="o">=</span><span class="n">iris</span><span class="p">,</span>
+<span class="p">)</span>
 </pre></div>
 
      </div>
@@ -20608,9 +20847,11 @@ memory usage: 5.3+ KB
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[141]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">g</span> <span class="o">=</span> <span class="n">seaborn</span><span class="o">.</span><span class="n">PairGrid</span><span class="p">(</span><span class="n">iris</span><span class="p">,</span>
-                     <span class="n">height</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
-                     <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;species&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">g</span> <span class="o">=</span> <span class="n">seaborn</span><span class="o">.</span><span class="n">PairGrid</span><span class="p">(</span>
+    <span class="n">iris</span><span class="p">,</span>
+    <span class="n">height</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+    <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;species&#39;</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="n">g</span><span class="o">.</span><span class="n">map_diag</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
 <span class="n">g</span><span class="o">.</span><span class="n">map_offdiag</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.75</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">20</span><span class="p">);</span>
 </pre></div>

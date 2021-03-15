@@ -28,7 +28,7 @@ import pandas as pd
 print(pd.__version__)
 ```
 
-    1.0.3
+    1.2.3
 
 
 
@@ -36,10 +36,14 @@ print(pd.__version__)
 # hidden data generation cell
 import pandas as pd
 
-data = pd.DataFrame([('Andrea', 24, 178, 'Male'),
-                     ('Maria', 33, 154, 'Female'),
-                     ('Luca', 30, 175, 'Male')],
-                    columns=['name', 'age', 'height', 'sex'])
+data = pd.DataFrame(
+    [
+        ('Andrea', 24, 178, 'Male'),
+        ('Maria', 33, 154, 'Female'),
+        ('Luca', 30, 175, 'Male'),
+    ],
+    columns=['name', 'age', 'height', 'sex'],
+)
 data.set_index('name', inplace=True)
 ```
 
@@ -113,16 +117,19 @@ data
 
 import pandas as pd
 
-data = pd.DataFrame([('Andrea', '2015', 'residenza', 'Rimini', 'via stretta 20'),
-                     ('Andrea', '2015', 'domicilio', 'Bologna', 'via larga 30'),
-                     ('Andrea', '2016', 'residenza', 'Rimini', 'via stretta 20'),
-                     ('Andrea', '2016', 'domicilio', 'Bologna', 'via larga 30'),
-                     ('Giulio', '2015', 'residenza', 'Rimini', 'via giusta 50'),
-                     ('Giulio', '2015', 'domicilio', 'Bologna', 'via falsa 40'),
-                     ('Giulio', '2016', 'residenza', 'Bologna', 'via torna 10'),
-                     ('Giulio', '2016', 'domicilio', 'Bologna', 'via torna 10'),
-                    ], columns=['nome', 'anno', 'tipologia', 'città', 'indirizzo']
-                    )
+data = pd.DataFrame(
+    [
+        ('Andrea', '2015', 'residenza', 'Rimini', 'via stretta 20'),
+        ('Andrea', '2015', 'domicilio', 'Bologna', 'via larga 30'),
+        ('Andrea', '2016', 'residenza', 'Rimini', 'via stretta 20'),
+        ('Andrea', '2016', 'domicilio', 'Bologna', 'via larga 30'),
+        ('Giulio', '2015', 'residenza', 'Rimini', 'via giusta 50'),
+        ('Giulio', '2015', 'domicilio', 'Bologna', 'via falsa 40'),
+        ('Giulio', '2016', 'residenza', 'Bologna', 'via torna 10'),
+        ('Giulio', '2016', 'domicilio', 'Bologna', 'via torna 10'),
+    ], 
+    columns=['nome', 'anno', 'tipologia', 'città', 'indirizzo'],
+)
 data.set_index(['nome', 'anno', 'tipologia'], inplace=True)
 data = data.unstack()
 data.columns = data.columns.swaplevel(0, 1)
@@ -153,16 +160,19 @@ An experiment will provide several tidy table (a database), connected logically 
 ```python
 import pandas as pd
 
-data = pd.DataFrame([('Andrea', '2015', 'residenza', 'Rimini', 'via stretta 20'),
-                     ('Andrea', '2015', 'domicilio', 'Bologna', 'via larga 30'),
-                     ('Andrea', '2016', 'residenza', 'Rimini', 'via stretta 20'),
-                     ('Andrea', '2016', 'domicilio', 'Bologna', 'via larga 30'),
-                     ('Giulio', '2015', 'residenza', 'Rimini', 'via giusta 50'),
-                     ('Giulio', '2015', 'domicilio', 'Bologna', 'via falsa 40'),
-                     ('Giulio', '2016', 'residenza', 'Bologna', 'via torna 10'),
-                     ('Giulio', '2016', 'domicilio', 'Bologna', 'via torna 10'),
-                    ], columns=['nome', 'anno', 'tipologia', 'città', 'indirizzo']
-                    )
+data = pd.DataFrame(
+    [
+        ('Andrea', '2015', 'residenza', 'Rimini', 'via stretta 20'),
+        ('Andrea', '2015', 'domicilio', 'Bologna', 'via larga 30'),
+        ('Andrea', '2016', 'residenza', 'Rimini', 'via stretta 20'),
+        ('Andrea', '2016', 'domicilio', 'Bologna', 'via larga 30'),
+        ('Giulio', '2015', 'residenza', 'Rimini', 'via giusta 50'),
+        ('Giulio', '2015', 'domicilio', 'Bologna', 'via falsa 40'),
+        ('Giulio', '2016', 'residenza', 'Bologna', 'via torna 10'),
+        ('Giulio', '2016', 'domicilio', 'Bologna', 'via torna 10'),
+    ], 
+    columns=['nome', 'anno', 'tipologia', 'città', 'indirizzo'],
+)
 ```
 
 
@@ -273,7 +283,7 @@ The important thing to remember with this type of data is that this might not be
 
 The tidy format is brilliant, especially for long term storage and to keep the metadata about the measurements, but some analysis might need the data to be transformed in non-tidy formats (for example to evaluate differences in various time points)
 
-For this reason, all the libraries that manage datafarme havea strong focus on data transformation, reshaping the data from one form to the other.
+For this reason, all the libraries that manage dataframe have a strong focus on data transformation, reshaping the data from one form to the other.
 This allows to easily obtain the best structure for the analysis we want to do without sacrificing the data quality in long term storage.
 
 # Introduction to Pandas
@@ -417,9 +427,11 @@ Reading functions contain tens of parameters to allow us to read the data exactl
 
 
 ```python
-wikitables = pd.read_html(page,
-                          attrs={"class":"wikitable sortable plainrowheaders"},
-                          index_col='Rank')
+wikitables = pd.read_html(
+    page,
+    attrs={"class":"wikitable sortable plainrowheaders"},
+    index_col='Rank',
+)
 wikitables[0].head()
 ```
 
@@ -580,7 +592,10 @@ dataframe['Year'].head() * 100
 
 
 ```python
-a = pd.Series([1, 2, 3], index=['a', 'b', 'c'])
+a = pd.Series(
+    [1, 2, 3],
+    index=['a', 'b', 'c'],
+)
 a
 ```
 
@@ -596,7 +611,10 @@ a
 
 
 ```python
-b = pd.Series([5, 6, 7], index=['c', 'a', 'b'])
+b = pd.Series(
+    [5, 6, 7],
+    index=['c', 'a', 'b'],
+)
 b
 ```
 
@@ -629,7 +647,10 @@ Series and DataFrames inherit also the slicing properties of numpy arrays
 
 
 ```python
-a = pd.Series([1, 2, 3], index=['a', 'b', 'c'])
+a = pd.Series(
+    [1, 2, 3], 
+    index=['a', 'b', 'c'],
+)
 a>1
 ```
 
@@ -659,7 +680,10 @@ a[a>1]
 
 
 ```python
-a = pd.Series([1, 2, 3, 4, 5, 6], index=['a', 'b', 'c', 'd', 'e', 'f'])
+a = pd.Series(
+    [1, 2, 3, 4, 5, 6],
+    index=['a', 'b', 'c', 'd', 'e', 'f'],
+)
 idx_1 = a>2
 idx_2 = a<5
 a[idx_1 & idx_2]
@@ -721,7 +745,7 @@ b['c':'a']
 
 ## Series as elements of a DataFrame
 
-I can manipulate columns in various ways, starting from the possibility of removing unwanted
+I can manipulate columns in various ways, starting from the possibility of removing unwanted ones
 
 
 ```python
@@ -1516,7 +1540,7 @@ dataframe[selection]
 
 ## Dataframe manipulation
 
-Often real data arrives in a format that can only be defined as "far from optimal"
+Often real data arrives in a format that can only be described as "far from optimal"
 
 The first (and major) part of data analysis is data cleaning and preprocessing in a decent form
 
@@ -1612,10 +1636,11 @@ regular expression are a way to express text structure and to specify which part
 ```python
 import re
 regex = re.compile('(\d+)\D*\d*')
-regex = re.compile('(\d+)' # extract this group, composed of one or more digits
-                   '\D*' # can be followed by 0 or more non digits
-                   '\d*' # can be followed by 0 or more digits
-                  )
+regex = re.compile(
+    '(\d+)' # extract this group, composed of one or more digits
+    '\D*' # can be followed by 0 or more non digits
+    '\d*' # can be followed by 0 or more digits
+)
 dataframe['Peak'] = dataframe['Peak'].str.extract(regex, expand=False)
 dataframe['Peak'] = dataframe['Peak'].astype(int)
 ```
@@ -1887,7 +1912,7 @@ fig.tight_layout()
 
 Pandas dataframes (and in general the dataframe structure) is designed to represent data stored in table form, with columns and rows, containing scalar data such as height, weight, age and so on...
 
-More complicated data, where different kind of data structure need to be related to each other while keeping most of the goodies that pandas provides, an alternative is [**XArray**](http://xarray.pydata.org/en/stable/).
+For more complicated data, where different kind of data structure need to be related to each other while keeping most of the goodies that pandas provides, an alternative is [**XArray**](http://xarray.pydata.org/en/stable/).
 
 This library includes the equivalent of the pandas dataframe and series (**DataArray** and **DataSet**), that provide an efficient and comfortable ways to manipulate multidimensional arrays, where several of them share one of more of their indexes
 
@@ -2001,7 +2026,8 @@ comuni_popolazione.head()
 
 ```python
 comuni_superficie = pd.read_html(url_superficie, header=0)
-comuni_superficie = comuni_superficie[1] # mighe change, right now the 0 it's a info box
+# might change, right now the 0 it's a info box
+comuni_superficie = comuni_superficie[1] 
 comuni_superficie.head()
 ```
 
@@ -2518,18 +2544,24 @@ In the **outer join** all the elements are kept, with all the possible combinati
 
 
 ```python
-a = pd.DataFrame([('Antonio', 'M'),
-                  ('Marco', 'M'),
-                  ('Francesca', 'F'),
-                  ('Giulia', 'F'),
-                 ], columns = ['name', 'sex'])
+a = pd.DataFrame(
+    [
+        ('Antonio', 'M'),
+        ('Marco', 'M'),
+        ('Francesca', 'F'),
+        ('Giulia', 'F'),
+    ], 
+    columns = ['name', 'sex'])
 
-b = pd.DataFrame([('Antonio', 15),
-                  ('Marco', 10),
-                  ('Marco', 12),
-                  ('Carlo', 23),
-                  ('Francesca', 20),
-                 ], columns = ['name', 'expenses'])
+b = pd.DataFrame(
+    [
+        ('Antonio', 15),
+        ('Marco', 10),
+        ('Marco', 12),
+        ('Carlo', 23),
+        ('Francesca', 20),
+    ], 
+    columns = ['name', 'expenses'])
 ```
 
 
@@ -2719,6 +2751,123 @@ pd.merge(a, b, on='name', how='left')
 
 
 
+We can validate the known relationships between these tables using the `validate` option.
+
+In this case the relationship is `one to many`.
+
+this can save us from surprises/errors in the source data!
+
+
+```python
+pd.merge(a, b, on='name', how='left', validate="1:m")
+```
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>name</th>
+      <th>sex</th>
+      <th>expenses</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Antonio</td>
+      <td>M</td>
+      <td>15.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Marco</td>
+      <td>M</td>
+      <td>10.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Marco</td>
+      <td>M</td>
+      <td>12.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Francesca</td>
+      <td>F</td>
+      <td>20.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Giulia</td>
+      <td>F</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+```python
+# if we validate with one to one it does fail
+pd.merge(a, b, on='name', how='left', validate="1:1")
+```
+
+
+    ---------------------------------------------------------------------------
+
+    MergeError                                Traceback (most recent call last)
+
+    <ipython-input-14-c1ff55754590> in <module>
+          1 # if we validate with one to one it does fail
+    ----> 2 pd.merge(a, b, on='name', how='left', validate="1:1")
+    
+
+    ~/miniconda3/lib/python3.8/site-packages/pandas/core/reshape/merge.py in merge(left, right, how, on, left_on, right_on, left_index, right_index, sort, suffixes, copy, indicator, validate)
+         72     validate=None,
+         73 ) -> "DataFrame":
+    ---> 74     op = _MergeOperation(
+         75         left,
+         76         right,
+
+
+    ~/miniconda3/lib/python3.8/site-packages/pandas/core/reshape/merge.py in __init__(self, left, right, how, on, left_on, right_on, axis, left_index, right_index, sort, suffixes, copy, indicator, validate)
+        676         # are in fact unique.
+        677         if validate is not None:
+    --> 678             self._validate(validate)
+        679 
+        680     def get_result(self):
+
+
+    ~/miniconda3/lib/python3.8/site-packages/pandas/core/reshape/merge.py in _validate(self, validate)
+       1364                 )
+       1365             elif not right_unique:
+    -> 1366                 raise MergeError(
+       1367                     "Merge keys are not unique in right dataset; not a one-to-one merge"
+       1368                 )
+
+
+    MergeError: Merge keys are not unique in right dataset; not a one-to-one merge
+
+
 
 ```python
 pd.merge(a, b, on='name', how='right')
@@ -2771,15 +2920,15 @@ pd.merge(a, b, on='name', how='right')
     </tr>
     <tr>
       <th>3</th>
-      <td>Francesca</td>
-      <td>F</td>
-      <td>20</td>
-    </tr>
-    <tr>
-      <th>4</th>
       <td>Carlo</td>
       <td>NaN</td>
       <td>23</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Francesca</td>
+      <td>F</td>
+      <td>20</td>
     </tr>
   </tbody>
 </table>
@@ -2927,11 +3076,12 @@ How does this joins look for our data?
 
 
 ```python
-(
-pd.merge(comuni_popolazione,
-         comuni_superficie,
-         on=['Comune', 'Regione'])
-).head()
+_ = pd.merge(
+    comuni_popolazione,
+    comuni_superficie,
+    on=['Comune', 'Regione'],
+)
+_.head()
 ```
 
 
@@ -3029,8 +3179,12 @@ pd.merge(comuni_popolazione,
 
 
 ```python
-len(pd.merge(comuni_popolazione, comuni_superficie,
-             on='Comune', how='right'))
+len(pd.merge(
+    comuni_popolazione, 
+    comuni_superficie,
+    on='Comune',
+    how='right',
+))
 ```
 
 
@@ -3042,8 +3196,12 @@ len(pd.merge(comuni_popolazione, comuni_superficie,
 
 
 ```python
-len(pd.merge(comuni_popolazione, comuni_superficie,
-             on='Comune', how='left'))
+len(pd.merge(
+    comuni_popolazione, 
+    comuni_superficie,
+    on='Comune',
+    how='left',
+))
 ```
 
 
@@ -3055,8 +3213,12 @@ len(pd.merge(comuni_popolazione, comuni_superficie,
 
 
 ```python
-len(pd.merge(comuni_popolazione, comuni_superficie,
-             on='Comune', how='inner'))
+len(pd.merge(
+    comuni_popolazione,
+    comuni_superficie,
+    on='Comune',
+    how='inner',
+))
 ```
 
 
@@ -3068,8 +3230,12 @@ len(pd.merge(comuni_popolazione, comuni_superficie,
 
 
 ```python
-len(pd.merge(comuni_popolazione, comuni_superficie,
-             on='Comune', how='outer'))
+len(pd.merge(
+    comuni_popolazione,
+    comuni_superficie,
+    on='Comune',
+    how='outer',
+))
 ```
 
 
@@ -3094,15 +3260,15 @@ if there is more than one value that correspond to each pair of values (index an
 
 
 ```python
-spese = [('Antonio', 'cat', 4),
-         ('Antonio', 'cat', 5),
-         ('Antonio', 'cat', 6),
-         
-         ('Giulia', 'cat', 3),
-         ('Giulia', 'dog', 7),
-         ('Giulia', 'dog', 8),
-         
-        ]
+spese = [
+    ('Antonio', 'cat', 4),
+    ('Antonio', 'cat', 5),
+    ('Antonio', 'cat', 6),
+
+    ('Giulia', 'cat', 3),
+    ('Giulia', 'dog', 7),
+    ('Giulia', 'dog', 8),
+]
 
 spese = pd.DataFrame(spese, columns = ['name', 'animal', 'expenses'])
 spese
@@ -3179,11 +3345,13 @@ spese
 
 
 ```python
-pd.pivot_table(spese,
-               index='name',
-               columns='animal',
-               values='expenses',
-               aggfunc=np.sum)
+pd.pivot_table(
+    spese,
+    index='name',
+    columns='animal',
+    values='expenses',
+    aggfunc=np.sum,
+)
 ```
 
 
@@ -3235,12 +3403,14 @@ pd.pivot_table(spese,
 
 
 ```python
-pd.pivot_table(spese,
-               index='name',
-               columns='animal',
-               values='expenses',
-               aggfunc=np.sum,
-               fill_value=0)
+pd.pivot_table(
+    spese,
+    index='name',
+    columns='animal',
+    values='expenses',
+    aggfunc=np.sum,
+    fill_value=0,
+)
 ```
 
 
@@ -3292,13 +3462,15 @@ pd.pivot_table(spese,
 
 
 ```python
-pd.pivot_table(spese,
-               index='name',
-               columns='animal',
-               values='expenses',
-               aggfunc=np.sum,
-               fill_value=0,
-               margins=True)
+pd.pivot_table(
+    spese,
+    index='name',
+    columns='animal',
+    values='expenses',
+    aggfunc=np.sum,
+    fill_value=0,
+    margins=True,
+)
 ```
 
 
@@ -3360,12 +3532,14 @@ pd.pivot_table(spese,
 
 
 ```python
-pd.pivot_table(spese,
-               index='name',
-               columns='animal',
-               values='expenses',
-               aggfunc=pd.Series.count,
-               fill_value=0)
+pd.pivot_table(
+    spese,
+    index='name',
+    columns='animal',
+    values='expenses',
+    aggfunc=pd.Series.count,
+    fill_value=0,
+)
 ```
 
 
@@ -3417,12 +3591,14 @@ pd.pivot_table(spese,
 
 
 ```python
-r = pd.pivot_table(spese,
-               index='name',
-               columns='animal',
-               values='expenses',
-               aggfunc=pd.Series.count,
-               fill_value=0)
+r = pd.pivot_table(
+    spese,
+    index='name',
+    columns='animal',
+    values='expenses',
+    aggfunc=pd.Series.count,
+    fill_value=0,
+)
 r = r.reset_index()
 r
 ```
@@ -3813,10 +3989,12 @@ style.use('default')
 
 
 ```python
-seaborn.lmplot('sepal_length',
-               'sepal_width',
-               data=iris,
-               hue='species')
+seaborn.lmplot(
+    'sepal_length',
+    'sepal_width',
+    data=iris,
+    hue='species',
+)
 ```
 
 
@@ -3828,16 +4006,18 @@ seaborn.lmplot('sepal_length',
 
 
     
-![png](Lesson_09_DataFrame_and_Pandas_files/Lesson_09_DataFrame_and_Pandas_129_1.png)
+![png](Lesson_09_DataFrame_and_Pandas_files/Lesson_09_DataFrame_and_Pandas_132_1.png)
     
 
 
 
 ```python
-seaborn.lmplot('sepal_length',
-               'sepal_width',
-               data=iris,
-               col='species')
+seaborn.lmplot(
+    'sepal_length',
+    'sepal_width',
+    data=iris,
+    col='species',
+)
 ```
 
 
@@ -3849,16 +4029,18 @@ seaborn.lmplot('sepal_length',
 
 
     
-![png](Lesson_09_DataFrame_and_Pandas_files/Lesson_09_DataFrame_and_Pandas_130_1.png)
+![png](Lesson_09_DataFrame_and_Pandas_files/Lesson_09_DataFrame_and_Pandas_133_1.png)
     
 
 
 
 ```python
-seaborn.lmplot('sepal_length',
-               'sepal_width',
-               data=iris,
-               row='species')
+seaborn.lmplot(
+    'sepal_length',
+    'sepal_width',
+    data=iris,
+    row='species',
+)
 ```
 
 
@@ -3870,52 +4052,63 @@ seaborn.lmplot('sepal_length',
 
 
     
-![png](Lesson_09_DataFrame_and_Pandas_files/Lesson_09_DataFrame_and_Pandas_131_1.png)
+![png](Lesson_09_DataFrame_and_Pandas_files/Lesson_09_DataFrame_and_Pandas_134_1.png)
     
 
 
 
 ```python
-fg = seaborn.FacetGrid(data=iris,
-                       col='species',
-                       hue='species',
-                       height=4,
-                       aspect=0.9)
-fg.map(plt.scatter,
-       'sepal_length',
-       'sepal_width', 
-       s=50)
-fg.map(seaborn.regplot,
-       'sepal_length',
-       'sepal_width', 
-       scatter=False)
+fg = seaborn.FacetGrid(
+    data=iris,
+    col='species',
+    hue='species',
+    height=4,
+    aspect=0.9,
+)
+fg.map(
+    plt.scatter,
+    'sepal_length',
+    'sepal_width', 
+    s=50,
+)
+fg.map(
+    seaborn.regplot,
+    'sepal_length',
+    'sepal_width', 
+    scatter=False,
+)
 fg.add_legend();
 ```
 
 
     
-![png](Lesson_09_DataFrame_and_Pandas_files/Lesson_09_DataFrame_and_Pandas_132_0.png)
+![png](Lesson_09_DataFrame_and_Pandas_files/Lesson_09_DataFrame_and_Pandas_135_0.png)
     
 
 
 
 ```python
-seaborn.jointplot('sepal_length',
-               'sepal_width', 
-              data=iris, kind="kde");
+seaborn.jointplot(
+    'sepal_length',
+    'sepal_width', 
+    data=iris,
+    kind="kde",
+);
 ```
 
 
     
-![png](Lesson_09_DataFrame_and_Pandas_files/Lesson_09_DataFrame_and_Pandas_133_0.png)
+![png](Lesson_09_DataFrame_and_Pandas_files/Lesson_09_DataFrame_and_Pandas_136_0.png)
     
 
 
 
 ```python
-seaborn.boxplot('species',
-                'sepal_length',
-                data=iris)
+seaborn.boxplot(
+    'species',
+    'sepal_length',
+    data=iris,
+)
 ```
 
 
@@ -3927,7 +4120,7 @@ seaborn.boxplot('species',
 
 
     
-![png](Lesson_09_DataFrame_and_Pandas_files/Lesson_09_DataFrame_and_Pandas_134_1.png)
+![png](Lesson_09_DataFrame_and_Pandas_files/Lesson_09_DataFrame_and_Pandas_137_1.png)
     
 
 
@@ -3945,22 +4138,24 @@ seaborn.pairplot(iris, hue="species")
 
 
     
-![png](Lesson_09_DataFrame_and_Pandas_files/Lesson_09_DataFrame_and_Pandas_135_1.png)
+![png](Lesson_09_DataFrame_and_Pandas_files/Lesson_09_DataFrame_and_Pandas_138_1.png)
     
 
 
 
 ```python
-g = seaborn.PairGrid(iris,
-                     height=2,
-                     hue='species')
+g = seaborn.PairGrid(
+    iris,
+    height=2,
+    hue='species',
+)
 g.map_diag(plt.hist, alpha=0.5)
 g.map_offdiag(plt.scatter, alpha=0.75, s=20);
 ```
 
 
     
-![png](Lesson_09_DataFrame_and_Pandas_files/Lesson_09_DataFrame_and_Pandas_136_0.png)
+![png](Lesson_09_DataFrame_and_Pandas_files/Lesson_09_DataFrame_and_Pandas_139_0.png)
     
 
 
