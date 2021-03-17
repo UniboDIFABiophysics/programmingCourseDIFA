@@ -86,6 +86,15 @@ If done well.
 
 It requires a specific way of thinking about your program, and it need some time to be internalized.
 
+## Using OOP
+
+OOP is a great programming paradigm to implement libraries that are easy to explore and to program with.
+This (when done properly) allow to write simpler and better programs.
+
+It allow us to write nice, readable code.
+
+This is true both for creating a new library, or to do **wrapping**: taking another library and create a nice interface to it
+
 # What is an object?
 
 Starting from a very abstract perspective, an object is a black box with whom we can communicate, giving commands to perform and asking questions (think of the routines and functions we talked previously).
@@ -198,48 +207,6 @@ We should try to be as general as possible in the definition of the interface we
 
 The principle of substitusion states that once I've defined the interface, any object that follows that interface should be accepted (the original one is referred to inheritance, but don't worry about that for now).
 
-## A simple class
-
-
-```python
-class Formatter: # create the class
-    def __init__(self, precision): # how to generate an instance
-        self.change_precision(precision) # we set the state using its own function
-        
-    def change_precision(self, precision): # define a method (routine-like)
-        self._precision = precision # this is where we change the internal state
-        
-    def format(self, value): # define a method (function-like)
-        return "{:.{}f}".format(value, self._precision) # this is where we use it
-    
-f = Formatter(2) # create the instance
-print(f.format(3.1415)) # call a method (function-like)
-f.change_precision(6) # call a method (routine-like)
-print(f.format(3.1415))
-```
-
-    3.14
-    3.141500
-
-
-
-```python
-f._precision
-```
-
-
-
-
-    6
-
-
-
-When designing classes, think of the unix principles:
-
-* one class should have one goal (or job), and only one, and should do it well
-* the class should be as small as you can get away with to do the job
-* it should not make assumptions on who (which other object) is going to communicate with it
-
 # How to use objects to make a library
 
 rule number 1:
@@ -256,6 +223,12 @@ to do this, the best starting point is to try and write the code that we would l
 This has two advantages:
 * it guides us on which are the most important feature first
 * it paved the road for testing in a very easy way
+
+When designing classes, think of the unix principles:
+
+* one class should have one goal (or job), and only one, and should do it well
+* the class should be as small as you can get away with to do the job
+* it should not make assumptions on who (which other object) is going to communicate with it
 
 ### note
 previous years' lectures used seaborn `distplot` for this demonstration, but the function has been deprecated and not suitable for use anymore, don't use that code if you find it!
@@ -1952,46 +1925,111 @@ in this case when can define a class checking for an interface and makes it so t
 
 Is a way of describing interfaces without changing the class definition and force inheritance.
 
+#### static validation
+
+the typing library (since python 3.6.7) provides us with a `Protocol` object, that allows us to declar interfaces that a class should respect, without actually having to inherit from it.
+
+This is very useful for both run-time checks, and `mypy` typing
+
 
 ```python
-# this is only available in python 3.4+
-import abc
-class PippoInterface(abc.ABC):
-    @classmethod
-    def __subclasshook__(cls, subclass):
-        # I define a instance or subclass as having a method called "pippo"
-        return hasattr(subclass, "pippo") and callable(getattr(subclass, "pippo"))
+from typing import Protocol, runtime_checkable
+
+# this class check if the object has an attribute called handles that is integer
+@runtime_checkable
+class Portable(Protocol):
+    handles: int
+        
+# this class check if the class provides the method with the given signature
+@runtime_checkable
+class Ducky(Protocol):
+    def quack(self) -> None:
+        pass
 ```
 
 
 ```python
-class Myclass_1:
-    def pippo(self):
+class Empty:
+    pass
+
+obj = Empty()
+assert not isinstance(obj, Portable)
+
+obj.handles = 3
+assert isinstance(obj, Portable)
+```
+
+
+```python
+class Duck:
+    def quack(self):
         pass
     
-assert issubclass(Myclass_1, PippoInterface)
-assert isinstance(Myclass_1(), PippoInterface)
+assert issubclass(Duck, Ducky)
+duck_instance = Duck()
+assert isinstance(duck_instance, Ducky)
 ```
+
+this allows me to write code such as:
+
+```python
+def talk_with(pet: Ducky):
+    pet.quack()
+```
+
+and have mypy accept my signature and verify against it.
+I can also use it for a more sane subclass and instance check if one wants to program defensively instead!
+
+Beware that the runtime check only verifies the presence of the method, not its signature, that is a work for mypy!
 
 
 ```python
-class Myclass_2:
-    def pluto(self):
-        pass
+%%file temp_mypy.py
+from typing import Protocol, runtime_checkable
+
+@runtime_checkable
+class TalkativeDuck(Protocol):
+    def quack(self) -> str:
+        return "quack"
     
-assert not issubclass(Myclass_2, PippoInterface)
-assert not isinstance(Myclass_2(), PippoInterface)
+class MechanicalDuck:
+    def quack(self) -> int:
+        return 0
+    
+assert issubclass(MechanicalDuck, TalkativeDuck)
 
+def talk(pet: TalkativeDuck):
+    print(pet.quack())
+
+talk(MechanicalDuck())
 ```
+
+    Overwriting temp_mypy.py
+
+
+This code run, even if it is technically incorrect, but mypy warns us that there is an issue with the definition!
 
 
 ```python
-class Myclass_3:
-    pippo = 1
-
-assert not issubclass(Myclass_3, PippoInterface)
-assert not isinstance(Myclass_3(), PippoInterface)
+!python temp_mypy.py
 ```
+
+    0
+
+
+
+```python
+!mypy temp_mypy.py
+```
+
+    temp_mypy.py:17: [1m[31merror:[m Argument 1 to [m[1m"talk"[m has incompatible type [m[1m"MechanicalDuck"[m; expected [m[1m"TalkativeDuck"[m[m
+    temp_mypy.py:17: [34mnote:[m Following member(s) of "MechanicalDuck" have conflicts:
+    temp_mypy.py:17: [34mnote:[m     Expected:
+    temp_mypy.py:17: [34mnote:[m         def quack(self) -> str
+    temp_mypy.py:17: [34mnote:[m     Got:
+    temp_mypy.py:17: [34mnote:[m         def quack(self) -> int
+    [1m[31mFound 1 error in 1 file (checked 1 source file)[m
+
 
 ## Composition Over Inheritance
 
@@ -3183,4 +3221,51 @@ pipeline.fit(X, y)
 y_hat = pipeline.predict(X)
 score(y, y_hat)
 
+```
+
+#### dynamic validation
+
+There is another approach, using the Abstract Base Class mechanics, that allows to check in runtime for any characteristic of my class.
+
+it is less general than the Protocol approach, and in general should only be used for some specific cases
+
+
+```python
+# this is only available in python 3.4+
+import abc
+class PippoInterface(abc.ABC):
+    @classmethod
+    def __subclasshook__(cls, subclass):
+        # I define a instance or subclass as having a method called "pippo"
+        return hasattr(subclass, "pippo") and callable(getattr(subclass, "pippo"))
+```
+
+
+```python
+class Myclass_1:
+    def pippo(self):
+        pass
+    
+assert issubclass(Myclass_1, PippoInterface)
+assert isinstance(Myclass_1(), PippoInterface)
+```
+
+
+```python
+class Myclass_2:
+    def pluto(self):
+        pass
+    
+assert not issubclass(Myclass_2, PippoInterface)
+assert not isinstance(Myclass_2(), PippoInterface)
+
+```
+
+
+```python
+class Myclass_3:
+    pippo = 1
+
+assert not issubclass(Myclass_3, PippoInterface)
+assert not isinstance(Myclass_3(), PippoInterface)
 ```

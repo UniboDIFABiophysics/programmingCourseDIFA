@@ -14449,6 +14449,15 @@ Your program call the library, while a framework calls the code you wrote.</p>
 </div></section></section><section><section>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h2 id="Using-OOP">Using OOP<a class="anchor-link" href="#Using-OOP">&#182;</a></h2><p>OOP is a great programming paradigm to implement libraries that are easy to explore and to program with.
+This (when done properly) allow to write simpler and better programs.</p>
+<p>It allow us to write nice, readable code.</p>
+<p>This is true both for creating a new library, or to do <strong>wrapping</strong>: taking another library and create a nice interface to it</p>
+
+</div>
+</div></section></section><section><section>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h1 id="What-is-an-object?">What is an object?<a class="anchor-link" href="#What-is-an-object?">&#182;</a></h1><p>Starting from a very abstract perspective, an object is a black box with whom we can communicate, giving commands to perform and asking questions (think of the routines and functions we talked previously).</p>
 <p>How does the object work internally should not interest us (in an ideal world), we just care about how to communicate with it.</p>
 
@@ -14598,108 +14607,6 @@ ften this is done by fixing the <strong>class</strong> that the function accept,
 </div></section></section><section><section>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="A-simple-class">A simple class<a class="anchor-link" href="#A-simple-class">&#182;</a></h2>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[9]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Formatter</span><span class="p">:</span> <span class="c1"># create the class</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">precision</span><span class="p">):</span> <span class="c1"># how to generate an instance</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">change_precision</span><span class="p">(</span><span class="n">precision</span><span class="p">)</span> <span class="c1"># we set the state using its own function</span>
-        
-    <span class="k">def</span> <span class="nf">change_precision</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">precision</span><span class="p">):</span> <span class="c1"># define a method (routine-like)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_precision</span> <span class="o">=</span> <span class="n">precision</span> <span class="c1"># this is where we change the internal state</span>
-        
-    <span class="k">def</span> <span class="nf">format</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span> <span class="c1"># define a method (function-like)</span>
-        <span class="k">return</span> <span class="s2">&quot;{:.</span><span class="si">{}</span><span class="s2">f}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_precision</span><span class="p">)</span> <span class="c1"># this is where we use it</span>
-    
-<span class="n">f</span> <span class="o">=</span> <span class="n">Formatter</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="c1"># create the instance</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mf">3.1415</span><span class="p">))</span> <span class="c1"># call a method (function-like)</span>
-<span class="n">f</span><span class="o">.</span><span class="n">change_precision</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span> <span class="c1"># call a method (routine-like)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mf">3.1415</span><span class="p">))</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-<div class="jp-Cell-outputWrapper">
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>3.14
-3.141500
-</pre>
-</div>
-</div>
-
-</div>
-
-</div>
-
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[10]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">f</span><span class="o">.</span><span class="n">_precision</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-<div class="jp-Cell-outputWrapper">
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[10]:</div>
-
-
-
-
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
-<pre>6</pre>
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</div></section></section><section><section>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>When designing classes, think of the unix principles:</p>
-<ul>
-<li>one class should have one goal (or job), and only one, and should do it well</li>
-<li>the class should be as small as you can get away with to do the job</li>
-<li>it should not make assumptions on who (which other object) is going to communicate with it</li>
-</ul>
-
-</div>
-</div></section></section><section><section>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h1 id="How-to-use-objects-to-make-a-library">How to use objects to make a library<a class="anchor-link" href="#How-to-use-objects-to-make-a-library">&#182;</a></h1><p>rule number 1:</p>
 <blockquote><p>don't start writing the code to implement the features, write the code you want to be able to write!</p>
 </blockquote>
@@ -14719,6 +14626,17 @@ ften this is done by fixing the <strong>class</strong> that the function accept,
 <ul>
 <li>it guides us on which are the most important feature first</li>
 <li>it paved the road for testing in a very easy way</li>
+</ul>
+
+</div>
+</div></section></section><section><section>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>When designing classes, think of the unix principles:</p>
+<ul>
+<li>one class should have one goal (or job), and only one, and should do it well</li>
+<li>the class should be as small as you can get away with to do the job</li>
+<li>it should not make assumptions on who (which other object) is going to communicate with it</li>
 </ul>
 
 </div>
@@ -18188,19 +18106,31 @@ class to help create various methods from a base set of methods:</p>
 <p>Is a way of describing interfaces without changing the class definition and force inheritance.</p>
 
 </div>
+</div></section></section><section><section>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h4 id="static-validation">static validation<a class="anchor-link" href="#static-validation">&#182;</a></h4><p>the typing library (since python 3.6.7) provides us with a <code>Protocol</code> object, that allows us to declar interfaces that a class should respect, without actually having to inherit from it.</p>
+<p>This is very useful for both run-time checks, and <code>mypy</code> typing</p>
+
+</div>
 </div></section></section><section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[408]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[3]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># this is only available in python 3.4+</span>
-<span class="kn">import</span> <span class="nn">abc</span>
-<span class="k">class</span> <span class="nc">PippoInterface</span><span class="p">(</span><span class="n">abc</span><span class="o">.</span><span class="n">ABC</span><span class="p">):</span>
-    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">__subclasshook__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">subclass</span><span class="p">):</span>
-        <span class="c1"># I define a instance or subclass as having a method called &quot;pippo&quot;</span>
-        <span class="k">return</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">subclass</span><span class="p">,</span> <span class="s2">&quot;pippo&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">callable</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">subclass</span><span class="p">,</span> <span class="s2">&quot;pippo&quot;</span><span class="p">))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Protocol</span><span class="p">,</span> <span class="n">runtime_checkable</span>
+
+<span class="c1"># this class check if the object has an attribute called handles that is integer</span>
+<span class="nd">@runtime_checkable</span>
+<span class="k">class</span> <span class="nc">Portable</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
+    <span class="n">handles</span><span class="p">:</span> <span class="nb">int</span>
+        
+<span class="c1"># this class check if the class provides the method with the given signature</span>
+<span class="nd">@runtime_checkable</span>
+<span class="k">class</span> <span class="nc">Ducky</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">quack</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">pass</span>
 </pre></div>
 
      </div>
@@ -18211,15 +18141,37 @@ class to help create various methods from a base set of methods:</p>
 </div></section></section><section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[71]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[4]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Myclass_1</span><span class="p">:</span>
-    <span class="k">def</span> <span class="nf">pippo</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Empty</span><span class="p">:</span>
+    <span class="k">pass</span>
+
+<span class="n">obj</span> <span class="o">=</span> <span class="n">Empty</span><span class="p">()</span>
+<span class="k">assert</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">Portable</span><span class="p">)</span>
+
+<span class="n">obj</span><span class="o">.</span><span class="n">handles</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">Portable</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div></section></section><section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[8]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Duck</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">quack</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">pass</span>
     
-<span class="k">assert</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">Myclass_1</span><span class="p">,</span> <span class="n">PippoInterface</span><span class="p">)</span>
-<span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">Myclass_1</span><span class="p">(),</span> <span class="n">PippoInterface</span><span class="p">)</span>
+<span class="k">assert</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">Duck</span><span class="p">,</span> <span class="n">Ducky</span><span class="p">)</span>
+<span class="n">duck_instance</span> <span class="o">=</span> <span class="n">Duck</span><span class="p">()</span>
+<span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">duck_instance</span><span class="p">,</span> <span class="n">Ducky</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -18227,18 +18179,47 @@ class to help create various methods from a base set of methods:</p>
 </div>
 </div>
 
-</div></section></section><section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+</div></section></section><section><section>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>this allows me to write code such as:</p>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">talk_with</span><span class="p">(</span><span class="n">pet</span><span class="p">:</span> <span class="n">Ducky</span><span class="p">):</span>
+    <span class="n">pet</span><span class="o">.</span><span class="n">quack</span><span class="p">()</span>
+</pre></div>
+<p>and have mypy accept my signature and verify against it.
+I can also use it for a more sane subclass and instance check if one wants to program defensively instead!</p>
+
+</div>
+</div></section></section><section><section>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>Beware that the runtime check only verifies the presence of the method, not its signature, that is a work for mypy!</p>
+
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[72]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[18]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Myclass_2</span><span class="p">:</span>
-    <span class="k">def</span> <span class="nf">pluto</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">pass</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%file</span> temp_mypy.py
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Protocol</span><span class="p">,</span> <span class="n">runtime_checkable</span>
+
+<span class="nd">@runtime_checkable</span>
+<span class="k">class</span> <span class="nc">TalkativeDuck</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">quack</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;quack&quot;</span>
     
-<span class="k">assert</span> <span class="ow">not</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">Myclass_2</span><span class="p">,</span> <span class="n">PippoInterface</span><span class="p">)</span>
-<span class="k">assert</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">Myclass_2</span><span class="p">(),</span> <span class="n">PippoInterface</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">MechanicalDuck</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">quack</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">0</span>
+    
+<span class="k">assert</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">MechanicalDuck</span><span class="p">,</span> <span class="n">TalkativeDuck</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">talk</span><span class="p">(</span><span class="n">pet</span><span class="p">:</span> <span class="n">TalkativeDuck</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">pet</span><span class="o">.</span><span class="n">quack</span><span class="p">())</span>
+
+<span class="n">talk</span><span class="p">(</span><span class="n">MechanicalDuck</span><span class="p">())</span>
 </pre></div>
 
      </div>
@@ -18246,22 +18227,107 @@ class to help create various methods from a base set of methods:</p>
 </div>
 </div>
 
-</div></section></section><section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>Overwriting temp_mypy.py
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div></section></section><section><section>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>This code run, even if it is technically incorrect, but mypy warns us that there is an issue with the definition!</p>
+
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[73]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[20]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Myclass_3</span><span class="p">:</span>
-    <span class="n">pippo</span> <span class="o">=</span> <span class="mi">1</span>
-
-<span class="k">assert</span> <span class="ow">not</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">Myclass_3</span><span class="p">,</span> <span class="n">PippoInterface</span><span class="p">)</span>
-<span class="k">assert</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">Myclass_3</span><span class="p">(),</span> <span class="n">PippoInterface</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>python temp_mypy.py
 </pre></div>
 
      </div>
 </div>
 </div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>0
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[19]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>mypy temp_mypy.py
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>temp_mypy.py:17: <span class="ansi-red-intense-fg ansi-bold">error:</span> Argument 1 to <span class="ansi-bold">&#34;talk&#34;</span> has incompatible type <span class="ansi-bold">&#34;MechanicalDuck&#34;</span>; expected <span class="ansi-bold">&#34;TalkativeDuck&#34;</span>
+temp_mypy.py:17: <span class="ansi-blue-fg">note:</span> Following member(s) of &#34;MechanicalDuck&#34; have conflicts:
+temp_mypy.py:17: <span class="ansi-blue-fg">note:</span>     Expected:
+temp_mypy.py:17: <span class="ansi-blue-fg">note:</span>         def quack(self) -&gt; str
+temp_mypy.py:17: <span class="ansi-blue-fg">note:</span>     Got:
+temp_mypy.py:17: <span class="ansi-blue-fg">note:</span>         def quack(self) -&gt; int
+<span class="ansi-red-intense-fg ansi-bold">Found 1 error in 1 file (checked 1 source file)</span>
+</pre>
+</div>
+</div>
+
+</div>
+
 </div>
 
 </div></section></section><section><section>
@@ -18681,6 +18747,89 @@ You can explore these topics in the notebook corresponding to these slides.</p>
 </ul>
 
 </div>
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h4 id="dynamic-validation">dynamic validation<a class="anchor-link" href="#dynamic-validation">&#182;</a></h4><p>There is another approach, using the Abstract Base Class mechanics, that allows to check in runtime for any characteristic of my class.</p>
+<p>it is less general than the Protocol approach, and in general should only be used for some specific cases</p>
+
+</div>
+</div></section></section><section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[408]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># this is only available in python 3.4+</span>
+<span class="kn">import</span> <span class="nn">abc</span>
+<span class="k">class</span> <span class="nc">PippoInterface</span><span class="p">(</span><span class="n">abc</span><span class="o">.</span><span class="n">ABC</span><span class="p">):</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">__subclasshook__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">subclass</span><span class="p">):</span>
+        <span class="c1"># I define a instance or subclass as having a method called &quot;pippo&quot;</span>
+        <span class="k">return</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">subclass</span><span class="p">,</span> <span class="s2">&quot;pippo&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">callable</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">subclass</span><span class="p">,</span> <span class="s2">&quot;pippo&quot;</span><span class="p">))</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div></section></section><section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[71]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Myclass_1</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">pippo</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+    
+<span class="k">assert</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">Myclass_1</span><span class="p">,</span> <span class="n">PippoInterface</span><span class="p">)</span>
+<span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">Myclass_1</span><span class="p">(),</span> <span class="n">PippoInterface</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div></section></section><section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[72]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Myclass_2</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">pluto</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+    
+<span class="k">assert</span> <span class="ow">not</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">Myclass_2</span><span class="p">,</span> <span class="n">PippoInterface</span><span class="p">)</span>
+<span class="k">assert</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">Myclass_2</span><span class="p">(),</span> <span class="n">PippoInterface</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div></section></section><section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[73]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Myclass_3</span><span class="p">:</span>
+    <span class="n">pippo</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="k">assert</span> <span class="ow">not</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">Myclass_3</span><span class="p">,</span> <span class="n">PippoInterface</span><span class="p">)</span>
+<span class="k">assert</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">Myclass_3</span><span class="p">(),</span> <span class="n">PippoInterface</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
 </div></section></section>
 </div>
 </div>
