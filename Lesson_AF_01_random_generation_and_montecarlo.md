@@ -562,179 +562,6 @@ sns.distplot(new_dist.rvs(10_000))
     
 
 
-one can notice that the histogram is incorrect, as is doing a kernel density estimation and it has borders that go below zero...
-
-seaborn allows us to use an arbitrary function for showing the distribution, that has to follow the same interface as a scipy distribution:
-
-* a **fit** function that returns a tuple of parameters
-* a **pdf** function that takes the parameters and the x positions and returns the pdf values
-
-we could use the distributions directly, but seaborn does not yet allow to configure the fit to remove the location (it should do in the next version after the 0.9), so we have to implement it ourselves
-
-
-```python
-data_norm = np.random.randn(1000)
-sns.distplot(data_norm, kde=False, fit=st.norm)
-```
-
-
-
-
-    <matplotlib.axes._subplots.AxesSubplot at 0x7feb7df8fb00>
-
-
-
-
-    
-![png](Lesson_AF_01_random_generation_and_montecarlo_files/Lesson_AF_01_random_generation_and_montecarlo_42_1.png)
-    
-
-
-
-```python
-class GammaFitter:
-    def fit(self, data):
-        return st.gamma.fit(data, floc=0)
-    
-    def pdf(self, x, *params):
-        return st.gamma.pdf(x, *params)
-    
-sbn.distplot(dist.rvs(10_000), kde=False, fit=GammaFitter())
-```
-
-
-
-
-    <matplotlib.axes._subplots.AxesSubplot at 0x7feb87777ef0>
-
-
-
-
-    
-![png](Lesson_AF_01_random_generation_and_montecarlo_files/Lesson_AF_01_random_generation_and_montecarlo_43_1.png)
-    
-
-
-## Exercise 1
-
-try to implement a more generic fitter for seaborn, that allow to choose wich parameters to fix and can be used, and make it extendible to other distributions of the same kind
-
-
-```python
-class Fitter:
-    pass # your code here
-
-myfitter_1 = Fitter(distribution=st.gamma, floc=0)
-myfitter_2 = Fitter(distribution=st.norm)
-
-my_fitter = myfitter_1
-
-data = np.random.gammavariate(2.0, size=10_000)
-sbn.distplot(data, kde=False, fit=myfitter)
-```
-
-
-```python
-class Fitter:
-    def __init__(self, distribution):
-        self.dist = distribution
-        
-    def fit(self, data):
-        return self.dist.fit(data, floc=0)
-    
-    def pdf(self, x, *params):
-        return self.dist.pdf(x, *params)
-
-myfitter_1 = Fitter(distribution=st.gamma, floc=0)
-myfitter_2 = Fitter(distribution=st.norm)
-
-my_fitter = myfitter_1
-
-data = np.random.gammavariate(2.0, size=10_000)
-sbn.distplot(data, kde=False, fit=myfitter)
-```
-
-
-```python
-def my_fun(a, *args, b=1, **kws):
-    print(args)
-    print(kws)
-    
-my_fun(1, 2, 3, c=3, d=5)
-```
-
-    (2, 3)
-    {'c': 3, 'd': 5}
-
-
-
-```python
-def my_fun_2(a, b):
-    print(a, b)
-    
-values = {'a':1, 'b':2}
-my_fun_2(**values)
-# my_fun_2(a=values['a'], b=values['b'])
-```
-
-    1 2
-
-
-
-```python
-class Fitter:
-    def __init__(self, distribution, **fit_params):
-        self.distribution = distribution
-        self.fit_params = fit_params
-        
-    def fit(self, data):
-        params = self.fit_params
-        return self.distribution.fit(data, **params)
-    
-    def pdf(self, x, *params):
-        return self.distribution.pdf(x, *params)
-
-myfitter_1 = Fitter(distribution=st.gamma, floc=0)
-myfitter_3 = Fitter(distribution=st.gamma)
-
-myfitter_2 = Fitter(distribution=st.norm)
-
-my_fitter = myfitter_3
-
-data = st.gamma.rvs(2.0, size=10_000)
-sbn.distplot(data, kde=False, fit=my_fitter)
-```
-
-
-
-
-    <matplotlib.axes._subplots.AxesSubplot at 0x7feb7dcca198>
-
-
-
-
-    
-![png](Lesson_AF_01_random_generation_and_montecarlo_files/Lesson_AF_01_random_generation_and_montecarlo_49_1.png)
-    
-
-
-
-```python
-## HINT
-floc = None # or a value
-kws = {}
-if floc is not None:
-    kws = {'floc': floc}
-st.gamma.fit(data, **kws)
-```
-
-
-
-
-    (0.38060160599369985, 0.6906977809779535, 3.7548729912059065)
-
-
-
 ## Visualizing the ECDF (Empirical cumulative distribution function)
 
 
@@ -758,7 +585,7 @@ sns.rugplot(data, height=0.1, linewidth=3, color='r');
 
 
     
-![png](Lesson_AF_01_random_generation_and_montecarlo_files/Lesson_AF_01_random_generation_and_montecarlo_53_0.png)
+![png](Lesson_AF_01_random_generation_and_montecarlo_files/Lesson_AF_01_random_generation_and_montecarlo_43_0.png)
     
 
 
@@ -773,7 +600,7 @@ sns.rugplot(data, height=0.1,
 
 
     
-![png](Lesson_AF_01_random_generation_and_montecarlo_files/Lesson_AF_01_random_generation_and_montecarlo_54_0.png)
+![png](Lesson_AF_01_random_generation_and_montecarlo_files/Lesson_AF_01_random_generation_and_montecarlo_44_0.png)
     
 
 
@@ -789,7 +616,7 @@ sns.rugplot(data, height=0.1, linewidth=3, color='r');
 
 
     
-![png](Lesson_AF_01_random_generation_and_montecarlo_files/Lesson_AF_01_random_generation_and_montecarlo_56_0.png)
+![png](Lesson_AF_01_random_generation_and_montecarlo_files/Lesson_AF_01_random_generation_and_montecarlo_46_0.png)
     
 
 
@@ -864,7 +691,7 @@ plt.ylim(0,1)
 
 
     
-![png](Lesson_AF_01_random_generation_and_montecarlo_files/Lesson_AF_01_random_generation_and_montecarlo_62_1.png)
+![png](Lesson_AF_01_random_generation_and_montecarlo_files/Lesson_AF_01_random_generation_and_montecarlo_52_1.png)
     
 
 
@@ -885,7 +712,7 @@ plot_ecdf(plt.randn(100), color='r')
 
 
     
-![png](Lesson_AF_01_random_generation_and_montecarlo_files/Lesson_AF_01_random_generation_and_montecarlo_64_0.png)
+![png](Lesson_AF_01_random_generation_and_montecarlo_files/Lesson_AF_01_random_generation_and_montecarlo_54_0.png)
     
 
 
@@ -928,7 +755,7 @@ ax2.set_title("quantile quantile plot")
 
 
     
-![png](Lesson_AF_01_random_generation_and_montecarlo_files/Lesson_AF_01_random_generation_and_montecarlo_66_1.png)
+![png](Lesson_AF_01_random_generation_and_montecarlo_files/Lesson_AF_01_random_generation_and_montecarlo_56_1.png)
     
 
 
@@ -948,11 +775,13 @@ plot_ecdf(data, linewidth=3)
 
 
     
-![png](Lesson_AF_01_random_generation_and_montecarlo_files/Lesson_AF_01_random_generation_and_montecarlo_67_0.png)
+![png](Lesson_AF_01_random_generation_and_montecarlo_files/Lesson_AF_01_random_generation_and_montecarlo_57_0.png)
     
 
 
 ## Generating numbers with the ECDF
+
+Being able to describe the ECDF, even as an approximation, allow us to generate random numbers with an arbitrary complicated distribution!
 
 
 ```python
@@ -1052,7 +881,7 @@ sns.distplot(generated, hist=True, kde=False, rug=False);
 
 
     
-![png](Lesson_AF_01_random_generation_and_montecarlo_files/Lesson_AF_01_random_generation_and_montecarlo_76_0.png)
+![png](Lesson_AF_01_random_generation_and_montecarlo_files/Lesson_AF_01_random_generation_and_montecarlo_66_0.png)
     
 
 
@@ -1084,7 +913,7 @@ sns.distplot(norm_data)
 
 
     
-![png](Lesson_AF_01_random_generation_and_montecarlo_files/Lesson_AF_01_random_generation_and_montecarlo_78_1.png)
+![png](Lesson_AF_01_random_generation_and_montecarlo_files/Lesson_AF_01_random_generation_and_montecarlo_68_1.png)
     
 
 
@@ -1098,9 +927,17 @@ $$ \int_{[0,1]^s} f(u)\,{\rm d}u \approx \frac{1}{N}\,\sum_{i=1}^N f(x_i). $$
 
 the rate of convergence by using N random numbers is $O\left(\frac{1}{\sqrt{N}}\right)$
 
+the rate of convergence using a uniform sampling of N numbers is $O\left(\frac{1}{N}\right)$
+
+Sampling using random numbers converge more slowly, but can be performed for as long as we want until we reach the convergence up to a certain precision.
+
+with uniformely sampled numbers, if the chosen sampling wasn't enough, we have to start from scratch and redo everything.
+
 There are better methods for exploring a function if we can, and that is by using **low-discrepancy sequences**.
 
 These are sequences that looks quite random, but do not tend to cluster as random numbers do, covering the space in a more uniform way.
+
+The big advantage is that they keep having this property if we continue forward witht the sequence of sampling.
 
 low-discrepancy sequences converge with $O\left(\frac{1}{N}\right)$, but they are a little more difficult to implement.
 
@@ -1122,7 +959,7 @@ sns.distplot(norm_data)
 
 
     
-![png](Lesson_AF_01_random_generation_and_montecarlo_files/Lesson_AF_01_random_generation_and_montecarlo_81_1.png)
+![png](Lesson_AF_01_random_generation_and_montecarlo_files/Lesson_AF_01_random_generation_and_montecarlo_72_1.png)
     
 
 
@@ -1142,7 +979,7 @@ sns.distplot(norm_data)
 
 
     
-![png](Lesson_AF_01_random_generation_and_montecarlo_files/Lesson_AF_01_random_generation_and_montecarlo_82_1.png)
+![png](Lesson_AF_01_random_generation_and_montecarlo_files/Lesson_AF_01_random_generation_and_montecarlo_73_1.png)
     
 
 
@@ -1166,7 +1003,7 @@ sns.distplot(norm_data_samp, color='b')
 
 
     
-![png](Lesson_AF_01_random_generation_and_montecarlo_files/Lesson_AF_01_random_generation_and_montecarlo_83_1.png)
+![png](Lesson_AF_01_random_generation_and_montecarlo_files/Lesson_AF_01_random_generation_and_montecarlo_74_1.png)
     
 
 
@@ -1248,7 +1085,7 @@ ax2.hist(avdn(1000), bins=bins);
 
 
     
-![png](Lesson_AF_01_random_generation_and_montecarlo_files/Lesson_AF_01_random_generation_and_montecarlo_89_0.png)
+![png](Lesson_AF_01_random_generation_and_montecarlo_files/Lesson_AF_01_random_generation_and_montecarlo_80_0.png)
     
 
 
@@ -1292,7 +1129,7 @@ ax2.hist(gaussian_samples, bins=50);
 
 
     
-![png](Lesson_AF_01_random_generation_and_montecarlo_files/Lesson_AF_01_random_generation_and_montecarlo_94_0.png)
+![png](Lesson_AF_01_random_generation_and_montecarlo_files/Lesson_AF_01_random_generation_and_montecarlo_85_0.png)
     
 
 
@@ -1336,7 +1173,197 @@ plt.scatter(*param_values.T)
 
 
     
-![png](Lesson_AF_01_random_generation_and_montecarlo_files/Lesson_AF_01_random_generation_and_montecarlo_100_1.png)
+![png](Lesson_AF_01_random_generation_and_montecarlo_files/Lesson_AF_01_random_generation_and_montecarlo_91_1.png)
+    
+
+
+An interesting alternative is a low-discrepancy series , [based on the golden ratio numbers](http://extremelearning.com.au/unreasonable-effectiveness-of-quasirandom-sequences/)
+
+It is very simple to implement as it is fundamentally similar to the traditional linear congruential generator.
+
+
+```python
+import numpy as np
+import scipy.stats as st
+import pylab as plt
+import pandas as pd
+import seaborn as sns
+```
+
+
+```python
+# Using the above nested radical formula for g=phi_d 
+# or you could just hard-code it. 
+# phi(1) = 1.61803398874989484820458683436563 
+# phi(2) = 1.32471795724474602596090885447809 
+def phi(d, precision=30): 
+    x = 2.00
+    for i in range(precision): 
+        x = pow(1+x,1/(d+1)) 
+    return x
+```
+
+
+```python
+def gaussian_icdf(q):
+    return st.norm.isf(q)
+
+def identity(x):
+    return x
+```
+
+
+```python
+# this is an iterable version
+def Rϕ(ndim=1, *, seed=0.5, mapper=identity):
+    g = phi(ndim) 
+    alpha = ((1/g)**np.arange(1, ndim+1))%1        
+    z = np.ones(ndim)*seed
+    while True:
+        yield mapper(z)
+        z = (z+alpha) %1 
+```
+
+
+```python
+for idx, number in zip(range(5), Rϕ(ndim=2)):
+    print(idx, number)
+```
+
+    0 [0.5 0.5]
+    1 [0.25487767 0.06984029]
+    2 [0.00975533 0.63968058]
+    3 [0.764633   0.20952087]
+    4 [0.51951066 0.77936116]
+
+
+
+```python
+fig, ax = plt.subplots()
+N = 50
+for idx, number in zip(range(N), Rϕ(ndim=2)):
+    ax.scatter(*number, color='teal')
+```
+
+
+    
+![png](Lesson_AF_01_random_generation_and_montecarlo_files/Lesson_AF_01_random_generation_and_montecarlo_98_0.png)
+    
+
+
+
+```python
+# this is an array version, for testing speed
+def a_generate(ndim, Npoints, *, seed=0.5, mapper=identity):
+    # get the base for the dimension
+    g = phi(ndim) 
+    # this is the inizialization constant for the array
+    alpha = ((1/g)**np.arange(1, ndim+1))%1  
+    # reshaping to allow broadcasting
+    alpha = alpha.reshape(1, -1) 
+    # just the count of the sequence
+    base = np.arange(Npoints).reshape(-1, 1) 
+    # perform the actual calculation
+    z = seed + alpha*base 
+    # tale only the decimal part
+    z = z % 1
+    # return a mapped version to some distribution
+    return mapper(z) 
+```
+
+
+```python
+a_generate(1, 10, mapper=gaussian_icdf)
+```
+
+
+
+
+    array([[ 0.        ],
+           [ 1.18487221],
+           [-0.63126993],
+           [ 0.37426935],
+           [-1.91315596],
+           [-0.22798216],
+           [ 0.81266899],
+           [-0.93940245],
+           [ 0.14014703],
+           [ 1.53570072]])
+
+
+
+
+```python
+rn = a_generate(1, 30, mapper=gaussian_icdf)
+sns.distplot(rn)
+```
+
+    /home/enrico/miniconda3/lib/python3.8/site-packages/seaborn/distributions.py:2557: FutureWarning: `distplot` is a deprecated function and will be removed in a future version. Please adapt your code to use either `displot` (a figure-level function with similar flexibility) or `histplot` (an axes-level function for histograms).
+      warnings.warn(msg, FutureWarning)
+
+
+
+
+
+    <AxesSubplot:ylabel='Density'>
+
+
+
+
+    
+![png](Lesson_AF_01_random_generation_and_montecarlo_files/Lesson_AF_01_random_generation_and_montecarlo_101_2.png)
+    
+
+
+
+```python
+b0 = a_generate(1, 1000, mapper=st.norm(loc=3, scale=0.1).isf)
+sns.distplot(b0)
+```
+
+    /home/enrico/miniconda3/lib/python3.8/site-packages/seaborn/distributions.py:2557: FutureWarning: `distplot` is a deprecated function and will be removed in a future version. Please adapt your code to use either `displot` (a figure-level function with similar flexibility) or `histplot` (an axes-level function for histograms).
+      warnings.warn(msg, FutureWarning)
+
+
+
+
+
+    <AxesSubplot:ylabel='Density'>
+
+
+
+
+    
+![png](Lesson_AF_01_random_generation_and_montecarlo_files/Lesson_AF_01_random_generation_and_montecarlo_102_2.png)
+    
+
+
+
+```python
+N = 100_000
+x_r = a_generate(1, N, mapper=gaussian_icdf)
+x_g = plt.randn(N)
+
+n = np.arange(1, len(x_r)+1)
+res_r = np.cumsum(x_r)/n
+res_g = np.cumsum(x_g)/n
+
+r = 10
+plt.plot(n[r:], abs(res_r)[r:])
+plt.plot(n[r:], abs(res_g)[r:])
+plt.loglog()
+```
+
+
+
+
+    []
+
+
+
+
+    
+![png](Lesson_AF_01_random_generation_and_montecarlo_files/Lesson_AF_01_random_generation_and_montecarlo_103_1.png)
     
 
 
@@ -1477,7 +1504,7 @@ plt.scatter(x='time', y='y', data=res)
 
 
     
-![png](Lesson_AF_01_random_generation_and_montecarlo_files/Lesson_AF_01_random_generation_and_montecarlo_106_1.png)
+![png](Lesson_AF_01_random_generation_and_montecarlo_files/Lesson_AF_01_random_generation_and_montecarlo_109_1.png)
     
 
 
@@ -1581,7 +1608,7 @@ sns.distplot(alphas);
 
 
     
-![png](Lesson_AF_01_random_generation_and_montecarlo_files/Lesson_AF_01_random_generation_and_montecarlo_109_0.png)
+![png](Lesson_AF_01_random_generation_and_montecarlo_files/Lesson_AF_01_random_generation_and_montecarlo_112_0.png)
     
 
 
@@ -1602,7 +1629,7 @@ sns.lineplot("time", 'y', data=results,
 
 
     
-![png](Lesson_AF_01_random_generation_and_montecarlo_files/Lesson_AF_01_random_generation_and_montecarlo_110_1.png)
+![png](Lesson_AF_01_random_generation_and_montecarlo_files/Lesson_AF_01_random_generation_and_montecarlo_113_1.png)
     
 
 
@@ -1623,7 +1650,7 @@ sns.lineplot("time", 'y', data=results.query("time>0.5 and time<2"),
 
 
     
-![png](Lesson_AF_01_random_generation_and_montecarlo_files/Lesson_AF_01_random_generation_and_montecarlo_111_1.png)
+![png](Lesson_AF_01_random_generation_and_montecarlo_files/Lesson_AF_01_random_generation_and_montecarlo_114_1.png)
     
 
 
@@ -1663,7 +1690,7 @@ sns.distplot(alphas)
 
 
     
-![png](Lesson_AF_01_random_generation_and_montecarlo_files/Lesson_AF_01_random_generation_and_montecarlo_113_1.png)
+![png](Lesson_AF_01_random_generation_and_montecarlo_files/Lesson_AF_01_random_generation_and_montecarlo_116_1.png)
     
 
 
@@ -1681,7 +1708,7 @@ sns.lineplot("time", 'y', data=results, estimator=None, units='simulation_run', 
 
 
     
-![png](Lesson_AF_01_random_generation_and_montecarlo_files/Lesson_AF_01_random_generation_and_montecarlo_114_1.png)
+![png](Lesson_AF_01_random_generation_and_montecarlo_files/Lesson_AF_01_random_generation_and_montecarlo_117_1.png)
     
 
 
@@ -1700,7 +1727,7 @@ sns.lineplot("time", 'y', data=results.query("time>0.5 and time<2"),
 
 
     
-![png](Lesson_AF_01_random_generation_and_montecarlo_files/Lesson_AF_01_random_generation_and_montecarlo_115_1.png)
+![png](Lesson_AF_01_random_generation_and_montecarlo_files/Lesson_AF_01_random_generation_and_montecarlo_118_1.png)
     
 
 

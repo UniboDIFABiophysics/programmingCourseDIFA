@@ -1,161 +1,5 @@
 # ODE integration, sensitivity and fitting
 
-## second take for the quasi-markov processes
-
-We will use a different low-discrepancy serie today, [based on the golden ratio numbers](http://extremelearning.com.au/unreasonable-effectiveness-of-quasirandom-sequences/)
-
-It is very simple to implement as it is fundamentally similar to the traditional linear congruential generator.
-
-
-```python
-import numpy as np
-import scipy.stats as st
-import pylab as plt
-import pandas as pd
-import seaborn as sns
-```
-
-
-```python
-# Using the above nested radical formula for g=phi_d 
-# or you could just hard-code it. 
-# phi(1) = 1.61803398874989484820458683436563 
-# phi(2) = 1.32471795724474602596090885447809 
-def phi(d, precision=30): 
-    x = 2.00
-    for i in range(precision): 
-        x = pow(1+x,1/(d+1)) 
-    return x
-```
-
-
-```python
-def gaussian_icdf(q):
-    return st.norm.isf(q)
-
-def identity(x):
-    return x
-```
-
-
-```python
-def a_generate(ndim, Npoints, *, seed=0.5, mapper=identity):
-    # get the base for the dimension
-    g = phi(ndim) 
-    # this is the inizialization constant for the array
-    alpha = ((1/g)**np.arange(1, ndim+1))%1  
-    # reshaping to allow broadcasting
-    alpha = alpha.reshape(1, -1) 
-    # just the count of the sequence
-    base = np.arange(Npoints).reshape(-1, 1) 
-    # perform the actual calculation
-    z = seed + alpha*base 
-    # tale only the decimal part
-    z = z % 1
-    # return a mapped version to some distribution
-    return mapper(z) 
-```
-
-
-```python
-a_generate(1, 10, mapper=gaussian_icdf)
-```
-
-
-
-
-    array([[ 0.        ],
-           [ 1.18487221],
-           [-0.63126993],
-           [ 0.37426935],
-           [-1.91315596],
-           [-0.22798216],
-           [ 0.81266899],
-           [-0.93940245],
-           [ 0.14014703],
-           [ 1.53570072]])
-
-
-
-
-```python
-rn = a_generate(1, 30, mapper=gaussian_icdf)
-sns.distplot(rn)
-```
-
-
-
-
-    <matplotlib.axes._subplots.AxesSubplot at 0x7faea192ccf8>
-
-
-
-
-    
-![png](Lesson_AF_02_Differential_Equations_analysis_files/Lesson_AF_02_Differential_Equations_analysis_7_1.png)
-    
-
-
-
-```python
-# this is an iterable version, if you ever need it
-def Rϕ(ndim=1, *, seed=0.5, mapper=identity):
-    g = phi(ndim) 
-    alpha = ((1/g)**np.arange(1, ndim+1))%1        
-    z = np.ones(ndim)*seed
-    while True:
-        yield mapper(z)
-        z = (z+alpha) %1 
-```
-
-
-```python
-N = 100_000
-x_r = a_generate(1, N, mapper=gaussian_icdf)
-x_g = plt.randn(N)
-
-n = np.arange(1, len(x_r)+1)
-res_r = np.cumsum(x_r)/n
-res_g = np.cumsum(x_g)/n
-
-r = 10
-plt.plot(n[r:], abs(res_r)[r:])
-plt.plot(n[r:], abs(res_g)[r:])
-plt.loglog()
-```
-
-
-
-
-    []
-
-
-
-
-    
-![png](Lesson_AF_02_Differential_Equations_analysis_files/Lesson_AF_02_Differential_Equations_analysis_9_1.png)
-    
-
-
-
-```python
-b0 = a_generate(1, 1000, mapper=st.norm(loc=3, scale=0.1).isf)
-sns.distplot(b0)
-```
-
-
-
-
-    <matplotlib.axes._subplots.AxesSubplot at 0x7faea086d518>
-
-
-
-
-    
-![png](Lesson_AF_02_Differential_Equations_analysis_files/Lesson_AF_02_Differential_Equations_analysis_10_1.png)
-    
-
-
 # Basic ODE integration
 
 we can solve the cauchy problem using *scipy* **odeint** function.
@@ -239,7 +83,7 @@ sns.despine(fig, trim=True, bottom=True, left=True)
 
 
     
-![png](Lesson_AF_02_Differential_Equations_analysis_files/Lesson_AF_02_Differential_Equations_analysis_19_0.png)
+![png](Lesson_AF_02_Differential_Equations_analysis_files/Lesson_AF_02_Differential_Equations_analysis_9_0.png)
     
 
 
@@ -363,7 +207,7 @@ sns.lineplot("time", 'population', data=results, hue='α',
 
 
     
-![png](Lesson_AF_02_Differential_Equations_analysis_files/Lesson_AF_02_Differential_Equations_analysis_24_1.png)
+![png](Lesson_AF_02_Differential_Equations_analysis_files/Lesson_AF_02_Differential_Equations_analysis_14_1.png)
     
 
 
@@ -400,7 +244,7 @@ sns.lineplot("time", 'population', data=results, hue='β',
 
 
     
-![png](Lesson_AF_02_Differential_Equations_analysis_files/Lesson_AF_02_Differential_Equations_analysis_26_1.png)
+![png](Lesson_AF_02_Differential_Equations_analysis_files/Lesson_AF_02_Differential_Equations_analysis_16_1.png)
     
 
 
@@ -446,7 +290,7 @@ sns.lineplot("time", 'population', data=results, hue='α',
 
 
     
-![png](Lesson_AF_02_Differential_Equations_analysis_files/Lesson_AF_02_Differential_Equations_analysis_29_1.png)
+![png](Lesson_AF_02_Differential_Equations_analysis_files/Lesson_AF_02_Differential_Equations_analysis_19_1.png)
     
 
 
@@ -482,7 +326,7 @@ sns.lineplot("time", 'population', data=results, hue='β',
 
 
     
-![png](Lesson_AF_02_Differential_Equations_analysis_files/Lesson_AF_02_Differential_Equations_analysis_31_1.png)
+![png](Lesson_AF_02_Differential_Equations_analysis_files/Lesson_AF_02_Differential_Equations_analysis_21_1.png)
     
 
 
@@ -544,7 +388,7 @@ plt.legend()
 
 
     
-![png](Lesson_AF_02_Differential_Equations_analysis_files/Lesson_AF_02_Differential_Equations_analysis_35_1.png)
+![png](Lesson_AF_02_Differential_Equations_analysis_files/Lesson_AF_02_Differential_Equations_analysis_25_1.png)
     
 
 
@@ -586,7 +430,7 @@ sns.lineplot("time", 'D', **args)
 
 
     
-![png](Lesson_AF_02_Differential_Equations_analysis_files/Lesson_AF_02_Differential_Equations_analysis_38_1.png)
+![png](Lesson_AF_02_Differential_Equations_analysis_files/Lesson_AF_02_Differential_Equations_analysis_28_1.png)
     
 
 
@@ -636,7 +480,7 @@ sns.despine(fg.fig, trim=True)
 
 
     
-![png](Lesson_AF_02_Differential_Equations_analysis_files/Lesson_AF_02_Differential_Equations_analysis_41_0.png)
+![png](Lesson_AF_02_Differential_Equations_analysis_files/Lesson_AF_02_Differential_Equations_analysis_31_0.png)
     
 
 
@@ -653,7 +497,7 @@ sns.despine(fg.fig, trim=True)
 
 
     
-![png](Lesson_AF_02_Differential_Equations_analysis_files/Lesson_AF_02_Differential_Equations_analysis_43_0.png)
+![png](Lesson_AF_02_Differential_Equations_analysis_files/Lesson_AF_02_Differential_Equations_analysis_33_0.png)
     
 
 
@@ -668,7 +512,7 @@ sns.despine(fg.fig, trim=True)
 
 
     
-![png](Lesson_AF_02_Differential_Equations_analysis_files/Lesson_AF_02_Differential_Equations_analysis_44_0.png)
+![png](Lesson_AF_02_Differential_Equations_analysis_files/Lesson_AF_02_Differential_Equations_analysis_34_0.png)
     
 
 
@@ -712,7 +556,7 @@ plt.legend()
 
 
     
-![png](Lesson_AF_02_Differential_Equations_analysis_files/Lesson_AF_02_Differential_Equations_analysis_48_1.png)
+![png](Lesson_AF_02_Differential_Equations_analysis_files/Lesson_AF_02_Differential_Equations_analysis_38_1.png)
     
 
 
@@ -744,7 +588,7 @@ plt.legend()
 
 
     
-![png](Lesson_AF_02_Differential_Equations_analysis_files/Lesson_AF_02_Differential_Equations_analysis_50_1.png)
+![png](Lesson_AF_02_Differential_Equations_analysis_files/Lesson_AF_02_Differential_Equations_analysis_40_1.png)
     
 
 
@@ -822,7 +666,7 @@ plt.legend()
 
 
     
-![png](Lesson_AF_02_Differential_Equations_analysis_files/Lesson_AF_02_Differential_Equations_analysis_53_1.png)
+![png](Lesson_AF_02_Differential_Equations_analysis_files/Lesson_AF_02_Differential_Equations_analysis_43_1.png)
     
 
 
@@ -858,7 +702,7 @@ plt.scatter(x, y)
 
 
     
-![png](Lesson_AF_02_Differential_Equations_analysis_files/Lesson_AF_02_Differential_Equations_analysis_57_1.png)
+![png](Lesson_AF_02_Differential_Equations_analysis_files/Lesson_AF_02_Differential_Equations_analysis_47_1.png)
     
 
 
@@ -887,7 +731,7 @@ plt.plot(x_base, y_hat)
 
 
     
-![png](Lesson_AF_02_Differential_Equations_analysis_files/Lesson_AF_02_Differential_Equations_analysis_59_1.png)
+![png](Lesson_AF_02_Differential_Equations_analysis_files/Lesson_AF_02_Differential_Equations_analysis_49_1.png)
     
 
 
@@ -998,7 +842,7 @@ for params in p_seq:
 
 
     
-![png](Lesson_AF_02_Differential_Equations_analysis_files/Lesson_AF_02_Differential_Equations_analysis_69_0.png)
+![png](Lesson_AF_02_Differential_Equations_analysis_files/Lesson_AF_02_Differential_Equations_analysis_59_0.png)
     
 
 
@@ -1020,7 +864,7 @@ for params in p_seq:
 
 
     
-![png](Lesson_AF_02_Differential_Equations_analysis_files/Lesson_AF_02_Differential_Equations_analysis_71_0.png)
+![png](Lesson_AF_02_Differential_Equations_analysis_files/Lesson_AF_02_Differential_Equations_analysis_61_0.png)
     
 
 
@@ -1055,7 +899,7 @@ plt.fill_between(x_base, p_low, p_top, alpha=0.1, color='teal')
 
 
     
-![png](Lesson_AF_02_Differential_Equations_analysis_files/Lesson_AF_02_Differential_Equations_analysis_74_1.png)
+![png](Lesson_AF_02_Differential_Equations_analysis_files/Lesson_AF_02_Differential_Equations_analysis_64_1.png)
     
 
 
@@ -1086,7 +930,7 @@ plt.plot(time, V)
 
 
     
-![png](Lesson_AF_02_Differential_Equations_analysis_files/Lesson_AF_02_Differential_Equations_analysis_76_1.png)
+![png](Lesson_AF_02_Differential_Equations_analysis_files/Lesson_AF_02_Differential_Equations_analysis_66_1.png)
     
 
 
@@ -1109,7 +953,7 @@ plt.scatter(time, V_obs)
 
 
     
-![png](Lesson_AF_02_Differential_Equations_analysis_files/Lesson_AF_02_Differential_Equations_analysis_77_1.png)
+![png](Lesson_AF_02_Differential_Equations_analysis_files/Lesson_AF_02_Differential_Equations_analysis_67_1.png)
     
 
 
@@ -1180,7 +1024,7 @@ plt.plot(x_base, y_hat, color='r')
 
 
     
-![png](Lesson_AF_02_Differential_Equations_analysis_files/Lesson_AF_02_Differential_Equations_analysis_82_1.png)
+![png](Lesson_AF_02_Differential_Equations_analysis_files/Lesson_AF_02_Differential_Equations_analysis_72_1.png)
     
 
 
@@ -1219,7 +1063,7 @@ plt.fill_between(x_base, p_low_v, p_top_v, alpha=0.5, color='orange')
 
 
     
-![png](Lesson_AF_02_Differential_Equations_analysis_files/Lesson_AF_02_Differential_Equations_analysis_83_1.png)
+![png](Lesson_AF_02_Differential_Equations_analysis_files/Lesson_AF_02_Differential_Equations_analysis_73_1.png)
     
 
 
