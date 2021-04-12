@@ -94,10 +94,10 @@ the slides can be seen live at:
 [markdown](./Lesson_AF_03_continuous_time_random_walks.html)
 
 
-#### AF_04_random_chain_text_generation
-[slides](./Lesson_AF_04_random_chain_text_generation.slides.html)
+#### AF_04_random_sampling_and_statistics
+[slides](./Lesson_AF_09_random_sampling_and_statistics.slides.html)
 
-[markdown](./Lesson_AF_04_random_chain_text_generation.html)
+[markdown](./Lesson_AF_09_random_sampling_and_statistics.html)
 
 
 #### AF_05_functional_programming_part_1
@@ -123,6 +123,12 @@ the slides can be seen live at:
 
 [markdown](./Lesson_AF_08_Documentation_and_API.html)
 
+
+### older lectures
+#### AF_04_random_chain_text_generation
+[slides](./Lesson_AF_04_random_chain_text_generation.slides.html)
+
+[markdown](./Lesson_AF_04_random_chain_text_generation.html)
 
 ## Suggested Books
 
@@ -159,3 +165,5 @@ Data visualization literacy: Definitions, conceptual frameworks, exercises, and 
 
 Ten Simple Rules for Better Figures
 * [https://doi.org/10.1371/journal.pcbi.1003833](https://doi.org/10.1371/journal.pcbi.1003833)
+
+

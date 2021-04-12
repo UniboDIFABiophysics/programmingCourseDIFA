@@ -18,6 +18,7 @@ files = [
     "Lesson_AF_06_functional_programming_part_2.ipynb",
     "Lesson_AF_07_command_line_applications.ipynb",
     "Lesson_AF_08_Documentation_and_API.ipynb",
+    "Lesson_AF_09_random_sampling_and_statistics.ipynb",
 ]
 
 rule html_all:
