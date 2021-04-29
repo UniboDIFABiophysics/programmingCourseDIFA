@@ -1,6 +1,5 @@
 # writing command line applications
 
-## using *plumbum*
 
 Command line applications are a generalization of the idea of script: the execution of the program is conditioned on some parameters provided by the user.
 
@@ -12,23 +11,20 @@ functionalities implemented as CLI applications share a lot of the advantages wi
 
 1. Commands are repeatable
 2. Commands can be shared
-3. Commands ca be automated (and this scales well)
+3. Commands can be automated (and this scales well)
 4. Commands should be readable
 5. Commands can be composed together
 
-In this lesson we will (quickly) overview how to implement one of these program, leveraging a 3rd party library called **plumbum**
+In this lesson we will present how to use the standard library of python to create CLI applications.
 
-Everything we are doing today with **plumbum** can be done in a reasonable way in basic python, but plumbum will provide us a more simple and consistent way of doing it.
+There are a **huge** number of libraries dedicated to help you generating good CLI applications, but they might not be available on most systems and have conflicting requirements.
 
+We will see how to implement the vast majority of what we need from basic python, and you will then be free to try out other approaches.
 
-```python
-import plumbum
-# this script uses plumbum version 1.6.9
-print(plumbum.__version__)
-```
+Some libraries that you might want to check out to explore other approaches to CLI generation are:
 
-    (1, 6, 9)
-
+* plumbum
+* click
 
 ## CLI application good practices
 
@@ -165,51 +161,114 @@ This makes the program more script friendly
 
 ## Preface - utilities
 
-Plumbum provides us some simple utilities to quickly improve the experience of the user when using the application we are writing
+Here I'll show how to implement some simple utilities to quickly improve the experience of the user when using the application we are writing
 
 ### colored text output
 
+On nix systems the terminals support natively colored text.
+
+to show it one needs to change the style configuration with specific strings, and reset them afterwards.
+
+to show normal red text on yellow background, the string is `\033[2;31;43m`
+
+To reset the styles, the string is `\033[0;0m`.
+
+the style string contains 3 terms:
+* style
+* foreground color
+* background color
+
+depending on the terminal, the choice of colors might be more or less rich.
+
+a detailed explaination of the (relatively complex) set of possible values can be seems here:
+
+* https://stackoverflow.com/a/28938235/1784138
+
+my preferred approach is to use a simple context manager to write a whole line with the same style.
+
+One could change multiple styles in the same line, but I'm not a big fan of that.
+
+It should also be noted that these characters should not be written to text or logging!
+We'll see at the end of the lesson how to distinguish if the text is being printed out or printed to text.
+
+
 ```python
-from plumbum import colors
-# this will not work in jupyter notebooks
-print(colors.green & colors.bold | "This is green and bold.")
+from contextlib import contextmanager
+
+@contextmanager
+def highlighted_text():
+    print('\033[2;31;43m', end='')
+    try:
+        yield
+    finally:
+        print("\033[0;0m", end='')
 ```
+
+
+```python
+with highlighted_text():
+    print("ciao")
+print("mondo")
+```
+
+    [2;31;43mciao
+    [0;0mmondo
+
 
 #### note on windows terminal
 
-terminal on windows does not agree with standard color commands.
+terminal on windows does not follow the same standards as nix systems on how to display colors.
 
-If you want to have colored output you can either:
-* force the usage of color with the global flag `colors.use_color=True`
-* use a different library called **colorama**
-
-### image visualization in the terminal
-
-```python
-from PIL import Image as imreader
-from plumbum.cli.image import Image as imdisplay
-im = imreader.open("fractal_wrongness.png")
-# does not work with jupyter
-imdisplay().show_pil(im)
-```
+To colorize ouput on windows you'll need specific libraries such as **colorama**
 
 ### progress bars
 
+progress bars are an extremely useful way of displaying information to the users that the program is running.
+
+There are several libraries dedicated to generate progress bars of various kinds.
+
+here I'll display a simple "rotating" progress bar, that can be applied to any for-loop, using braille characters
+
+(you will need to copy-paste and try yourself to see the result)
+
 
 ```python
-# progress bars
-from plumbum.cli.terminal import Progress
-import time
+from itertools import cycle
 
-for i in Progress.range(10):
-    time.sleep(0.2)
+def progress(iterator):
+    cycling = cycle("⡇⣆⣤⣰⢸⠹⠛⠏")
+    for element in iterator:
+        print(next(cycling), end="\r")
+        yield element
+    print(" \r", end='')
 ```
 
-                                                                                                                                        
 
-### configurations files
+```python
+import time
+for idx in progress(range(10)):
+    time.sleep(0.5)
+print("finished!")
+```
 
-python equivalent - **ConfigParser**
+    finished!
+
+
+### configurations files and defaults
+
+Being able to lead configuration from files is extremely useful, as it allows to costumize the behavior of the program.
+
+This can be perfect by being combined with reading from the environment variables and applying sensible defaults.
+
+To obtain this result we will use three default libraries:
+
+* ConfigParser (to read the config files)
+* collections.ChainMap (to manage defaults and priority in configuration)
+* os.environ (to manage the environment variables)
+
+#### configuration files
+
+they allow to define the behavior in a more or less permanent way (as long as the file exists).
 
 
 ```python
@@ -226,187 +285,396 @@ a=3
 
 
 ```python
-from plumbum import cli
-
-with cli.ConfigINI('.myapp_rc') as conf:
-    one = conf['three']
-    two = conf.get('one', default='2')
-    three = conf.get('OTHER.a')
-    
-    # changing the configuration file
-    conf['OTHER.b'] = 4
-print(one, two, three)
+import configparser
 ```
 
-    3 2 3
+
+```python
+config = configparser.ConfigParser()
+config.read('.myapp_rc')
+```
+
+
+
+
+    ['.myapp_rc']
+
 
 
 
 ```python
-!cat .myapp_rc
+# it contains also the
+list(config["OTHER"].items())
 ```
 
-    [DEFAULT]
-    three = 3
-    one = 2
-    
-    [OTHER]
-    a = 3
-    b = 4
-    
+
+
+
+    [('a', '3'), ('three', '3')]
+
+
+
+
+```python
+# by default it will return lists
+config["OTHER"]["a"]
+```
+
+
+
+
+    '3'
+
+
+
+
+```python
+# we can force it to return and int (or a float, or a bool)
+config["OTHER"].getint("a")
+```
+
+
+
+
+    3
+
+
+
+#### environment variables
+
+they are useful when one want to set the behavior for the whole session, but not store it long term.
+
+all the executions during the session will share the same config.
+
+
+```bash
+%%bash
+MY_ENV_VAR=1
+echo $MY_ENV_VAR
+```
+
+    1
+
+
+
+```bash
+%%bash
+export MY_ENV_VAR=1
+echo $MY_ENV_VAR
+python -c "import os; print(os.environ['MY_ENV_VAR'])"
+```
+
+    1
+    1
+
+
+#### chaining configuration
+
+The class `ChainMap` allows to combine several dictionaries in order of priority, returing the value of the first dictionary in which the key is found.
+
+This can be used to properly handle user configuration in order of logical priority:
+
+* arguments passed to the program (we'll discuss it later using argparse)
+* environment variables
+* local/user configuration files
+* global configuration files
+* fundamental program default (a simple dictionary in the program)
+
+
+```python
+from collections import ChainMap
+```
+
+
+```python
+import os
+default_config = dict(a='4', b='5')
+final_config = ChainMap(os.environ, config["OTHER"], default_config)
+```
+
+
+```python
+# take it from the config file
+final_config['a']
+```
+
+
+
+
+    '3'
+
+
+
+
+```python
+# take it from the default configuration
+final_config['b']
+```
+
+
+
+
+    '5'
+
 
 
 ### reading user input
 
-python equivalent -- `rawinput` function
+There are two main functions to read user input: 
+* `input` for standard text
+* `getpass.getpass` for passwords
+
+In general I strongly discourage relying on user input for managing the program, and strongly suggest to rely on configurations of various kind.
+
+If the program actually needs to be interactive (to generate a REPL), one can use the **cmd** default library (but I'm not going to cover that today)
+
+### Path objects
+
+to manipulate file and directory locations, the best (and most cross-platform) way to do it is to use the **pathlib** library, that defines a `Path` object.
 
 
 ```python
-import plumbum.cli.terminal as terminal
-# see also ask and prompt
-terminal.choose("favorite color?", ['red', 'green', 'blue'], default='blue')
+from pathlib import Path
 ```
 
-    favorite color?
-    (1) red
-    (2) green
-    (3) blue
-    Choice [3]: 
-
-
-
-
-    'blue'
-
-
-
-### the local computer
-
-python equivalent - **subprocesses**
-
 
 ```python
-from plumbum import local
-ls = local["ls"]
-print(ls().splitlines()[:4])
-```
-
-    ['Code dump.ipynb', 'Conda_Environment_instructions.txt', 'directory_structure.png', 'directory_structure.svg']
-
-
-the `local.cmd` dynamically loads programs from the environment.
-
-There is actually no such package, everything is created on the fly!
-
-
-```python
-from plumbum.cmd import grep, cat
-```
-
-Programs can be combined in pipes in the same way as one could do in the bash shell.
-
-these pipes, in the same way as the individual programs, are not run until called
-
-
-```python
-ls|grep['.png']
+Path.home()
 ```
 
 
 
 
-    Pipeline(LocalCommand(/bin/ls), BoundCommand(LocalCommand(/bin/grep), ['.png']))
+    PosixPath('/home/enrico')
 
 
 
 
 ```python
-pipe = ls|grep['.png']
-print(pipe())
-```
-
-    directory_structure.png
-    file_inode_permissions.png
-    fractal_wrongness.png
-    OS_structure.png
-    __temp_ipython__.png
-    users_and_groups.png
-    
-
-
-### background and foreground execution
-```python
-from plumbum import FG, BG
-ls["-l"] & FG
-```
-
-### input-output redirection
-```python
-import sys
-((grep["world"] < sys.stdin) > "tmp.txt")()
-cat("tmp.txt")
-```
-
-
-```python
-pipe = (cat << "hello world\nfoo\nbar\spam" | grep["oo"])
-pipe()
+p = Path.home()/"didattica"/"programmingCourseDIFA"
+p
 ```
 
 
 
 
-    'foo\n'
+    PosixPath('/home/enrico/didattica/programmingCourseDIFA')
 
 
 
 
 ```python
-# temporarely change the working directory
-with local.cwd(local.cwd / "myapp"):
-    print(local.cwd)
-```
-
-    /home/enrico/didattica/corso_programmazione_1819/programmingCourseDIFA/myapp
-
-
-### remote connection to other machines
-
-
-```python
-from plumbum import SshMachine
-rem = SshMachine("hostname", user = "john", keyfile = "/path/to/idrsa")
-rem.close()
+p.exists()
 ```
 
 
+
+
+    True
+
+
+
+
 ```python
-# connect to a remote machine 
-with SshMachine("hostname", user = "john", keyfile = "/path/to/idrsa") as rem:
-    pass
+p.is_dir()
 ```
 
 
+
+
+    True
+
+
+
+
 ```python
-# temporarely change the working directory in the remote server
-with rem.cwd(rem.cwd / "Desktop"):
-    print(rem.cwd)
+p.is_file()
 ```
 
 
+
+
+    False
+
+
+
+
 ```python
-# port tunneling
-with rem.tunnel(6666, 8888):
-    pass
+list(p.iterdir())[:3]
 ```
 
 
+
+
+    [PosixPath('/home/enrico/didattica/programmingCourseDIFA/Lesson_08_Data_pipelines_and_Snakemake.html'),
+     PosixPath('/home/enrico/didattica/programmingCourseDIFA/README.md'),
+     PosixPath('/home/enrico/didattica/programmingCourseDIFA/Lesson_AF_09_random_sampling_and_statistics.slides.html')]
+
+
+
+
 ```python
-# local grep of a remote ls
-from plumbum.cmd import grep
-r_ls = rem["ls"]
-pipe = r_ls | grep["b"]
-pipe()
+# simple globbing
+list(p.glob("*.txt"))[:3]
+```
+
+
+
+
+    [PosixPath('/home/enrico/didattica/programmingCourseDIFA/temp.txt'),
+     PosixPath('/home/enrico/didattica/programmingCourseDIFA/Conda_Environment_instructions.txt')]
+
+
+
+
+```python
+# recursive globbing
+list(p.rglob("*.txt"))
+```
+
+
+
+
+    [PosixPath('/home/enrico/didattica/programmingCourseDIFA/temp.txt'),
+     PosixPath('/home/enrico/didattica/programmingCourseDIFA/Conda_Environment_instructions.txt'),
+     PosixPath('/home/enrico/didattica/programmingCourseDIFA/divine_comedy/divina_commedia_with_copyright_notice.txt'),
+     PosixPath('/home/enrico/didattica/programmingCourseDIFA/divine_comedy/divinacommedia_cleaned.txt')]
+
+
+
+
+```python
+for item in p.iterdir():
+    if item.is_dir():
+        relative_item = item.relative_to(p)
+        print(relative_item)
+```
+
+    .ipynb_checkpoints
+    immagini
+    Lesson_01_introduction_files
+    Lesson_AF_03_continuous_time_random_walks_files
+    .mypy_cache
+    Lesson_AF_09_random_sampling_and_statistics_files
+    Lesson_09_DataFrame_and_Pandas_files
+    .git
+    Lesson_AF_02_Differential_Equations_analysis_files
+    divine_comedy
+    Lesson_06_Vectorization_files
+    Lesson_10_object_oriented_programming_sklearn_files
+    .snakemake
+    snakemake_exercise
+    Lesson_AF_01_random_generation_and_montecarlo_files
+    Lesson_07_Scientific_computation_libraries_files
+
+
+if you want to make sure that a file exists before opening, one can use `Path.touch`, that will create an empty file if none exists
+
+
+```python
+p = Path('Lesson_AF_08_Documentation_and_API.ipynb')
+p
+```
+
+
+
+
+    PosixPath('Lesson_AF_08_Documentation_and_API.ipynb')
+
+
+
+
+```python
+p.exists()
+```
+
+
+
+
+    True
+
+
+
+
+```python
+p.name
+```
+
+
+
+
+    'Lesson_AF_08_Documentation_and_API.ipynb'
+
+
+
+
+```python
+p.stem
+```
+
+
+
+
+    'Lesson_AF_08_Documentation_and_API'
+
+
+
+
+```python
+p.suffixes
+```
+
+
+
+
+    ['.ipynb']
+
+
+
+
+```python
+p.with_suffix(".py")
+```
+
+
+
+
+    PosixPath('Lesson_AF_08_Documentation_and_API.py')
+
+
+
+
+```python
+p.absolute()
+```
+
+
+
+
+    PosixPath('/home/enrico/didattica/programmingCourseDIFA/Lesson_AF_08_Documentation_and_API.ipynb')
+
+
+
+
+```python
+p.absolute().relative_to(Path.home()/"didattica")
+```
+
+
+
+
+    PosixPath('programmingCourseDIFA/Lesson_AF_08_Documentation_and_API.ipynb')
+
+
+
+
+```python
+p = Path("non_existing_dir")
+p.mkdir(exist_ok=True)
+assert p.exists()
+# before removing, the directory must be empty!
+p.rmdir()
+assert not p.exists()
 ```
 
 # Command line programs
@@ -436,7 +704,7 @@ if __name__=='__main__':
 
 ```python
 # this execute a single python command and quit
-!python3 -c "import my_first_app"
+!python -c "import my_first_app"
 ```
 
     this will be executed everytime
@@ -444,7 +712,7 @@ if __name__=='__main__':
 
 
 ```python
-!python3 ./my_first_app.py
+!python ./my_first_app.py
 ```
 
     this will be executed everytime
@@ -466,7 +734,7 @@ if __name__=='__main__':
 
 
 ```python
-!python3 ./my_first_app.py arg1 arg2
+!python ./my_first_app.py arg1 arg2
 ```
 
     ['./my_first_app.py', 'arg1', 'arg2']
@@ -476,9 +744,11 @@ Python comes with a module that provide automatic arguments and options parsing,
 
 the official tutorial can be found on the [python documentation](https://docs.python.org/dev/howto/argparse.html)
 
-It works, but it creates a code that is usually hard to read and manage when the options get more complicated.
+It works, but it creates a code that can be hard to read and manage when the options get more complicated.
 
-it is also missing all the support classes and functions that plumbum provides and that make easier to create high quality CLI
+it is also missing all the support classes and functions that other libraries provides and that make easier to create high quality CLI.
+
+But it is also always avaiable and it is still a very powerful library, in particular when combined with the option management discussed earlier, and it is worth knowing about!
 
 
 ```python
@@ -498,7 +768,7 @@ if __name__=='__main__':
 
 
 ```python
-!python3 ./my_first_app.py --help
+!python ./my_first_app.py --help
 ```
 
     usage: my_first_app.py [-h] echo
@@ -512,103 +782,98 @@ if __name__=='__main__':
 
 
 ```python
-!python3 ./my_first_app.py to_be_said
+!python ./my_first_app.py to_be_said
 ```
 
     the received string is: to_be_said
 
 
-# Command line classes
+the parsed arguments are structures as a simple object (a `NamedSpace`)
+
+
+```python
+%%file my_first_app.py
+if __name__=='__main__':
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument("echo", help="echo the string you use here")
+    
+    args = parser.parse_args()
+    
+    print("the received arguments are: {}".format(args))
+```
+
+    Overwriting my_first_app.py
+
+
+
+```python
+!python ./my_first_app.py to_be_said
+```
+
+    the received arguments are: Namespace(echo='to_be_said')
+
+
+# Command line arguments structure
 
 command line applications can be imagined as structured in a similar way to a function:
 
 There are a certain number of ordinal arguments, and a certain number of named options.
 
-*flags* are thebinary options, so they relate to named paramaters with boolean options.
+*flags* are the binary options, so they relate to named paramaters with boolean options.
 
 Tipically the arguments are the main focus of the program, while the option determines exactly how the execution is performed.
-My suggestion would be to allow to always pass values as optsion alongside as arguments, as it allows to improve the readibility of the commands in a script.
 
-The design approach of plumbum is that a program is a class.
-
-Options and flags connect to methods that configure the **self** attributes
-
-Parameters are given to a **main** function that is the method that performs the program execution.
-
-The **main** function have access to the results of the configuration as the configured **self** instance.
+My suggestion would be to allow to always pass values as options alongside as arguments, as it allows to improve the readibility of the commands in a script.
 
 
 ```python
 %%file my_app.py
-from plumbum import cli
-
-class MyApp(cli.Application):
-    """returns the square of a number
-    """
-    PROGNAME = "MyGloriousApp" # these are special values that Plumbum parses
-    VERSION = "0.1" # these are special values that Plumbum parses
+if __name__=='__main__':
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument("value", help="value to be squared", type=float)
     
-    def main(self, value: float):
-        #value = float(value)
-        print("result: {}".format(value**2))
-
-if __name__ == "__main__":
-    MyApp()
+    args = parser.parse_args()
+    
+    print(args.value**2)
 ```
 
-    Overwriting my_app.py
+    Writing my_app.py
 
 
 
 ```python
-!python3 my_app.py --help
+!python my_app.py --help
 ```
 
-    MyGloriousApp 0.1
+    usage: my_app.py [-h] value
     
-    returns the square of a number
+    positional arguments:
+      value       value to be squared
     
-    Usage:
-        MyGloriousApp [SWITCHES] value
-    
-    Meta-switches:
-        -h, --help         Prints this help message and quits
-        --help-all         Prints help messages of all sub-commands and quits
-        -v, --version      Prints the program's version and quits
-    
-    [0m
+    optional arguments:
+      -h, --help  show this help message and exit
+
 
 
 ```python
-# type decoration is used to enforce arguments type and convert them.
-!python3 my_app.py 3
+# type is used to enforce arguments type and convert them.
+!python my_app.py 3
 ```
 
-    result: 9.0
-    [0m
+    9.0
+
 
 
 ```python
-# type decoration is used to enforce arguments type and convert them.
-!python3 my_app.py a
+# type is used to enforce arguments type and convert them.
+!python my_app.py a
 ```
 
-    Error: Argument of value expected to be <class 'float'>, not 'a':
-        ValueError("could not convert string to float: 'a'",)
-    ------
-    MyGloriousApp 0.1
-    
-    returns the square of a number
-    
-    Usage:
-        MyGloriousApp [SWITCHES] value
-    
-    Meta-switches:
-        -h, --help         Prints this help message and quits
-        --help-all         Prints help messages of all sub-commands and quits
-        -v, --version      Prints the program's version and quits
-    
-    [0m
+    usage: my_app.py [-h] value
+    my_app.py: error: argument value: invalid float value: 'a'
+
 
 ### using flags
 flags and options are separated from the main, and are either functions of attributes of the class
@@ -616,21 +881,20 @@ flags and options are separated from the main, and are either functions of attri
 
 ```python
 %%file my_app.py
-from plumbum import cli
-
-class MyApp(cli.Application):
-    PROGNAME = "MyGloriousApp"
-    VERSION = "0.1"
+if __name__=='__main__':
+    import argparse
+    parser = argparse.ArgumentParser()
+    # positional arguments
+    parser.add_argument("filename", help="file to be read")
+    # named argument, default to False, True is present
+    parser.add_argument("-v", "--verbose", help="increase output verbosity", action="store_true")
     
-    verbose = cli.Flag(["v", "verbose"], help = "If given, I will be very talkative")
-
-    def main(self, filename):
-        print("I will now read {0}".format(filename))
-        if self.verbose:
-            print("Yadda " * 200)
-
-if __name__ == "__main__":
-    MyApp()
+    args = parser.parse_args()
+    
+    print(f'I will now read the file "{args.filename}"')
+    
+    if args.verbose:
+        print("Yadda "*30)
 ```
 
     Overwriting my_app.py
@@ -647,73 +911,72 @@ Flags and switches can be:
 
 
 ```python
-!python3 my_app.py --help
+!python my_app.py --help
 ```
 
-    MyGloriousApp 0.1
+    usage: my_app.py [-h] [-v] filename
     
-    Usage:
-        MyGloriousApp [SWITCHES] filename
+    positional arguments:
+      filename       file to be read
     
-    Meta-switches:
-        -h, --help         Prints this help message and quits
-        --help-all         Prints help messages of all sub-commands and quits
-        --version          Prints the program's version and quits
-    
-    Switches:
-        -v, --verbose      If given, I will be very talkative
-    
-    [0m
+    optional arguments:
+      -h, --help     show this help message and exit
+      -v, --verbose  increase output verbosity
+
 
 
 ```python
-!python3 my_app.py foo
+!python my_app.py foo
 ```
 
-    I will now read foo
-    [0m
+    I will now read the file "foo"
+
 
 
 ```python
-!python3 my_app.py foo --verbose
+!python my_app.py foo --verbose
 ```
 
-    I will now read foo
-    Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda 
-    [0m
+    I will now read the file "foo"
+    Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda 
+
 
 
 ```python
 !python3 my_app.py foo -v
 ```
 
-    I will now read foo
-    Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda 
-    [0m
+    I will now read the file "foo"
+    Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda 
+
 
 
 ```python
 %%file my_app.py
-from plumbum import cli
-
-class MyApp(cli.Application):
-    PROGNAME = "MyGloriousApp"
-    VERSION = "0.1"
-    _log_file = None
+if __name__=='__main__':
+    import argparse
+    parser = argparse.ArgumentParser()
     
-    @cli.switch("--log-to-file", str)
-    def log_to_file(self, filename):
-        """Sets the file into which logs will be emitted"""
-        self._log_file = filename
-
-    def main(self, filename):
-        print("I will now read {0}".format(filename))
-        if self._log_file is not None:
-            with open(self._log_file, 'w') as outfile:
-                print("I will now read {0}".format(filename), file=outfile)
-
-if __name__ == "__main__":
-    MyApp()
+    # positional arguments
+    parser.add_argument("filename", help="file to be read")
+    
+    # named argument, default to False, True is present
+    # has an optional short form
+    parser.add_argument("-v", "--verbose", help="increase output verbosity", action="store_true")
+    
+    # named argument, takes a string as a value
+    # has no short version
+    parser.add_argument("--log-to-file", help="Sets the file into which logs will be emitted", type=str)
+    
+    args = parser.parse_args()
+    
+    print(f'I will now read the file "{args.filename}"')
+    if args.log_to_file is not None:
+        with open(args.log_to_file, 'w') as outfile:
+            print("I will now read {0}".format(args.filename), file=outfile)
+    
+    if args.verbose:
+        print("Yadda "*30)
 ```
 
     Overwriting my_app.py
@@ -721,16 +984,19 @@ if __name__ == "__main__":
 
 
 ```python
-!rm -f temp_log.txt
+!python my_app.py foo
 ```
+
+    I will now read the file "foo"
+
 
 
 ```python
-!python3 my_app.py foo --log-to-file temp_log.txt
+!python my_app.py foo --log-to-file temp_log.txt
 ```
 
-    I will now read foo
-    [0m
+    I will now read the file "foo"
+
 
 
 ```python
@@ -746,43 +1012,31 @@ sub-commands are a way to group together several related program under a single 
 
 a classical example is **git**.
 
-They are create in plumbum as classes that are linked to the original one.
-
 In argparsers they are defined as subparsers.
 
 
 ```python
 %%file my_app.py
-from plumbum import cli
-
-class MyApp(cli.Application):
-    """returns the square of a number
-    """
-    PROGNAME = "MyGloriousApp"
-    VERSION = "0.1"
+if __name__=='__main__':
+    import argparse
+    parser = argparse.ArgumentParser()
+    subparsers = parser.add_subparsers(help='possible actions', dest='subparser')
     
-    def main(self):
-        if not self.nested_command:           # will be ``None`` if no sub-command follows
-            print("No command given")
-            return 1   # error exit code
-
-@MyApp.subcommand("pow")
-class MyAppPow(cli.Application):
-    "calculate the square power instead"
-    def main(self, value, power=2):
-        value = float(value)
-        power = float(power)
-        print("result: {}".format(value**power))    
+    square_parser = subparsers.add_parser('pow', help='calculate the square power')
+    square_parser.add_argument("value", help="value to be squared", type=float)
+    # optional argument
+    square_parser.add_argument("power", 
+        help="power to raised at", 
+        type=float,
+        nargs='?', # this argument might be absent
+        default=2, # the default value it takes if it absent
+    )
     
-@MyApp.subcommand("sqrt")
-class MyAppSqrt(cli.Application):
-    "calculate the square root instead"
-    def main(self, value):
-        value = float(value)
-        print("result: {}".format(value**0.5))
-        
-if __name__ == "__main__":
-    MyApp()
+    sqrt_parser = subparsers.add_parser('sqrt', help='calculate the square root')
+    sqrt_parser.add_argument("value", help="value to be square rooted", type=float)
+    
+    args = parser.parse_args()
+    print(args)
 ```
 
     Overwriting my_app.py
@@ -790,93 +1044,130 @@ if __name__ == "__main__":
 
 
 ```python
-!python3 my_app.py --help
+!python my_app.py --help
 ```
 
-    MyGloriousApp 0.1
+    usage: my_app.py [-h] {pow,sqrt} ...
     
-    returns the square of a number
+    positional arguments:
+      {pow,sqrt}  possible actions
+        pow       calculate the square power
+        sqrt      calculate the square root
     
-    Usage:
-        MyGloriousApp [SWITCHES] [SUBCOMMAND [SWITCHES]] 
-    
-    Meta-switches:
-        -h, --help         Prints this help message and quits
-        --help-all         Prints help messages of all sub-commands and quits
-        -v, --version      Prints the program's version and quits
-    
-    Sub-commands:
-        pow                calculate the square power instead; see 'MyGloriousApp
-                           pow --help' for more info
-        sqrt               calculate the square root instead; see 'MyGloriousApp
-                           sqrt --help' for more info
-    [0m
+    optional arguments:
+      -h, --help  show this help message and exit
+
 
 
 ```python
-!python3 my_app.py sqrt --help
+!python my_app.py pow --help
 ```
 
-    MyGloriousApp sqrt 0.1
+    usage: my_app.py pow [-h] value [power]
     
-    calculate the square root instead
+    positional arguments:
+      value       value to be squared
+      power       power to raised at
     
-    Usage:
-        MyGloriousApp sqrt [SWITCHES] value
-    
-    Meta-switches:
-        -h, --help         Prints this help message and quits
-        --help-all         Prints help messages of all sub-commands and quits
-        -v, --version      Prints the program's version and quits
-    
-    [0m
+    optional arguments:
+      -h, --help  show this help message and exit
+
 
 
 ```python
-!python3 my_app.py pow --help
+!python my_app.py sqrt --help
 ```
 
-    MyGloriousApp pow 0.1
+    usage: my_app.py sqrt [-h] value
     
-    calculate the square power instead
+    positional arguments:
+      value       value to be square rooted
     
-    Usage:
-        MyGloriousApp pow [SWITCHES] value [power=2]
-    
-    Meta-switches:
-        -h, --help         Prints this help message and quits
-        --help-all         Prints help messages of all sub-commands and quits
-        -v, --version      Prints the program's version and quits
-    
-    [0m
+    optional arguments:
+      -h, --help  show this help message and exit
+
 
 
 ```python
-!python3 my_app.py sqrt 9
+!python my_app.py pow 1
 ```
 
-    result: 3.0
-    [0m
+    Namespace(power=2, subparser='pow', value=1.0)
+
+
+in general, to manage more complex programs, it is better to break apart the logic in several functions
+
+it will come back useful later when we consider installing the application!
 
 
 ```python
-!python3 my_app.py pow 3
+%%file my_app.py
+import argparse
+
+def main_square(args):
+    print(args.value**args.power)
+    
+def main_sqrt(args):
+    print(args.value**0.5)
+
+def main():
+    parser = argparse.ArgumentParser()
+    subparsers = parser.add_subparsers(help='possible actions', dest='subparser')
+    
+    square_parser = subparsers.add_parser('pow', help='calculate the square power')
+    square_parser.add_argument("value", help="value to be squared", type=float)
+    # optional argument
+    square_parser.add_argument("power", 
+        help="power to raised at", 
+        type=float,
+        nargs='?', # this argument might be absent
+        default=2, # the default value it takes if it absent
+    )
+    
+    sqrt_parser = subparsers.add_parser('sqrt', help='calculate the square root')
+    sqrt_parser.add_argument("value", help="value to be square rooted", type=float)
+    
+    args = parser.parse_args()
+    
+    if args.subparser=='pow':
+        main_square(args)
+    if args.subparser=='sqrt':
+        main_sqrt(args)
+        
+if __name__=='__main__':
+    main()
 ```
 
-    result: 9.0
-    [0m
+    Overwriting my_app.py
+
 
 
 ```python
-!python3 my_app.py pow 3 0.5
+!python my_app.py pow 4
 ```
 
-    result: 1.7320508075688772
-    [0m
+    16.0
+
+
+
+```python
+!python my_app.py pow 2 3
+```
+
+    8.0
+
+
+
+```python
+!python my_app.py sqrt 4
+```
+
+    2.0
+
 
 ### Subcommands in practice
 
-Try to keep the options between the subcommands coherent: if one implements `--help`, another implements `--documentation`, another implement `--explain` to accedd the help of the function, it is messy. try to maintain consistency in names and behaviors
+Try to keep the options between the subcommands coherent: if one implements `--help`, another implements `--documentation`, another implement `--explain` to access the help of the function, it is messy. try to maintain consistency in names and behaviors
 
 two subcommands that could probably be useful in most applications are:
 * `help` - to provide a more indept documentation of your program, divided by topics (try to type `help()` in Python)
@@ -912,42 +1203,48 @@ My application is going to be in the `__main__.py` file. No special reason for t
 
 
 ```python
+!mkdir -p myapp/myapp/
 !touch ./myapp/myapp/__init__.py
 ```
 
 
 ```python
 %%file ./myapp/myapp/__main__.py
-from plumbum import cli
+import argparse
 
-class MyApp(cli.Application):
-    """returns the square of a number
-    """
-    PROGNAME = "MyGloriousApp"
-    VERSION = "0.1"
+def main_square(args):
+    print(args.value**args.power)
     
-    def main(self):
-        if not self.nested_command:           # will be ``None`` if no sub-command follows
-            print("No command given")
-            return 1   # error exit code
+def main_sqrt(args):
+    print(args.value**0.5)
 
-@MyApp.subcommand("pow")
-class MyAppPow(cli.Application):
-    "calculate the square power instead"
-    def main(self, value, power=2):
-        value = float(value)
-        power = float(power)
-        print("result: {}".format(value**power))    
+def main():
+    parser = argparse.ArgumentParser()
+    subparsers = parser.add_subparsers(help='possible actions', dest='subparser')
     
-@MyApp.subcommand("sqrt")
-class MyAppSqrt(cli.Application):
-    "calculate the square root instead"
-    def main(self, value):
-        value = float(value)
-        print("result: {}".format(value**0.5))
+    square_parser = subparsers.add_parser('pow', help='calculate the square power')
+    square_parser.add_argument("value", help="value to be squared", type=float)
+    # optional argument
+    square_parser.add_argument("power", 
+        help="power to raised at", 
+        type=float,
+        nargs='?', # this argument might be absent
+        default=2, # the default value it takes if it absent
+    )
+    
+    sqrt_parser = subparsers.add_parser('sqrt', help='calculate the square root')
+    sqrt_parser.add_argument("value", help="value to be square rooted", type=float)
+    
+    args = parser.parse_args()
+    
+    if args.subparser=='pow':
+        main_square(args)
+    if args.subparser=='sqrt':
+        main_sqrt(args)
         
-if __name__ == "__main__":
-    MyApp.run()
+if __name__=='__main__':
+    main()
+    
 ```
 
     Overwriting ./myapp/myapp/__main__.py
@@ -956,8 +1253,10 @@ if __name__ == "__main__":
 The file necessary for setuptools to work properly is the `setup.py`, where we will use the `setup` function of the `setuptools` module.
 
 This function configure many things for us, but the most important thing is the `entry_point` parameter.
+
 This creates the link to the scripts that we will actually execute.
-Inside this parameter we specify that two entry points are `console_scripts` that should execute the script and the function provided.
+
+Inside this parameter we specify that there is an entry point atht is a `console_scripts`, that should execute the script and the function provided.
 
 
 ```python
@@ -968,11 +1267,10 @@ setup(
     name = 'myapp',
     version = '0.1.0',
     packages = ['myapp'],
-    install_requires=[ 'plumbum', ],
+    #install_requires = ["required_package", ],
     entry_points = {
         'console_scripts': [
-            'myapp = myapp.__main__:MyApp',
-            'myappsqrt = myapp.__main__:MyAppSqrt',
+            'myapp = myapp.__main__:main',
         ]
     })
 ```
@@ -980,15 +1278,11 @@ setup(
     Overwriting ./myapp/setup.py
 
 
-In this case we decided to let the user use the standard program (choosing the sub command to use) or to provide a shortcut to the subcommand itself.
-
-In this case the plumbum structure comes very useful: we can call directly the subcommand class to execute our subcommand.
-
 the name we put before the `=` sign is going to be the command name that we will use to call the program from the command line
 
 Last special mention goes to the `install_requires`: this list allows to specify all the dependencies of the package.
 If they are not installed, they will automatically downloaded and installed by pip.
-In our case the only dependency that we have is for the `plumbum` package
+In our case we don't have dependencies so we don't need it
 
 ### the installation step
 
@@ -1002,8 +1296,7 @@ This means that if you edit the program, the modifications will appear live in t
 !pip install --editable myapp
 ```
 
-    Obtaining file:///home/enrico/didattica/corso_programmazione_1819/programmingCourseDIFA/myapp
-    Requirement already satisfied: plumbum in /home/enrico/miniconda3/lib/python3.6/site-packages (from myapp==0.1.0) (1.6.7)
+    Obtaining file:///home/enrico/didattica/programmingCourseDIFA/myapp
     Installing collected packages: myapp
       Running setup.py develop for myapp
     Successfully installed myapp
@@ -1014,24 +1307,16 @@ This means that if you edit the program, the modifications will appear live in t
 !myapp --help
 ```
 
-    MyGloriousApp 0.1
+    usage: myapp [-h] {pow,sqrt} ...
     
-    returns the square of a number
+    positional arguments:
+      {pow,sqrt}  possible actions
+        pow       calculate the square power
+        sqrt      calculate the square root
     
-    Usage:
-        MyGloriousApp [SWITCHES] [SUBCOMMAND [SWITCHES]] 
-    
-    Meta-switches:
-        -h, --help         Prints this help message and quits
-        --help-all         Prints help messages of all sub-commands and quits
-        -v, --version      Prints the program's version and quits
-    
-    Sub-commands:
-        pow                calculate the square power instead; see 'MyGloriousApp
-                           pow --help' for more info
-        sqrt               calculate the square root instead; see 'MyGloriousApp
-                           sqrt --help' for more info
-    [0m
+    optional arguments:
+      -h, --help  show this help message and exit
+
 
 We can call the base program or the specific subcommand, as we specified
 
@@ -1040,16 +1325,8 @@ We can call the base program or the specific subcommand, as we specified
 !myapp sqrt 9 
 ```
 
-    result: 3.0
-    [0m
+    3.0
 
-
-```python
-!myappsqrt 9
-```
-
-    result: 3.0
-    [0m
 
 Lastly, we can uninstall the program from any location
 
@@ -1058,27 +1335,15 @@ Lastly, we can uninstall the program from any location
 !pip uninstall -y myapp
 ```
 
+    Found existing installation: myapp 0.1.0
     Uninstalling myapp-0.1.0:
       Successfully uninstalled myapp-0.1.0
 
 
-If one needs to shop non-code files (such as images, configuration files, etc...)
+If one needs to ship non-code files (such as images, configuration files, etc...)
 check:
 
 https://python-packaging.readthedocs.io/en/latest/non-code-files.html
-
-given that now **myapp** is a system program, I can load it using `plumbum` as any other application!
-
-
-```python
-myapp_hook = local['myapp']
-sqrt_hook = myapp_hook['sqrt']
-print(sqrt_hook(9))
-```
-
-    result: 3.0
-    
-
 
 # Testing CLI
 
@@ -1101,17 +1366,46 @@ Testing the filesystem I/O is more complicated, and in general one have to creat
 
 some additional things you might want to test:
 * change the current working directory before launcing the program, and verify that it doesnt spaz out
-* check that you can really get as ipnut files in different directories from where you're working, both as input and output
+* check that you can really get as input files in different directories from where you're working, both as input and output
 * What happens when the input file doesn’t exist?
 * Does our program exit with an error when we provide wrong arguments?
 * does the logging system work as intended?
 
 it is also important to not get wrapped in details: for example testing the formatting of the text of the help flag is not a productive activity.
-In th same way, try to avoid testing for things that might be platform dependent, such as the exact python version!
+
+In the same way, try to avoid testing for things that might be platform dependent, such as the exact python version!
 
 being able to run the CLI programmatically means you can also test with hypothesis.
 
 also, this is not actually dependent on the fact that the program is written in python: you can use these lines to test **any** CLI!
+
+### executing local programs - subprocesses
+
+running processes from python (i.e. external programs that exists in the system) can be done from the Subprocesses module.
+
+in general the program is executed in a specific, isolated shell, and the commands is not passed directly, but rather pre-processed for security reasons
+
+#### blocking execution
+
+run a program and wait until it has finished running
+
+
+```python
+from subprocess import run, PIPE
+run(["pwd"],
+    stdout=PIPE,
+    stdin=PIPE,
+    stderr=PIPE,
+    text=True,
+)
+```
+
+
+
+
+    CompletedProcess(args=['pwd'], returncode=0, stdout='/home/enrico/didattica/programmingCourseDIFA\n', stderr='')
+
+
 
 
 ```python
@@ -1125,36 +1419,127 @@ print(repr(result.stderr))
 print(result.returncode)
 ```
 
-    'Python 3.7.7\n'
+    'Python 3.8.6\n'
     ''
     0
 
 
+#### running shell lines
+
+if one wants to run a shell command, rather than executing a program, one can use the `shell` option.
+
+beware to not use it on your machine with arbitrary user input, as it can be a massive security risk!
+
 
 ```python
-result
+# multiple commands
+run(["echo ciao; echo bello"],
+    stdout=PIPE,
+    stdin=PIPE,
+    stderr=PIPE,
+    text=True,
+    shell=True,
+)
 ```
 
 
 
 
-    CompletedProcess(args=['python', '--version'], returncode=0, stdout='Python 3.7.7\n', stderr='')
+    CompletedProcess(args=['echo ciao; echo bello'], returncode=0, stdout='ciao\nbello\n', stderr='')
 
 
-
-the option `shell=True` makes it easier to write complicated command lines where the division is not clear, but never use it to execute user provided lines, **it is a security breach!**
 
 
 ```python
-result = run("python --version", shell=True, capture_output=True, encoding='utf8')
-result
+# shell piping
+run(["ls *.ipynb | wc -l"],
+    stdout=PIPE,
+    stdin=PIPE,
+    stderr=PIPE,
+    text=True,
+    shell=True,
+)
 ```
 
 
 
 
-    CompletedProcess(args='python --version', returncode=0, stdout='Python 3.7.7\n', stderr='')
+    CompletedProcess(args=['ls *.ipynb | wc -l'], returncode=0, stdout='20\n', stderr='')
 
+
+
+### non-blocking execution
+
+run a program and without waiting until it has finished running.
+
+it implements a concept called a future: the first function call return an object that you can pass around and actually use only when needed (and wait if needed).
+
+
+```python
+from subprocess import Popen
+```
+
+The `Popen` object has basically the same parameters as the `run` function, but returns a promise instead of directly the results
+
+
+```python
+def execute(*args):
+    return Popen(args, stdout=PIPE, stdin=PIPE, stderr=PIPE, text=True)
+```
+
+to retrieve the content of the call, one can use the `communicate` function.
+
+it will wait until the program finishes!
+
+
+```python
+p = execute("echo", "ciao")
+p.communicate()
+```
+
+
+
+
+    ('ciao\n', '')
+
+
+
+
+```python
+p.returncode
+```
+
+
+
+
+    0
+
+
+
+if we want to check if the program has finished running, we can check with the `poll` function:
+
+* if the program ended, it will return the return code
+* if it hasn't, it will return None
+
+
+```python
+p = execute("sleep", "2")
+if p.poll() is None:
+    print("still sleeping")
+```
+
+    still sleeping
+
+
+
+```python
+if p.poll() is None:
+    print("still sleeping")
+else:
+    print("finished sleeping")
+```
+
+    finished sleeping
 
 
 subprocesses allow us also to pass some input to simulate pipes or the interaction with the user.
@@ -1180,21 +1565,6 @@ result
 
     CompletedProcess(args=['python', 'temp.py'], returncode=0, stdout='tell me your name:hello enrico\n', stderr='')
 
-
-
-It also allow us to keep the process alive and to interact with it by using the PIPE object
-
-
-```python
-process = subprocess.Popen(["python", "temp.py"],
-                           stdin=subprocess.PIPE,
-                           stdout=subprocess.PIPE)
-process.stdin.write(b"enrico\n")
-print(process.communicate()[0])
-process.stdin.close()
-```
-
-    b'tell me your name:hello enrico\r\n'
 
 
 Finally, we can also simulate multiple programs feeding each other I/O to test how are program would behave in a pipeline of various programs.
@@ -1254,7 +1624,27 @@ temp_path.unlink()
 assert not temp_path.exists()
 ```
 
-At this point we can test that our progrma write to the destination as intended we we pass it as an argument!
+an alternative is the tempfile module
+
+
+```python
+import tempfile
+```
+
+
+```python
+tf = tempfile.NamedTemporaryFile(dir=".")
+tf.name
+```
+
+
+
+
+    '/home/enrico/didattica/programmingCourseDIFA/tmp6cyvjh6g'
+
+
+
+At this point we can test that our program write to the destination as intended we we pass it as an argument!
 
 
 ```python
@@ -1316,6 +1706,23 @@ for line in map(str.strip, sys.stdin):
 
     -- 1 --
 
+
+If you want to be able to parse from both stdin and files you can use the fileinput library
+
+This iterates over the lines of all files listed in `sys.argv[1:]`, defaulting to sys.stdin if the list is empty.
+
+If a filename is `'-'`, it is also replaced by sys.stdin and the optional arguments mode and openhook are ignored.
+
+To specify an alternative list of filenames, pass it as the first argument to input().
+
+A single file name is also allowed.
+
+
+```python
+import fileinput
+for line in fileinput.input():
+    process(line)
+```
 
 ### MapReduce philosophy
 
@@ -2052,3 +2459,40 @@ for name, loc in sample_locales:
          Italy    123.456      123.456,78
         Poland    123 456      123 456,78
 
+
+
+```python
+import argparse
+parser = argparse.ArgumentParser()
+parser.add_argument("--debug")
+args = parser.parse_args()
+cli_args = {key: value for key, value in vars(args).items() if value}
+
+```
+
+
+```python
+def execute(*args):
+    return Popen(args, stdout=PIPE, stdin=PIPE, stderr=PIPE, text=True)
+
+p = execute("echo", "ciao")
+p.communicate()
+p = execute("sleep", "10")
+p.poll()
+# None if running
+# retcode if ended
+
+run(["echo ciao; echo bello"], stdout=PIPE, stdin=PIPE, stderr=PIPE, text=True, shell=True)
+run(["ssh bio8 pwd"], stdout=PIPE, stdin=PIPE, stderr=PIPE, text=True, shell=True)
+
+
+import fileinput
+for line in fileinput.input():
+    process(line)
+
+# This iterates over the lines of all files listed in sys.argv[1:], defaulting to sys.stdin if the list is empty.
+# If a filename is '-', it is also replaced by sys.stdin and the optional arguments mode and openhook are ignored.
+# To specify an alternative list of filenames, pass it as the first argument to input().
+# A single file name is also allowed.
+
+```

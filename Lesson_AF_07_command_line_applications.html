@@ -10,9 +10,9 @@
 
 <style type="text/css">
     pre { line-height: 125%; }
-td.linenos pre { color: #000000; background-color: #f0f0f0; padding-left: 5px; padding-right: 5px; }
-span.linenos { color: #000000; background-color: #f0f0f0; padding-left: 5px; padding-right: 5px; }
-td.linenos pre.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
 span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
 .highlight .hll { background-color: var(--jp-cell-editor-active-background) }
 .highlight { background: var(--jp-cell-editor-background); color: var(--jp-mirror-editor-variable-color) }
@@ -14259,7 +14259,7 @@ a.anchor-link {
 
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h1 id="writing-command-line-applications">writing command line applications<a class="anchor-link" href="#writing-command-line-applications">&#182;</a></h1><h2 id="using-plumbum">using <em>plumbum</em><a class="anchor-link" href="#using-plumbum">&#182;</a></h2>
+<h1 id="writing-command-line-applications">writing command line applications<a class="anchor-link" href="#writing-command-line-applications">&#182;</a></h1>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
@@ -14275,7 +14275,7 @@ a.anchor-link {
 <ol>
 <li>Commands are repeatable</li>
 <li>Commands can be shared</li>
-<li>Commands ca be automated (and this scales well)</li>
+<li>Commands can be automated (and this scales well)</li>
 <li>Commands should be readable</li>
 <li>Commands can be composed together</li>
 </ol>
@@ -14284,47 +14284,21 @@ a.anchor-link {
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>In this lesson we will (quickly) overview how to implement one of these program, leveraging a 3rd party library called <strong>plumbum</strong></p>
-<p>Everything we are doing today with <strong>plumbum</strong> can be done in a reasonable way in basic python, but plumbum will provide us a more simple and consistent way of doing it.</p>
+<p>In this lesson we will present how to use the standard library of python to create CLI applications.</p>
+<p>There are a <strong>huge</strong> number of libraries dedicated to help you generating good CLI applications, but they might not be available on most systems and have conflicting requirements.</p>
+<p>We will see how to implement the vast majority of what we need from basic python, and you will then be free to try out other approaches.</p>
 
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[1]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">plumbum</span>
-<span class="c1"># this script uses plumbum version 1.6.9</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">plumbum</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
-</pre></div>
-
-     </div>
 </div>
-</div>
-</div>
-
-<div class="jp-Cell-outputWrapper">
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>(1, 6, 9)
-</pre>
-</div>
-</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>Some libraries that you might want to check out to explore other approaches to CLI generation are:</p>
+<ul>
+<li>plumbum</li>
+<li>click</li>
+</ul>
 
 </div>
-
-</div>
-
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
@@ -14471,57 +14445,69 @@ Even better, try to use a progress bar with a time estimate (plumbum has you cov
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Preface---utilities">Preface - utilities<a class="anchor-link" href="#Preface---utilities">&#182;</a></h2><p>Plumbum provides us some simple utilities to quickly improve the experience of the user when using the application we are writing</p>
+<h2 id="Preface---utilities">Preface - utilities<a class="anchor-link" href="#Preface---utilities">&#182;</a></h2><p>Here I'll show how to implement some simple utilities to quickly improve the experience of the user when using the application we are writing</p>
 
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="colored-text-output">colored text output<a class="anchor-link" href="#colored-text-output">&#182;</a></h3><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">plumbum</span> <span class="kn">import</span> <span class="n">colors</span>
-<span class="c1"># this will not work in jupyter notebooks</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">colors</span><span class="o">.</span><span class="n">green</span> <span class="o">&amp;</span> <span class="n">colors</span><span class="o">.</span><span class="n">bold</span> <span class="o">|</span> <span class="s2">&quot;This is green and bold.&quot;</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h4 id="note-on-windows-terminal">note on windows terminal<a class="anchor-link" href="#note-on-windows-terminal">&#182;</a></h4><p>terminal on windows does not agree with standard color commands.</p>
-<p>If you want to have colored output you can either:</p>
+<h3 id="colored-text-output">colored text output<a class="anchor-link" href="#colored-text-output">&#182;</a></h3><p>On nix systems the terminals support natively colored text.</p>
+<p>to show it one needs to change the style configuration with specific strings, and reset them afterwards.</p>
+<p>to show normal red text on yellow background, the string is <code>\033[2;31;43m</code></p>
+<p>To reset the styles, the string is <code>\033[0;0m</code>.</p>
+<p>the style string contains 3 terms:</p>
 <ul>
-<li>force the usage of color with the global flag <code>colors.use_color=True</code></li>
-<li>use a different library called <strong>colorama</strong></li>
+<li>style</li>
+<li>foreground color</li>
+<li>background color</li>
+</ul>
+<p>depending on the terminal, the choice of colors might be more or less rich.</p>
+<p>a detailed explaination of the (relatively complex) set of possible values can be seems here:</p>
+<ul>
+<li><a href="https://stackoverflow.com/a/28938235/1784138">https://stackoverflow.com/a/28938235/1784138</a></li>
 </ul>
 
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="image-visualization-in-the-terminal">image visualization in the terminal<a class="anchor-link" href="#image-visualization-in-the-terminal">&#182;</a></h3><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span> <span class="k">as</span> <span class="n">imreader</span>
-<span class="kn">from</span> <span class="nn">plumbum.cli.image</span> <span class="kn">import</span> <span class="n">Image</span> <span class="k">as</span> <span class="n">imdisplay</span>
-<span class="n">im</span> <span class="o">=</span> <span class="n">imreader</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;fractal_wrongness.png&quot;</span><span class="p">)</span>
-<span class="c1"># does not work with jupyter</span>
-<span class="n">imdisplay</span><span class="p">()</span><span class="o">.</span><span class="n">show_pil</span><span class="p">(</span><span class="n">im</span><span class="p">)</span>
-</pre></div>
+<p>my preferred approach is to use a simple context manager to write a whole line with the same style.</p>
+<p>One could change multiple styles in the same line, but I'm not a big fan of that.</p>
+<p>It should also be noted that these characters should not be written to text or logging!
+We'll see at the end of the lesson how to distinguish if the text is being printed out or printed to text.</p>
 
 </div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[5]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">contextlib</span> <span class="kn">import</span> <span class="n">contextmanager</span>
+
+<span class="nd">@contextmanager</span>
+<span class="k">def</span> <span class="nf">highlighted_text</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\033</span><span class="s1">[2;31;43m&#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">yield</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\033</span><span class="s2">[0;0m&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+</pre></div>
+
+     </div>
 </div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="progress-bars">progress bars<a class="anchor-link" href="#progress-bars">&#182;</a></h3>
 </div>
+</div>
+
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[196]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[6]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># progress bars</span>
-<span class="kn">from</span> <span class="nn">plumbum.cli.terminal</span> <span class="kn">import</span> <span class="n">Progress</span>
-<span class="kn">import</span> <span class="nn">time</span>
-
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">Progress</span><span class="o">.</span><span class="n">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
-    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.2</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">highlighted_text</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ciao&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;mondo&quot;</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -14541,7 +14527,9 @@ Even better, try to use a progress bar with a time estimate (plumbum has you cov
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>                                                                                                                                    </pre>
+<pre><span class="ansi-red-fg ansi-yellow-bg">ciao
+</span>mondo
+</pre>
 </div>
 </div>
 
@@ -14552,13 +14540,101 @@ Even better, try to use a progress bar with a time estimate (plumbum has you cov
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="configurations-files">configurations files<a class="anchor-link" href="#configurations-files">&#182;</a></h3><p>python equivalent - <strong>ConfigParser</strong></p>
+<h4 id="note-on-windows-terminal">note on windows terminal<a class="anchor-link" href="#note-on-windows-terminal">&#182;</a></h4><p>terminal on windows does not follow the same standards as nix systems on how to display colors.</p>
+<p>To colorize ouput on windows you'll need specific libraries such as <strong>colorama</strong></p>
+
+</div>
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h3 id="progress-bars">progress bars<a class="anchor-link" href="#progress-bars">&#182;</a></h3><p>progress bars are an extremely useful way of displaying information to the users that the program is running.</p>
+<p>There are several libraries dedicated to generate progress bars of various kinds.</p>
+<p>here I'll display a simple "rotating" progress bar, that can be applied to any for-loop, using braille characters</p>
+<p>(you will need to copy-paste and try yourself to see the result)</p>
+
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[12]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">cycle</span>
+
+<span class="k">def</span> <span class="nf">progress</span><span class="p">(</span><span class="n">iterator</span><span class="p">):</span>
+    <span class="n">cycling</span> <span class="o">=</span> <span class="n">cycle</span><span class="p">(</span><span class="s2">&quot;⡇⣆⣤⣰⢸⠹⠛⠏&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">iterator</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="n">cycling</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\r</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">yield</span> <span class="n">element</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; </span><span class="se">\r</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[47]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">time</span>
+<span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">progress</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)):</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;finished!&quot;</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>finished!
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h3 id="configurations-files-and-defaults">configurations files and defaults<a class="anchor-link" href="#configurations-files-and-defaults">&#182;</a></h3><p>Being able to lead configuration from files is extremely useful, as it allows to costumize the behavior of the program.</p>
+<p>This can be perfect by being combined with reading from the environment variables and applying sensible defaults.</p>
+<p>To obtain this result we will use three default libraries:</p>
+<ul>
+<li>ConfigParser (to read the config files)</li>
+<li>collections.ChainMap (to manage defaults and priority in configuration)</li>
+<li>os.environ (to manage the environment variables)</li>
+</ul>
+
+</div>
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h4 id="configuration-files">configuration files<a class="anchor-link" href="#configuration-files">&#182;</a></h4><p>they allow to define the behavior in a more or less permanent way (as long as the file exists).</p>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[32]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[26]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%file</span> .myapp_rc
@@ -14595,22 +14671,66 @@ Even better, try to use a progress bar with a time estimate (plumbum has you cov
 
 </div>
 
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[27]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">configparser</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[28]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">config</span> <span class="o">=</span> <span class="n">configparser</span><span class="o">.</span><span class="n">ConfigParser</span><span class="p">()</span>
+<span class="n">config</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s1">&#39;.myapp_rc&#39;</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[28]:</div>
+
+
+
+
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
+<pre>[&#39;.myapp_rc&#39;]</pre>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[33]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">plumbum</span> <span class="kn">import</span> <span class="n">cli</span>
-
-<span class="k">with</span> <span class="n">cli</span><span class="o">.</span><span class="n">ConfigINI</span><span class="p">(</span><span class="s1">&#39;.myapp_rc&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">conf</span><span class="p">:</span>
-    <span class="n">one</span> <span class="o">=</span> <span class="n">conf</span><span class="p">[</span><span class="s1">&#39;three&#39;</span><span class="p">]</span>
-    <span class="n">two</span> <span class="o">=</span> <span class="n">conf</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;one&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;2&#39;</span><span class="p">)</span>
-    <span class="n">three</span> <span class="o">=</span> <span class="n">conf</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;OTHER.a&#39;</span><span class="p">)</span>
-    
-    <span class="c1"># changing the configuration file</span>
-    <span class="n">conf</span><span class="p">[</span><span class="s1">&#39;OTHER.b&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">4</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">one</span><span class="p">,</span> <span class="n">two</span><span class="p">,</span> <span class="n">three</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># it contains also the</span>
+<span class="nb">list</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;OTHER&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
 </pre></div>
 
      </div>
@@ -14626,113 +14746,89 @@ Even better, try to use a progress bar with a time estimate (plumbum has you cov
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>3 2 3
-</pre>
-</div>
-</div>
-
-</div>
-
-</div>
-
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[34]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>cat .myapp_rc
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-<div class="jp-Cell-outputWrapper">
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>[DEFAULT]
-three = 3
-one = 2
-
-[OTHER]
-a = 3
-b = 4
-
-</pre>
-</div>
-</div>
-
-</div>
-
-</div>
-
-</div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="reading-user-input">reading user input<a class="anchor-link" href="#reading-user-input">&#182;</a></h3><p>python equivalent -- <code>rawinput</code> function</p>
-
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[36]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">plumbum.cli.terminal</span> <span class="k">as</span> <span class="nn">terminal</span>
-<span class="c1"># see also ask and prompt</span>
-<span class="n">terminal</span><span class="o">.</span><span class="n">choose</span><span class="p">(</span><span class="s2">&quot;favorite color?&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="s1">&#39;blue&#39;</span><span class="p">],</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-<div class="jp-Cell-outputWrapper">
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>favorite color?
-(1) red
-(2) green
-(3) blue
-Choice [3]: </pre>
-</div>
-</div>
-
-<div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[36]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[33]:</div>
 
 
 
 
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
-<pre>&#39;blue&#39;</pre>
+<pre>[(&#39;a&#39;, &#39;3&#39;), (&#39;three&#39;, &#39;3&#39;)]</pre>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[40]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># by default it will return lists</span>
+<span class="n">config</span><span class="p">[</span><span class="s2">&quot;OTHER&quot;</span><span class="p">][</span><span class="s2">&quot;a&quot;</span><span class="p">]</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[40]:</div>
+
+
+
+
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
+<pre>&#39;3&#39;</pre>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[42]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># we can force it to return and int (or a float, or a bool)</span>
+<span class="n">config</span><span class="p">[</span><span class="s2">&quot;OTHER&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">getint</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[42]:</div>
+
+
+
+
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
+<pre>3</pre>
 </div>
 
 </div>
@@ -14744,18 +14840,19 @@ Choice [3]: </pre>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="the-local-computer">the local computer<a class="anchor-link" href="#the-local-computer">&#182;</a></h3><p>python equivalent - <strong>subprocesses</strong></p>
+<h4 id="environment-variables">environment variables<a class="anchor-link" href="#environment-variables">&#182;</a></h4><p>they are useful when one want to set the behavior for the whole session, but not store it long term.</p>
+<p>all the executions during the session will share the same config.</p>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[43]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[21]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">plumbum</span> <span class="kn">import</span> <span class="n">local</span>
-<span class="n">ls</span> <span class="o">=</span> <span class="n">local</span><span class="p">[</span><span class="s2">&quot;ls&quot;</span><span class="p">]</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">ls</span><span class="p">()</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()[:</span><span class="mi">4</span><span class="p">])</span>
+<div class=" highlight hl-ipython3"><pre><span></span>%%bash
+<span class="nv">MY_ENV_VAR</span><span class="o">=</span><span class="m">1</span>
+<span class="nb">echo</span> <span class="nv">$MY_ENV_VAR</span>
 </pre></div>
 
      </div>
@@ -14775,7 +14872,46 @@ Choice [3]: </pre>
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>[&#39;Code dump.ipynb&#39;, &#39;Conda_Environment_instructions.txt&#39;, &#39;directory_structure.png&#39;, &#39;directory_structure.svg&#39;]
+<pre>1
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[24]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span>%%bash
+<span class="nb">export</span> <span class="nv">MY_ENV_VAR</span><span class="o">=</span><span class="m">1</span>
+<span class="nb">echo</span> <span class="nv">$MY_ENV_VAR</span>
+python -c <span class="s2">&quot;import os; print(os.environ[&#39;MY_ENV_VAR&#39;])&quot;</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>1
+1
 </pre>
 </div>
 </div>
@@ -14787,17 +14923,24 @@ Choice [3]: </pre>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>the <code>local.cmd</code> dynamically loads programs from the environment.</p>
-<p>There is actually no such package, everything is created on the fly!</p>
+<h4 id="chaining-configuration">chaining configuration<a class="anchor-link" href="#chaining-configuration">&#182;</a></h4><p>The class <code>ChainMap</code> allows to combine several dictionaries in order of priority, returing the value of the first dictionary in which the key is found.</p>
+<p>This can be used to properly handle user configuration in order of logical priority:</p>
+<ul>
+<li>arguments passed to the program (we'll discuss it later using argparse)</li>
+<li>environment variables</li>
+<li>local/user configuration files</li>
+<li>global configuration files</li>
+<li>fundamental program default (a simple dictionary in the program)</li>
+</ul>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[44]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[48]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">plumbum.cmd</span> <span class="kn">import</span> <span class="n">grep</span><span class="p">,</span> <span class="n">cat</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">ChainMap</span>
 </pre></div>
 
      </div>
@@ -14805,20 +14948,30 @@ Choice [3]: </pre>
 </div>
 </div>
 
-</div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Programs can be combined in pipes in the same way as one could do in the bash shell.</p>
-<p>these pipes, in the same way as the individual programs, are not run until called</p>
-
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[49]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ls</span><span class="o">|</span><span class="n">grep</span><span class="p">[</span><span class="s1">&#39;.png&#39;</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="n">default_config</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="s1">&#39;4&#39;</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="s1">&#39;5&#39;</span><span class="p">)</span>
+<span class="n">final_config</span> <span class="o">=</span> <span class="n">ChainMap</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">,</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;OTHER&quot;</span><span class="p">],</span> <span class="n">default_config</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[50]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># take it from the config file</span>
+<span class="n">final_config</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">]</span>
 </pre></div>
 
      </div>
@@ -14834,13 +14987,13 @@ Choice [3]: </pre>
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[49]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[50]:</div>
 
 
 
 
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
-<pre>Pipeline(LocalCommand(/bin/ls), BoundCommand(LocalCommand(/bin/grep), [&#39;.png&#39;]))</pre>
+<pre>&#39;3&#39;</pre>
 </div>
 
 </div>
@@ -14850,13 +15003,68 @@ Choice [3]: </pre>
 </div>
 
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[51]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># take it from the default configuration</span>
+<span class="n">final_config</span><span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">]</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[51]:</div>
+
+
+
+
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
+<pre>&#39;5&#39;</pre>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h3 id="reading-user-input">reading user input<a class="anchor-link" href="#reading-user-input">&#182;</a></h3><p>There are two main functions to read user input:</p>
+<ul>
+<li><code>input</code> for standard text</li>
+<li><code>getpass.getpass</code> for passwords</li>
+</ul>
+<p>In general I strongly discourage relying on user input for managing the program, and strongly suggest to rely on configurations of various kind.</p>
+<p>If the program actually needs to be interactive (to generate a REPL), one can use the <strong>cmd</strong> default library (but I'm not going to cover that today)</p>
+
+</div>
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h3 id="Path-objects">Path objects<a class="anchor-link" href="#Path-objects">&#182;</a></h3><p>to manipulate file and directory locations, the best (and most cross-platform) way to do it is to use the <strong>pathlib</strong> library, that defines a <code>Path</code> object.</p>
+
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[52]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pipe</span> <span class="o">=</span> <span class="n">ls</span><span class="o">|</span><span class="n">grep</span><span class="p">[</span><span class="s1">&#39;.png&#39;</span><span class="p">]</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">pipe</span><span class="p">())</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 </pre></div>
 
      </div>
@@ -14864,58 +15072,13 @@ Choice [3]: </pre>
 </div>
 </div>
 
-<div class="jp-Cell-outputWrapper">
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>directory_structure.png
-file_inode_permissions.png
-fractal_wrongness.png
-OS_structure.png
-__temp_ipython__.png
-users_and_groups.png
-
-</pre>
-</div>
-</div>
-
-</div>
-
-</div>
-
-</div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="background-and-foreground-execution">background and foreground execution<a class="anchor-link" href="#background-and-foreground-execution">&#182;</a></h3><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">plumbum</span> <span class="kn">import</span> <span class="n">FG</span><span class="p">,</span> <span class="n">BG</span>
-<span class="n">ls</span><span class="p">[</span><span class="s2">&quot;-l&quot;</span><span class="p">]</span> <span class="o">&amp;</span> <span class="n">FG</span>
-</pre></div>
-
-</div>
-</div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="input-output-redirection">input-output redirection<a class="anchor-link" href="#input-output-redirection">&#182;</a></h3><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
-<span class="p">((</span><span class="n">grep</span><span class="p">[</span><span class="s2">&quot;world&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdin</span><span class="p">)</span> <span class="o">&gt;</span> <span class="s2">&quot;tmp.txt&quot;</span><span class="p">)()</span>
-<span class="n">cat</span><span class="p">(</span><span class="s2">&quot;tmp.txt&quot;</span><span class="p">)</span>
-</pre></div>
-
-</div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[56]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[55]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pipe</span> <span class="o">=</span> <span class="p">(</span><span class="n">cat</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;hello world</span><span class="se">\n</span><span class="s2">foo</span><span class="se">\n</span><span class="s2">bar\spam&quot;</span> <span class="o">|</span> <span class="n">grep</span><span class="p">[</span><span class="s2">&quot;oo&quot;</span><span class="p">])</span>
-<span class="n">pipe</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Path</span><span class="o">.</span><span class="n">home</span><span class="p">()</span>
 </pre></div>
 
      </div>
@@ -14931,13 +15094,13 @@ users_and_groups.png
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[56]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[55]:</div>
 
 
 
 
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
-<pre>&#39;foo\n&#39;</pre>
+<pre>PosixPath(&#39;/home/enrico&#39;)</pre>
 </div>
 
 </div>
@@ -14949,12 +15112,281 @@ users_and_groups.png
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[170]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[80]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># temporarely change the working directory</span>
-<span class="k">with</span> <span class="n">local</span><span class="o">.</span><span class="n">cwd</span><span class="p">(</span><span class="n">local</span><span class="o">.</span><span class="n">cwd</span> <span class="o">/</span> <span class="s2">&quot;myapp&quot;</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">local</span><span class="o">.</span><span class="n">cwd</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">p</span> <span class="o">=</span> <span class="n">Path</span><span class="o">.</span><span class="n">home</span><span class="p">()</span><span class="o">/</span><span class="s2">&quot;didattica&quot;</span><span class="o">/</span><span class="s2">&quot;programmingCourseDIFA&quot;</span>
+<span class="n">p</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[80]:</div>
+
+
+
+
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
+<pre>PosixPath(&#39;/home/enrico/didattica/programmingCourseDIFA&#39;)</pre>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[81]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">p</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[81]:</div>
+
+
+
+
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
+<pre>True</pre>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[82]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">p</span><span class="o">.</span><span class="n">is_dir</span><span class="p">()</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[82]:</div>
+
+
+
+
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
+<pre>True</pre>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[83]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">p</span><span class="o">.</span><span class="n">is_file</span><span class="p">()</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[83]:</div>
+
+
+
+
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
+<pre>False</pre>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[85]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">list</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">iterdir</span><span class="p">())[:</span><span class="mi">3</span><span class="p">]</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[85]:</div>
+
+
+
+
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
+<pre>[PosixPath(&#39;/home/enrico/didattica/programmingCourseDIFA/Lesson_08_Data_pipelines_and_Snakemake.html&#39;),
+ PosixPath(&#39;/home/enrico/didattica/programmingCourseDIFA/README.md&#39;),
+ PosixPath(&#39;/home/enrico/didattica/programmingCourseDIFA/Lesson_AF_09_random_sampling_and_statistics.slides.html&#39;)]</pre>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[93]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># simple globbing</span>
+<span class="nb">list</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s2">&quot;*.txt&quot;</span><span class="p">))[:</span><span class="mi">3</span><span class="p">]</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[93]:</div>
+
+
+
+
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
+<pre>[PosixPath(&#39;/home/enrico/didattica/programmingCourseDIFA/temp.txt&#39;),
+ PosixPath(&#39;/home/enrico/didattica/programmingCourseDIFA/Conda_Environment_instructions.txt&#39;)]</pre>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[94]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># recursive globbing</span>
+<span class="nb">list</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">rglob</span><span class="p">(</span><span class="s2">&quot;*.txt&quot;</span><span class="p">))</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[94]:</div>
+
+
+
+
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
+<pre>[PosixPath(&#39;/home/enrico/didattica/programmingCourseDIFA/temp.txt&#39;),
+ PosixPath(&#39;/home/enrico/didattica/programmingCourseDIFA/Conda_Environment_instructions.txt&#39;),
+ PosixPath(&#39;/home/enrico/didattica/programmingCourseDIFA/divine_comedy/divina_commedia_with_copyright_notice.txt&#39;),
+ PosixPath(&#39;/home/enrico/didattica/programmingCourseDIFA/divine_comedy/divinacommedia_cleaned.txt&#39;)]</pre>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[95]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">p</span><span class="o">.</span><span class="n">iterdir</span><span class="p">():</span>
+    <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">is_dir</span><span class="p">():</span>
+        <span class="n">relative_item</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">relative_to</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">relative_item</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -14974,7 +15406,22 @@ users_and_groups.png
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>/home/enrico/didattica/corso_programmazione_1819/programmingCourseDIFA/myapp
+<pre>.ipynb_checkpoints
+immagini
+Lesson_01_introduction_files
+Lesson_AF_03_continuous_time_random_walks_files
+.mypy_cache
+Lesson_AF_09_random_sampling_and_statistics_files
+Lesson_09_DataFrame_and_Pandas_files
+.git
+Lesson_AF_02_Differential_Equations_analysis_files
+divine_comedy
+Lesson_06_Vectorization_files
+Lesson_10_object_oriented_programming_sklearn_files
+.snakemake
+snakemake_exercise
+Lesson_AF_01_random_generation_and_montecarlo_files
+Lesson_07_Scientific_computation_libraries_files
 </pre>
 </div>
 </div>
@@ -14986,17 +15433,17 @@ users_and_groups.png
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="remote-connection-to-other-machines">remote connection to other machines<a class="anchor-link" href="#remote-connection-to-other-machines">&#182;</a></h3>
+<p>if you want to make sure that a file exists before opening, one can use <code>Path.touch</code>, that will create an empty file if none exists</p>
+
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[103]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">plumbum</span> <span class="kn">import</span> <span class="n">SshMachine</span>
-<span class="n">rem</span> <span class="o">=</span> <span class="n">SshMachine</span><span class="p">(</span><span class="s2">&quot;hostname&quot;</span><span class="p">,</span> <span class="n">user</span> <span class="o">=</span> <span class="s2">&quot;john&quot;</span><span class="p">,</span> <span class="n">keyfile</span> <span class="o">=</span> <span class="s2">&quot;/path/to/idrsa&quot;</span><span class="p">)</span>
-<span class="n">rem</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">p</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s1">&#39;Lesson_AF_08_Documentation_and_API.ipynb&#39;</span><span class="p">)</span>
+<span class="n">p</span>
 </pre></div>
 
      </div>
@@ -15004,15 +15451,36 @@ users_and_groups.png
 </div>
 </div>
 
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[103]:</div>
+
+
+
+
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
+<pre>PosixPath(&#39;Lesson_AF_08_Documentation_and_API.ipynb&#39;)</pre>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[104]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># connect to a remote machine </span>
-<span class="k">with</span> <span class="n">SshMachine</span><span class="p">(</span><span class="s2">&quot;hostname&quot;</span><span class="p">,</span> <span class="n">user</span> <span class="o">=</span> <span class="s2">&quot;john&quot;</span><span class="p">,</span> <span class="n">keyfile</span> <span class="o">=</span> <span class="s2">&quot;/path/to/idrsa&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">rem</span><span class="p">:</span>
-    <span class="k">pass</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">p</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span>
 </pre></div>
 
      </div>
@@ -15020,15 +15488,36 @@ users_and_groups.png
 </div>
 </div>
 
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[104]:</div>
+
+
+
+
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
+<pre>True</pre>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[105]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># temporarely change the working directory in the remote server</span>
-<span class="k">with</span> <span class="n">rem</span><span class="o">.</span><span class="n">cwd</span><span class="p">(</span><span class="n">rem</span><span class="o">.</span><span class="n">cwd</span> <span class="o">/</span> <span class="s2">&quot;Desktop&quot;</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">rem</span><span class="o">.</span><span class="n">cwd</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">p</span><span class="o">.</span><span class="n">name</span>
 </pre></div>
 
      </div>
@@ -15036,15 +15525,36 @@ users_and_groups.png
 </div>
 </div>
 
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[105]:</div>
+
+
+
+
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
+<pre>&#39;Lesson_AF_08_Documentation_and_API.ipynb&#39;</pre>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[106]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># port tunneling</span>
-<span class="k">with</span> <span class="n">rem</span><span class="o">.</span><span class="n">tunnel</span><span class="p">(</span><span class="mi">6666</span><span class="p">,</span> <span class="mi">8888</span><span class="p">):</span>
-    <span class="k">pass</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">p</span><span class="o">.</span><span class="n">stem</span>
 </pre></div>
 
      </div>
@@ -15052,17 +15562,189 @@ users_and_groups.png
 </div>
 </div>
 
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[106]:</div>
+
+
+
+
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
+<pre>&#39;Lesson_AF_08_Documentation_and_API&#39;</pre>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[107]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">p</span><span class="o">.</span><span class="n">suffixes</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[107]:</div>
+
+
+
+
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
+<pre>[&#39;.ipynb&#39;]</pre>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[108]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">p</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.py&quot;</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[108]:</div>
+
+
+
+
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
+<pre>PosixPath(&#39;Lesson_AF_08_Documentation_and_API.py&#39;)</pre>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[109]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">p</span><span class="o">.</span><span class="n">absolute</span><span class="p">()</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[109]:</div>
+
+
+
+
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
+<pre>PosixPath(&#39;/home/enrico/didattica/programmingCourseDIFA/Lesson_AF_08_Documentation_and_API.ipynb&#39;)</pre>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[110]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">p</span><span class="o">.</span><span class="n">absolute</span><span class="p">()</span><span class="o">.</span><span class="n">relative_to</span><span class="p">(</span><span class="n">Path</span><span class="o">.</span><span class="n">home</span><span class="p">()</span><span class="o">/</span><span class="s2">&quot;didattica&quot;</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[110]:</div>
+
+
+
+
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
+<pre>PosixPath(&#39;programmingCourseDIFA/Lesson_AF_08_Documentation_and_API.ipynb&#39;)</pre>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[111]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># local grep of a remote ls</span>
-<span class="kn">from</span> <span class="nn">plumbum.cmd</span> <span class="kn">import</span> <span class="n">grep</span>
-<span class="n">r_ls</span> <span class="o">=</span> <span class="n">rem</span><span class="p">[</span><span class="s2">&quot;ls&quot;</span><span class="p">]</span>
-<span class="n">pipe</span> <span class="o">=</span> <span class="n">r_ls</span> <span class="o">|</span> <span class="n">grep</span><span class="p">[</span><span class="s2">&quot;b&quot;</span><span class="p">]</span>
-<span class="n">pipe</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">p</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;non_existing_dir&quot;</span><span class="p">)</span>
+<span class="n">p</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">p</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span>
+<span class="c1"># before removing, the directory must be empty!</span>
+<span class="n">p</span><span class="o">.</span><span class="n">rmdir</span><span class="p">()</span>
+<span class="k">assert</span> <span class="ow">not</span> <span class="n">p</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span>
 </pre></div>
 
      </div>
@@ -15081,7 +15763,7 @@ users_and_groups.png
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[183]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[13]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%file</span> my_first_app.py
@@ -15124,11 +15806,11 @@ users_and_groups.png
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[185]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[14]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># this execute a single python command and quit</span>
-<span class="o">!</span>python3 -c <span class="s2">&quot;import my_first_app&quot;</span>
+<span class="o">!</span>python -c <span class="s2">&quot;import my_first_app&quot;</span>
 </pre></div>
 
      </div>
@@ -15160,10 +15842,10 @@ users_and_groups.png
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[186]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[15]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>python3 ./my_first_app.py
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>python ./my_first_app.py
 </pre></div>
 
      </div>
@@ -15202,7 +15884,7 @@ this will be executed only on the command line
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[189]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[16]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%file</span> my_first_app.py
@@ -15240,10 +15922,10 @@ this will be executed only on the command line
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[190]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[17]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>python3 ./my_first_app.py arg1 arg2
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>python ./my_first_app.py arg1 arg2
 </pre></div>
 
      </div>
@@ -15277,14 +15959,15 @@ this will be executed only on the command line
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <p>Python comes with a module that provide automatic arguments and options parsing, and works reasonably well, called <code>argparse</code>, that can be used in situations where external libraries can't be installed.</p>
 <p>the official tutorial can be found on the <a href="https://docs.python.org/dev/howto/argparse.html">python documentation</a></p>
-<p>It works, but it creates a code that is usually hard to read and manage when the options get more complicated.</p>
-<p>it is also missing all the support classes and functions that plumbum provides and that make easier to create high quality CLI</p>
+<p>It works, but it creates a code that can be hard to read and manage when the options get more complicated.</p>
+<p>it is also missing all the support classes and functions that other libraries provides and that make easier to create high quality CLI.</p>
+<p>But it is also always avaiable and it is still a very powerful library, in particular when combined with the option management discussed earlier, and it is worth knowing about!</p>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[193]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[18]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%file</span> my_first_app.py
@@ -15327,10 +16010,10 @@ this will be executed only on the command line
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[195]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[19]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>python3 ./my_first_app.py --help
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>python ./my_first_app.py --help
 </pre></div>
 
      </div>
@@ -15368,10 +16051,10 @@ optional arguments:
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[194]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[20]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>python3 ./my_first_app.py to_be_said
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>python ./my_first_app.py to_be_said
 </pre></div>
 
      </div>
@@ -15403,43 +16086,112 @@ optional arguments:
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h1 id="Command-line-classes">Command line classes<a class="anchor-link" href="#Command-line-classes">&#182;</a></h1><p>command line applications can be imagined as structured in a similar way to a function:</p>
-<p>There are a certain number of ordinal arguments, and a certain number of named options.</p>
-<p><em>flags</em> are thebinary options, so they relate to named paramaters with boolean options.</p>
-<p>Tipically the arguments are the main focus of the program, while the option determines exactly how the execution is performed.
-My suggestion would be to allow to always pass values as optsion alongside as arguments, as it allows to improve the readibility of the commands in a script.</p>
+<p>the parsed arguments are structures as a simple object (a <code>NamedSpace</code>)</p>
 
 </div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[21]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%file</span> my_first_app.py
+<span class="k">if</span> <span class="vm">__name__</span><span class="o">==</span><span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">argparse</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">()</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;echo&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;echo the string you use here&quot;</span><span class="p">)</span>
+    
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;the received arguments are: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">args</span><span class="p">))</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>Overwriting my_first_app.py
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[24]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>python ./my_first_app.py to_be_said
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>the received arguments are: Namespace(echo=&#39;to_be_said&#39;)
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>The design approach of plumbum is that a program is a class.</p>
-<p>Options and flags connect to methods that configure the <strong>self</strong> attributes</p>
-<p>Parameters are given to a <strong>main</strong> function that is the method that performs the program execution.</p>
-<p>The <strong>main</strong> function have access to the results of the configuration as the configured <strong>self</strong> instance.</p>
+<h1 id="Command-line-arguments-structure">Command line arguments structure<a class="anchor-link" href="#Command-line-arguments-structure">&#182;</a></h1><p>command line applications can be imagined as structured in a similar way to a function:</p>
+<p>There are a certain number of ordinal arguments, and a certain number of named options.</p>
+<p><em>flags</em> are the binary options, so they relate to named paramaters with boolean options.</p>
+<p>Tipically the arguments are the main focus of the program, while the option determines exactly how the execution is performed.</p>
+<p>My suggestion would be to allow to always pass values as options alongside as arguments, as it allows to improve the readibility of the commands in a script.</p>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[176]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[27]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%file</span> my_app.py
-<span class="kn">from</span> <span class="nn">plumbum</span> <span class="kn">import</span> <span class="n">cli</span>
-
-<span class="k">class</span> <span class="nc">MyApp</span><span class="p">(</span><span class="n">cli</span><span class="o">.</span><span class="n">Application</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;returns the square of a number</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">PROGNAME</span> <span class="o">=</span> <span class="s2">&quot;MyGloriousApp&quot;</span> <span class="c1"># these are special values that Plumbum parses</span>
-    <span class="n">VERSION</span> <span class="o">=</span> <span class="s2">&quot;0.1&quot;</span> <span class="c1"># these are special values that Plumbum parses</span>
+<span class="k">if</span> <span class="vm">__name__</span><span class="o">==</span><span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">argparse</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">()</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;value&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;value to be squared&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
     
-    <span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
-        <span class="c1">#value = float(value)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;result: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">value</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
-
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-    <span class="n">MyApp</span><span class="p">()</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">value</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -15459,7 +16211,7 @@ My suggestion would be to allow to always pass values as optsion alongside as ar
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>Overwriting my_app.py
+<pre>Writing my_app.py
 </pre>
 </div>
 </div>
@@ -15471,10 +16223,10 @@ My suggestion would be to allow to always pass values as optsion alongside as ar
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[177]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[28]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>python3 my_app.py --help
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>python my_app.py --help
 </pre></div>
 
      </div>
@@ -15494,18 +16246,13 @@ My suggestion would be to allow to always pass values as optsion alongside as ar
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>MyGloriousApp 0.1
+<pre>usage: my_app.py [-h] value
 
-returns the square of a number
+positional arguments:
+  value       value to be squared
 
-Usage:
-    MyGloriousApp [SWITCHES] value
-
-Meta-switches:
-    -h, --help         Prints this help message and quits
-    --help-all         Prints help messages of all sub-commands and quits
-    -v, --version      Prints the program&#39;s version and quits
-
+optional arguments:
+  -h, --help  show this help message and exit
 </pre>
 </div>
 </div>
@@ -15517,11 +16264,11 @@ Meta-switches:
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[180]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[29]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># type decoration is used to enforce arguments type and convert them.</span>
-<span class="o">!</span>python3 my_app.py <span class="m">3</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># type is used to enforce arguments type and convert them.</span>
+<span class="o">!</span>python my_app.py <span class="m">3</span>
 </pre></div>
 
      </div>
@@ -15541,7 +16288,7 @@ Meta-switches:
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>result: 9.0
+<pre>9.0
 </pre>
 </div>
 </div>
@@ -15553,11 +16300,11 @@ Meta-switches:
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[178]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[30]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># type decoration is used to enforce arguments type and convert them.</span>
-<span class="o">!</span>python3 my_app.py a
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># type is used to enforce arguments type and convert them.</span>
+<span class="o">!</span>python my_app.py a
 </pre></div>
 
      </div>
@@ -15577,21 +16324,8 @@ Meta-switches:
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>Error: Argument of value expected to be &lt;class &#39;float&#39;&gt;, not &#39;a&#39;:
-    ValueError(&#34;could not convert string to float: &#39;a&#39;&#34;,)
-------
-MyGloriousApp 0.1
-
-returns the square of a number
-
-Usage:
-    MyGloriousApp [SWITCHES] value
-
-Meta-switches:
-    -h, --help         Prints this help message and quits
-    --help-all         Prints help messages of all sub-commands and quits
-    -v, --version      Prints the program&#39;s version and quits
-
+<pre>usage: my_app.py [-h] value
+my_app.py: error: argument value: invalid float value: &#39;a&#39;
 </pre>
 </div>
 </div>
@@ -15609,25 +16343,24 @@ Meta-switches:
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[65]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[44]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%file</span> my_app.py
-<span class="kn">from</span> <span class="nn">plumbum</span> <span class="kn">import</span> <span class="n">cli</span>
-
-<span class="k">class</span> <span class="nc">MyApp</span><span class="p">(</span><span class="n">cli</span><span class="o">.</span><span class="n">Application</span><span class="p">):</span>
-    <span class="n">PROGNAME</span> <span class="o">=</span> <span class="s2">&quot;MyGloriousApp&quot;</span>
-    <span class="n">VERSION</span> <span class="o">=</span> <span class="s2">&quot;0.1&quot;</span>
+<span class="k">if</span> <span class="vm">__name__</span><span class="o">==</span><span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">argparse</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">()</span>
+    <span class="c1"># positional arguments</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;filename&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;file to be read&quot;</span><span class="p">)</span>
+    <span class="c1"># named argument, default to False, True is present</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-v&quot;</span><span class="p">,</span> <span class="s2">&quot;--verbose&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;increase output verbosity&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">)</span>
     
-    <span class="n">verbose</span> <span class="o">=</span> <span class="n">cli</span><span class="o">.</span><span class="n">Flag</span><span class="p">([</span><span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="s2">&quot;verbose&quot;</span><span class="p">],</span> <span class="n">help</span> <span class="o">=</span> <span class="s2">&quot;If given, I will be very talkative&quot;</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;I will now read </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Yadda &quot;</span> <span class="o">*</span> <span class="mi">200</span><span class="p">)</span>
-
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-    <span class="n">MyApp</span><span class="p">()</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;I will now read the file &quot;</span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">filename</span><span class="si">}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Yadda &quot;</span><span class="o">*</span><span class="mi">30</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -15673,10 +16406,10 @@ Meta-switches:
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[66]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[45]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>python3 my_app.py --help
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>python my_app.py --help
 </pre></div>
 
      </div>
@@ -15696,19 +16429,14 @@ Meta-switches:
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>MyGloriousApp 0.1
+<pre>usage: my_app.py [-h] [-v] filename
 
-Usage:
-    MyGloriousApp [SWITCHES] filename
+positional arguments:
+  filename       file to be read
 
-Meta-switches:
-    -h, --help         Prints this help message and quits
-    --help-all         Prints help messages of all sub-commands and quits
-    --version          Prints the program&#39;s version and quits
-
-Switches:
-    -v, --verbose      If given, I will be very talkative
-
+optional arguments:
+  -h, --help     show this help message and exit
+  -v, --verbose  increase output verbosity
 </pre>
 </div>
 </div>
@@ -15720,10 +16448,10 @@ Switches:
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[67]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[46]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>python3 my_app.py foo
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>python my_app.py foo
 </pre></div>
 
      </div>
@@ -15743,7 +16471,7 @@ Switches:
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>I will now read foo
+<pre>I will now read the file &#34;foo&#34;
 </pre>
 </div>
 </div>
@@ -15755,10 +16483,10 @@ Switches:
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[69]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[47]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>python3 my_app.py foo --verbose
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>python my_app.py foo --verbose
 </pre></div>
 
      </div>
@@ -15778,8 +16506,8 @@ Switches:
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>I will now read foo
-Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda 
+<pre>I will now read the file &#34;foo&#34;
+Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda 
 </pre>
 </div>
 </div>
@@ -15791,7 +16519,7 @@ Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Ya
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[68]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[48]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>python3 my_app.py foo -v
@@ -15814,8 +16542,8 @@ Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Ya
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>I will now read foo
-Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda 
+<pre>I will now read the file &#34;foo&#34;
+Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda 
 </pre>
 </div>
 </div>
@@ -15827,30 +16555,34 @@ Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Ya
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[72]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[57]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%file</span> my_app.py
-<span class="kn">from</span> <span class="nn">plumbum</span> <span class="kn">import</span> <span class="n">cli</span>
-
-<span class="k">class</span> <span class="nc">MyApp</span><span class="p">(</span><span class="n">cli</span><span class="o">.</span><span class="n">Application</span><span class="p">):</span>
-    <span class="n">PROGNAME</span> <span class="o">=</span> <span class="s2">&quot;MyGloriousApp&quot;</span>
-    <span class="n">VERSION</span> <span class="o">=</span> <span class="s2">&quot;0.1&quot;</span>
-    <span class="n">_log_file</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="k">if</span> <span class="vm">__name__</span><span class="o">==</span><span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">argparse</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">()</span>
     
-    <span class="nd">@cli</span><span class="o">.</span><span class="n">switch</span><span class="p">(</span><span class="s2">&quot;--log-to-file&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">log_to_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Sets the file into which logs will be emitted&quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_log_file</span> <span class="o">=</span> <span class="n">filename</span>
-
-    <span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;I will now read </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_log_file</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_log_file</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">outfile</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;I will now read </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filename</span><span class="p">),</span> <span class="n">file</span><span class="o">=</span><span class="n">outfile</span><span class="p">)</span>
-
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-    <span class="n">MyApp</span><span class="p">()</span>
+    <span class="c1"># positional arguments</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;filename&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;file to be read&quot;</span><span class="p">)</span>
+    
+    <span class="c1"># named argument, default to False, True is present</span>
+    <span class="c1"># has an optional short form</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-v&quot;</span><span class="p">,</span> <span class="s2">&quot;--verbose&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;increase output verbosity&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">)</span>
+    
+    <span class="c1"># named argument, takes a string as a value</span>
+    <span class="c1"># has no short version</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--log-to-file&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Sets the file into which logs will be emitted&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
+    
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;I will now read the file &quot;</span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">filename</span><span class="si">}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">log_to_file</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">log_to_file</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">outfile</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;I will now read </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">filename</span><span class="p">),</span> <span class="n">file</span><span class="o">=</span><span class="n">outfile</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Yadda &quot;</span><span class="o">*</span><span class="mi">30</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -15879,27 +16611,13 @@ Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Ya
 
 </div>
 
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[78]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>rm -f temp_log.txt
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[79]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[58]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>python3 my_app.py foo --log-to-file temp_log.txt
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>python my_app.py foo
 </pre></div>
 
      </div>
@@ -15919,7 +16637,7 @@ Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Ya
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>I will now read foo
+<pre>I will now read the file &#34;foo&#34;
 </pre>
 </div>
 </div>
@@ -15931,7 +16649,42 @@ Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Ya
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[80]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[59]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>python my_app.py foo --log-to-file temp_log.txt
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>I will now read the file &#34;foo&#34;
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[60]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>cat temp_log.txt
@@ -15968,47 +16721,36 @@ Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Ya
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h3 id="sub-commands">sub commands<a class="anchor-link" href="#sub-commands">&#182;</a></h3><p>sub-commands are a way to group together several related program under a single umbrella.</p>
 <p>a classical example is <strong>git</strong>.</p>
-<p>They are create in plumbum as classes that are linked to the original one.</p>
 <p>In argparsers they are defined as subparsers.</p>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[127]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[102]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%file</span> my_app.py
-<span class="kn">from</span> <span class="nn">plumbum</span> <span class="kn">import</span> <span class="n">cli</span>
-
-<span class="k">class</span> <span class="nc">MyApp</span><span class="p">(</span><span class="n">cli</span><span class="o">.</span><span class="n">Application</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;returns the square of a number</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">PROGNAME</span> <span class="o">=</span> <span class="s2">&quot;MyGloriousApp&quot;</span>
-    <span class="n">VERSION</span> <span class="o">=</span> <span class="s2">&quot;0.1&quot;</span>
+<span class="k">if</span> <span class="vm">__name__</span><span class="o">==</span><span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">argparse</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">()</span>
+    <span class="n">subparsers</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">add_subparsers</span><span class="p">(</span><span class="n">help</span><span class="o">=</span><span class="s1">&#39;possible actions&#39;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s1">&#39;subparser&#39;</span><span class="p">)</span>
     
-    <span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">nested_command</span><span class="p">:</span>           <span class="c1"># will be ``None`` if no sub-command follows</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No command given&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="mi">1</span>   <span class="c1"># error exit code</span>
-
-<span class="nd">@MyApp</span><span class="o">.</span><span class="n">subcommand</span><span class="p">(</span><span class="s2">&quot;pow&quot;</span><span class="p">)</span>
-<span class="k">class</span> <span class="nc">MyAppPow</span><span class="p">(</span><span class="n">cli</span><span class="o">.</span><span class="n">Application</span><span class="p">):</span>
-    <span class="s2">&quot;calculate the square power instead&quot;</span>
-    <span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">power</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
-        <span class="n">value</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
-        <span class="n">power</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">power</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;result: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">value</span><span class="o">**</span><span class="n">power</span><span class="p">))</span>    
+    <span class="n">square_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="s1">&#39;pow&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;calculate the square power&#39;</span><span class="p">)</span>
+    <span class="n">square_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;value&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;value to be squared&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="c1"># optional argument</span>
+    <span class="n">square_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;power&quot;</span><span class="p">,</span> 
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;power to raised at&quot;</span><span class="p">,</span> 
+        <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span>
+        <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;?&#39;</span><span class="p">,</span> <span class="c1"># this argument might be absent</span>
+        <span class="n">default</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="c1"># the default value it takes if it absent</span>
+    <span class="p">)</span>
     
-<span class="nd">@MyApp</span><span class="o">.</span><span class="n">subcommand</span><span class="p">(</span><span class="s2">&quot;sqrt&quot;</span><span class="p">)</span>
-<span class="k">class</span> <span class="nc">MyAppSqrt</span><span class="p">(</span><span class="n">cli</span><span class="o">.</span><span class="n">Application</span><span class="p">):</span>
-    <span class="s2">&quot;calculate the square root instead&quot;</span>
-    <span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="n">value</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;result: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">value</span><span class="o">**</span><span class="mf">0.5</span><span class="p">))</span>
-        
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-    <span class="n">MyApp</span><span class="p">()</span>
+    <span class="n">sqrt_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="s1">&#39;sqrt&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;calculate the square root&#39;</span><span class="p">)</span>
+    <span class="n">sqrt_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;value&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;value to be square rooted&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -16040,10 +16782,10 @@ Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Ya
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[128]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[103]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>python3 my_app.py --help
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>python my_app.py --help
 </pre></div>
 
      </div>
@@ -16063,23 +16805,15 @@ Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Yadda Ya
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>MyGloriousApp 0.1
+<pre>usage: my_app.py [-h] {pow,sqrt} ...
 
-returns the square of a number
+positional arguments:
+  {pow,sqrt}  possible actions
+    pow       calculate the square power
+    sqrt      calculate the square root
 
-Usage:
-    MyGloriousApp [SWITCHES] [SUBCOMMAND [SWITCHES]] 
-
-Meta-switches:
-    -h, --help         Prints this help message and quits
-    --help-all         Prints help messages of all sub-commands and quits
-    -v, --version      Prints the program&#39;s version and quits
-
-Sub-commands:
-    pow                calculate the square power instead; see &#39;MyGloriousApp
-                       pow --help&#39; for more info
-    sqrt               calculate the square root instead; see &#39;MyGloriousApp
-                       sqrt --help&#39; for more info
+optional arguments:
+  -h, --help  show this help message and exit
 </pre>
 </div>
 </div>
@@ -16091,10 +16825,10 @@ Sub-commands:
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[129]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[104]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>python3 my_app.py sqrt --help
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>python my_app.py pow --help
 </pre></div>
 
      </div>
@@ -16114,18 +16848,14 @@ Sub-commands:
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>MyGloriousApp sqrt 0.1
+<pre>usage: my_app.py pow [-h] value [power]
 
-calculate the square root instead
+positional arguments:
+  value       value to be squared
+  power       power to raised at
 
-Usage:
-    MyGloriousApp sqrt [SWITCHES] value
-
-Meta-switches:
-    -h, --help         Prints this help message and quits
-    --help-all         Prints help messages of all sub-commands and quits
-    -v, --version      Prints the program&#39;s version and quits
-
+optional arguments:
+  -h, --help  show this help message and exit
 </pre>
 </div>
 </div>
@@ -16137,10 +16867,10 @@ Meta-switches:
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[133]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[105]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>python3 my_app.py pow --help
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>python my_app.py sqrt --help
 </pre></div>
 
      </div>
@@ -16160,18 +16890,13 @@ Meta-switches:
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>MyGloriousApp pow 0.1
+<pre>usage: my_app.py sqrt [-h] value
 
-calculate the square power instead
+positional arguments:
+  value       value to be square rooted
 
-Usage:
-    MyGloriousApp pow [SWITCHES] value [power=2]
-
-Meta-switches:
-    -h, --help         Prints this help message and quits
-    --help-all         Prints help messages of all sub-commands and quits
-    -v, --version      Prints the program&#39;s version and quits
-
+optional arguments:
+  -h, --help  show this help message and exit
 </pre>
 </div>
 </div>
@@ -16183,10 +16908,10 @@ Meta-switches:
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[130]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[106]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>python3 my_app.py sqrt <span class="m">9</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>python my_app.py pow <span class="m">1</span>
 </pre></div>
 
      </div>
@@ -16206,77 +16931,7 @@ Meta-switches:
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>result: 3.0
-</pre>
-</div>
-</div>
-
-</div>
-
-</div>
-
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[131]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>python3 my_app.py pow <span class="m">3</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-<div class="jp-Cell-outputWrapper">
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>result: 9.0
-</pre>
-</div>
-</div>
-
-</div>
-
-</div>
-
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[132]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>python3 my_app.py pow <span class="m">3</span> <span class="m">0</span>.5
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-<div class="jp-Cell-outputWrapper">
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>result: 1.7320508075688772
+<pre>Namespace(power=2, subparser=&#39;pow&#39;, value=1.0)
 </pre>
 </div>
 </div>
@@ -16288,7 +16943,188 @@ Meta-switches:
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="Subcommands-in-practice">Subcommands in practice<a class="anchor-link" href="#Subcommands-in-practice">&#182;</a></h3><p>Try to keep the options between the subcommands coherent: if one implements <code>--help</code>, another implements <code>--documentation</code>, another implement <code>--explain</code> to accedd the help of the function, it is messy. try to maintain consistency in names and behaviors</p>
+<p>in general, to manage more complex programs, it is better to break apart the logic in several functions</p>
+<p>it will come back useful later when we consider installing the application!</p>
+
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[117]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%file</span> my_app.py
+<span class="kn">import</span> <span class="nn">argparse</span>
+
+<span class="k">def</span> <span class="nf">main_square</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">value</span><span class="o">**</span><span class="n">args</span><span class="o">.</span><span class="n">power</span><span class="p">)</span>
+    
+<span class="k">def</span> <span class="nf">main_sqrt</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">value</span><span class="o">**</span><span class="mf">0.5</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">()</span>
+    <span class="n">subparsers</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">add_subparsers</span><span class="p">(</span><span class="n">help</span><span class="o">=</span><span class="s1">&#39;possible actions&#39;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s1">&#39;subparser&#39;</span><span class="p">)</span>
+    
+    <span class="n">square_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="s1">&#39;pow&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;calculate the square power&#39;</span><span class="p">)</span>
+    <span class="n">square_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;value&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;value to be squared&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="c1"># optional argument</span>
+    <span class="n">square_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;power&quot;</span><span class="p">,</span> 
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;power to raised at&quot;</span><span class="p">,</span> 
+        <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span>
+        <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;?&#39;</span><span class="p">,</span> <span class="c1"># this argument might be absent</span>
+        <span class="n">default</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="c1"># the default value it takes if it absent</span>
+    <span class="p">)</span>
+    
+    <span class="n">sqrt_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="s1">&#39;sqrt&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;calculate the square root&#39;</span><span class="p">)</span>
+    <span class="n">sqrt_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;value&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;value to be square rooted&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+    
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">subparser</span><span class="o">==</span><span class="s1">&#39;pow&#39;</span><span class="p">:</span>
+        <span class="n">main_square</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">subparser</span><span class="o">==</span><span class="s1">&#39;sqrt&#39;</span><span class="p">:</span>
+        <span class="n">main_sqrt</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+        
+<span class="k">if</span> <span class="vm">__name__</span><span class="o">==</span><span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>Overwriting my_app.py
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[118]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>python my_app.py pow <span class="m">4</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>16.0
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[119]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>python my_app.py pow <span class="m">2</span> <span class="m">3</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>8.0
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[120]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>python my_app.py sqrt <span class="m">4</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>2.0
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h3 id="Subcommands-in-practice">Subcommands in practice<a class="anchor-link" href="#Subcommands-in-practice">&#182;</a></h3><p>Try to keep the options between the subcommands coherent: if one implements <code>--help</code>, another implements <code>--documentation</code>, another implement <code>--explain</code> to access the help of the function, it is messy. try to maintain consistency in names and behaviors</p>
 <p>two subcommands that could probably be useful in most applications are:</p>
 <ul>
 <li><code>help</code> - to provide a more indept documentation of your program, divided by topics (try to type <code>help()</code> in Python)</li>
@@ -16340,10 +17176,11 @@ This file can be empty, but is used by python to recognize that this directory i
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[154]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[111]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>touch ./myapp/myapp/__init__.py
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>mkdir -p myapp/myapp/
+<span class="o">!</span>touch ./myapp/myapp/__init__.py
 </pre></div>
 
      </div>
@@ -16354,40 +17191,45 @@ This file can be empty, but is used by python to recognize that this directory i
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[153]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[121]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%file</span> ./myapp/myapp/__main__.py
-<span class="kn">from</span> <span class="nn">plumbum</span> <span class="kn">import</span> <span class="n">cli</span>
+<span class="kn">import</span> <span class="nn">argparse</span>
 
-<span class="k">class</span> <span class="nc">MyApp</span><span class="p">(</span><span class="n">cli</span><span class="o">.</span><span class="n">Application</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;returns the square of a number</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">PROGNAME</span> <span class="o">=</span> <span class="s2">&quot;MyGloriousApp&quot;</span>
-    <span class="n">VERSION</span> <span class="o">=</span> <span class="s2">&quot;0.1&quot;</span>
+<span class="k">def</span> <span class="nf">main_square</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">value</span><span class="o">**</span><span class="n">args</span><span class="o">.</span><span class="n">power</span><span class="p">)</span>
     
-    <span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">nested_command</span><span class="p">:</span>           <span class="c1"># will be ``None`` if no sub-command follows</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No command given&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="mi">1</span>   <span class="c1"># error exit code</span>
+<span class="k">def</span> <span class="nf">main_sqrt</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">value</span><span class="o">**</span><span class="mf">0.5</span><span class="p">)</span>
 
-<span class="nd">@MyApp</span><span class="o">.</span><span class="n">subcommand</span><span class="p">(</span><span class="s2">&quot;pow&quot;</span><span class="p">)</span>
-<span class="k">class</span> <span class="nc">MyAppPow</span><span class="p">(</span><span class="n">cli</span><span class="o">.</span><span class="n">Application</span><span class="p">):</span>
-    <span class="s2">&quot;calculate the square power instead&quot;</span>
-    <span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">power</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
-        <span class="n">value</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
-        <span class="n">power</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">power</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;result: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">value</span><span class="o">**</span><span class="n">power</span><span class="p">))</span>    
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">()</span>
+    <span class="n">subparsers</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">add_subparsers</span><span class="p">(</span><span class="n">help</span><span class="o">=</span><span class="s1">&#39;possible actions&#39;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s1">&#39;subparser&#39;</span><span class="p">)</span>
     
-<span class="nd">@MyApp</span><span class="o">.</span><span class="n">subcommand</span><span class="p">(</span><span class="s2">&quot;sqrt&quot;</span><span class="p">)</span>
-<span class="k">class</span> <span class="nc">MyAppSqrt</span><span class="p">(</span><span class="n">cli</span><span class="o">.</span><span class="n">Application</span><span class="p">):</span>
-    <span class="s2">&quot;calculate the square root instead&quot;</span>
-    <span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="n">value</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;result: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">value</span><span class="o">**</span><span class="mf">0.5</span><span class="p">))</span>
+    <span class="n">square_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="s1">&#39;pow&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;calculate the square power&#39;</span><span class="p">)</span>
+    <span class="n">square_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;value&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;value to be squared&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="c1"># optional argument</span>
+    <span class="n">square_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;power&quot;</span><span class="p">,</span> 
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;power to raised at&quot;</span><span class="p">,</span> 
+        <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span>
+        <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;?&#39;</span><span class="p">,</span> <span class="c1"># this argument might be absent</span>
+        <span class="n">default</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="c1"># the default value it takes if it absent</span>
+    <span class="p">)</span>
+    
+    <span class="n">sqrt_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="s1">&#39;sqrt&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;calculate the square root&#39;</span><span class="p">)</span>
+    <span class="n">sqrt_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;value&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;value to be square rooted&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+    
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">subparser</span><span class="o">==</span><span class="s1">&#39;pow&#39;</span><span class="p">:</span>
+        <span class="n">main_square</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">subparser</span><span class="o">==</span><span class="s1">&#39;sqrt&#39;</span><span class="p">:</span>
+        <span class="n">main_sqrt</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
         
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-    <span class="n">MyApp</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="k">if</span> <span class="vm">__name__</span><span class="o">==</span><span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+    
 </pre></div>
 
      </div>
@@ -16420,15 +17262,15 @@ This file can be empty, but is used by python to recognize that this directory i
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <p>The file necessary for setuptools to work properly is the <code>setup.py</code>, where we will use the <code>setup</code> function of the <code>setuptools</code> module.</p>
-<p>This function configure many things for us, but the most important thing is the <code>entry_point</code> parameter.
-This creates the link to the scripts that we will actually execute.
-Inside this parameter we specify that two entry points are <code>console_scripts</code> that should execute the script and the function provided.</p>
+<p>This function configure many things for us, but the most important thing is the <code>entry_point</code> parameter.</p>
+<p>This creates the link to the scripts that we will actually execute.</p>
+<p>Inside this parameter we specify that there is an entry point atht is a <code>console_scripts</code>, that should execute the script and the function provided.</p>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[160]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[123]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%file</span> ./myapp/setup.py
@@ -16438,11 +17280,10 @@ Inside this parameter we specify that two entry points are <code>console_scripts
     <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;myapp&#39;</span><span class="p">,</span>
     <span class="n">version</span> <span class="o">=</span> <span class="s1">&#39;0.1.0&#39;</span><span class="p">,</span>
     <span class="n">packages</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;myapp&#39;</span><span class="p">],</span>
-    <span class="n">install_requires</span><span class="o">=</span><span class="p">[</span> <span class="s1">&#39;plumbum&#39;</span><span class="p">,</span> <span class="p">],</span>
+    <span class="c1">#install_requires = [&quot;required_package&quot;, ],</span>
     <span class="n">entry_points</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s1">&#39;console_scripts&#39;</span><span class="p">:</span> <span class="p">[</span>
-            <span class="s1">&#39;myapp = myapp.__main__:MyApp&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;myappsqrt = myapp.__main__:MyAppSqrt&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;myapp = myapp.__main__:main&#39;</span><span class="p">,</span>
         <span class="p">]</span>
     <span class="p">})</span>
 </pre></div>
@@ -16476,8 +17317,6 @@ Inside this parameter we specify that two entry points are <code>console_scripts
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>In this case we decided to let the user use the standard program (choosing the sub command to use) or to provide a shortcut to the subcommand itself.</p>
-<p>In this case the plumbum structure comes very useful: we can call directly the subcommand class to execute our subcommand.</p>
 <p>the name we put before the <code>=</code> sign is going to be the command name that we will use to call the program from the command line</p>
 
 </div>
@@ -16486,7 +17325,7 @@ Inside this parameter we specify that two entry points are <code>console_scripts
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <p>Last special mention goes to the <code>install_requires</code>: this list allows to specify all the dependencies of the package.
 If they are not installed, they will automatically downloaded and installed by pip.
-In our case the only dependency that we have is for the <code>plumbum</code> package</p>
+In our case we don't have dependencies so we don't need it</p>
 
 </div>
 </div>
@@ -16500,7 +17339,7 @@ This means that if you edit the program, the modifications will appear live in t
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[162]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[124]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>pip install --editable myapp
@@ -16523,8 +17362,7 @@ This means that if you edit the program, the modifications will appear live in t
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>Obtaining file:///home/enrico/didattica/corso_programmazione_1819/programmingCourseDIFA/myapp
-Requirement already satisfied: plumbum in /home/enrico/miniconda3/lib/python3.6/site-packages (from myapp==0.1.0) (1.6.7)
+<pre>Obtaining file:///home/enrico/didattica/programmingCourseDIFA/myapp
 Installing collected packages: myapp
   Running setup.py develop for myapp
 Successfully installed myapp
@@ -16539,7 +17377,7 @@ Successfully installed myapp
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[157]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[125]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>myapp --help
@@ -16562,23 +17400,15 @@ Successfully installed myapp
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>MyGloriousApp 0.1
+<pre>usage: myapp [-h] {pow,sqrt} ...
 
-returns the square of a number
+positional arguments:
+  {pow,sqrt}  possible actions
+    pow       calculate the square power
+    sqrt      calculate the square root
 
-Usage:
-    MyGloriousApp [SWITCHES] [SUBCOMMAND [SWITCHES]] 
-
-Meta-switches:
-    -h, --help         Prints this help message and quits
-    --help-all         Prints help messages of all sub-commands and quits
-    -v, --version      Prints the program&#39;s version and quits
-
-Sub-commands:
-    pow                calculate the square power instead; see &#39;MyGloriousApp
-                       pow --help&#39; for more info
-    sqrt               calculate the square root instead; see &#39;MyGloriousApp
-                       sqrt --help&#39; for more info
+optional arguments:
+  -h, --help  show this help message and exit
 </pre>
 </div>
 </div>
@@ -16596,7 +17426,7 @@ Sub-commands:
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[158]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[126]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>myapp sqrt <span class="m">9</span> 
@@ -16619,42 +17449,7 @@ Sub-commands:
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>result: 3.0
-</pre>
-</div>
-</div>
-
-</div>
-
-</div>
-
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[159]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>myappsqrt <span class="m">9</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-<div class="jp-Cell-outputWrapper">
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>result: 3.0
+<pre>3.0
 </pre>
 </div>
 </div>
@@ -16672,7 +17467,7 @@ Sub-commands:
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[161]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[127]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>pip uninstall -y myapp
@@ -16695,7 +17490,8 @@ Sub-commands:
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>Uninstalling myapp-0.1.0:
+<pre>Found existing installation: myapp 0.1.0
+Uninstalling myapp-0.1.0:
   Successfully uninstalled myapp-0.1.0
 </pre>
 </div>
@@ -16708,55 +17504,11 @@ Sub-commands:
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>If one needs to shop non-code files (such as images, configuration files, etc...)
+<p>If one needs to ship non-code files (such as images, configuration files, etc...)
 check:</p>
 <p><a href="https://python-packaging.readthedocs.io/en/latest/non-code-files.html">https://python-packaging.readthedocs.io/en/latest/non-code-files.html</a></p>
 
 </div>
-</div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>given that now <strong>myapp</strong> is a system program, I can load it using <code>plumbum</code> as any other application!</p>
-
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[168]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">myapp_hook</span> <span class="o">=</span> <span class="n">local</span><span class="p">[</span><span class="s1">&#39;myapp&#39;</span><span class="p">]</span>
-<span class="n">sqrt_hook</span> <span class="o">=</span> <span class="n">myapp_hook</span><span class="p">[</span><span class="s1">&#39;sqrt&#39;</span><span class="p">]</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">sqrt_hook</span><span class="p">(</span><span class="mi">9</span><span class="p">))</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-<div class="jp-Cell-outputWrapper">
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>result: 3.0
-
-</pre>
-</div>
-</div>
-
-</div>
-
-</div>
-
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
@@ -16788,7 +17540,7 @@ To do it, one can use the subprocess module and capture the output, while provid
 <p>some additional things you might want to test:</p>
 <ul>
 <li>change the current working directory before launcing the program, and verify that it doesnt spaz out</li>
-<li>check that you can really get as ipnut files in different directories from where you're working, both as input and output</li>
+<li>check that you can really get as input files in different directories from where you're working, both as input and output</li>
 <li>What happens when the input file doesn’t exist?</li>
 <li>Does our program exit with an error when we provide wrong arguments?</li>
 <li>does the logging system work as intended?</li>
@@ -16798,16 +17550,72 @@ To do it, one can use the subprocess module and capture the output, while provid
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>it is also important to not get wrapped in details: for example testing the formatting of the text of the help flag is not a productive activity.
-In th same way, try to avoid testing for things that might be platform dependent, such as the exact python version!</p>
+<p>it is also important to not get wrapped in details: for example testing the formatting of the text of the help flag is not a productive activity.</p>
+<p>In the same way, try to avoid testing for things that might be platform dependent, such as the exact python version!</p>
 <p>being able to run the CLI programmatically means you can also test with hypothesis.</p>
 <p>also, this is not actually dependent on the fact that the program is written in python: you can use these lines to test <strong>any</strong> CLI!</p>
+
+</div>
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h3 id="executing-local-programs---subprocesses">executing local programs - subprocesses<a class="anchor-link" href="#executing-local-programs---subprocesses">&#182;</a></h3><p>running processes from python (i.e. external programs that exists in the system) can be done from the Subprocesses module.</p>
+<p>in general the program is executed in a specific, isolated shell, and the commands is not passed directly, but rather pre-processed for security reasons</p>
+
+</div>
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h4 id="blocking-execution">blocking execution<a class="anchor-link" href="#blocking-execution">&#182;</a></h4><p>run a program and wait until it has finished running</p>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[21]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[1]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">subprocess</span> <span class="kn">import</span> <span class="n">run</span><span class="p">,</span> <span class="n">PIPE</span>
+<span class="n">run</span><span class="p">([</span><span class="s2">&quot;pwd&quot;</span><span class="p">],</span>
+    <span class="n">stdout</span><span class="o">=</span><span class="n">PIPE</span><span class="p">,</span>
+    <span class="n">stdin</span><span class="o">=</span><span class="n">PIPE</span><span class="p">,</span>
+    <span class="n">stderr</span><span class="o">=</span><span class="n">PIPE</span><span class="p">,</span>
+    <span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[1]:</div>
+
+
+
+
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
+<pre>CompletedProcess(args=[&#39;pwd&#39;], returncode=0, stdout=&#39;/home/enrico/didattica/programmingCourseDIFA\n&#39;, stderr=&#39;&#39;)</pre>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[128]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># encoding was introduced in python 3.6</span>
@@ -16837,7 +17645,7 @@ In th same way, try to avoid testing for things that might be platform dependent
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>&#39;Python 3.7.7\n&#39;
+<pre>&#39;Python 3.8.6\n&#39;
 &#39;&#39;
 0
 </pre>
@@ -16848,13 +17656,27 @@ In th same way, try to avoid testing for things that might be platform dependent
 
 </div>
 
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h4 id="running-shell-lines">running shell lines<a class="anchor-link" href="#running-shell-lines">&#182;</a></h4><p>if one wants to run a shell command, rather than executing a program, one can use the <code>shell</code> option.</p>
+<p>beware to not use it on your machine with arbitrary user input, as it can be a massive security risk!</p>
+
+</div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[22]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[2]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">result</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># multiple commands</span>
+<span class="n">run</span><span class="p">([</span><span class="s2">&quot;echo ciao; echo bello&quot;</span><span class="p">],</span>
+    <span class="n">stdout</span><span class="o">=</span><span class="n">PIPE</span><span class="p">,</span>
+    <span class="n">stdin</span><span class="o">=</span><span class="n">PIPE</span><span class="p">,</span>
+    <span class="n">stderr</span><span class="o">=</span><span class="n">PIPE</span><span class="p">,</span>
+    <span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
 </pre></div>
 
      </div>
@@ -16870,13 +17692,57 @@ In th same way, try to avoid testing for things that might be platform dependent
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[22]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[2]:</div>
 
 
 
 
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
-<pre>CompletedProcess(args=[&#39;python&#39;, &#39;--version&#39;], returncode=0, stdout=&#39;Python 3.7.7\n&#39;, stderr=&#39;&#39;)</pre>
+<pre>CompletedProcess(args=[&#39;echo ciao; echo bello&#39;], returncode=0, stdout=&#39;ciao\nbello\n&#39;, stderr=&#39;&#39;)</pre>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[3]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># shell piping</span>
+<span class="n">run</span><span class="p">([</span><span class="s2">&quot;ls *.ipynb | wc -l&quot;</span><span class="p">],</span>
+    <span class="n">stdout</span><span class="o">=</span><span class="n">PIPE</span><span class="p">,</span>
+    <span class="n">stdin</span><span class="o">=</span><span class="n">PIPE</span><span class="p">,</span>
+    <span class="n">stderr</span><span class="o">=</span><span class="n">PIPE</span><span class="p">,</span>
+    <span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[3]:</div>
+
+
+
+
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
+<pre>CompletedProcess(args=[&#39;ls *.ipynb | wc -l&#39;], returncode=0, stdout=&#39;20\n&#39;, stderr=&#39;&#39;)</pre>
 </div>
 
 </div>
@@ -16888,17 +17754,60 @@ In th same way, try to avoid testing for things that might be platform dependent
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>the option <code>shell=True</code> makes it easier to write complicated command lines where the division is not clear, but never use it to execute user provided lines, <strong>it is a security breach!</strong></p>
+<h3 id="non-blocking-execution">non-blocking execution<a class="anchor-link" href="#non-blocking-execution">&#182;</a></h3><p>run a program and without waiting until it has finished running.</p>
+<p>it implements a concept called a future: the first function call return an object that you can pass around and actually use only when needed (and wait if needed).</p>
+
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[4]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">subprocess</span> <span class="kn">import</span> <span class="n">Popen</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>The <code>Popen</code> object has basically the same parameters as the <code>run</code> function, but returns a promise instead of directly the results</p>
+
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[5]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">Popen</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">stdout</span><span class="o">=</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">stdin</span><span class="o">=</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>to retrieve the content of the call, one can use the <code>communicate</code> function.</p>
+<p>it will wait until the program finishes!</p>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[31]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[6]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">run</span><span class="p">(</span><span class="s2">&quot;python --version&quot;</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf8&#39;</span><span class="p">)</span>
-<span class="n">result</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">p</span> <span class="o">=</span> <span class="n">execute</span><span class="p">(</span><span class="s2">&quot;echo&quot;</span><span class="p">,</span> <span class="s2">&quot;ciao&quot;</span><span class="p">)</span>
+<span class="n">p</span><span class="o">.</span><span class="n">communicate</span><span class="p">()</span>
 </pre></div>
 
      </div>
@@ -16914,15 +17823,137 @@ In th same way, try to avoid testing for things that might be platform dependent
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[31]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[6]:</div>
 
 
 
 
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
-<pre>CompletedProcess(args=&#39;python --version&#39;, returncode=0, stdout=&#39;Python 3.7.7\n&#39;, stderr=&#39;&#39;)</pre>
+<pre>(&#39;ciao\n&#39;, &#39;&#39;)</pre>
 </div>
 
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[8]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">p</span><span class="o">.</span><span class="n">returncode</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[8]:</div>
+
+
+
+
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
+<pre>0</pre>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>if we want to check if the program has finished running, we can check with the <code>poll</code> function:</p>
+<ul>
+<li>if the program ended, it will return the return code</li>
+<li>if it hasn't, it will return None</li>
+</ul>
+
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[11]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">p</span> <span class="o">=</span> <span class="n">execute</span><span class="p">(</span><span class="s2">&quot;sleep&quot;</span><span class="p">,</span> <span class="s2">&quot;2&quot;</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">poll</span><span class="p">()</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;still sleeping&quot;</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>still sleeping
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[12]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">poll</span><span class="p">()</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;still sleeping&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;finished sleeping&quot;</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>finished sleeping
+</pre>
+</div>
 </div>
 
 </div>
@@ -16938,7 +17969,7 @@ In th same way, try to avoid testing for things that might be platform dependent
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[26]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[131]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%file</span> temp.py
@@ -16975,7 +18006,7 @@ In th same way, try to avoid testing for things that might be platform dependent
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[27]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[132]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">run</span><span class="p">([</span><span class="s2">&quot;python&quot;</span><span class="p">,</span> <span class="s2">&quot;temp.py&quot;</span><span class="p">],</span> <span class="nb">input</span><span class="o">=</span><span class="s1">&#39;enrico</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf8&#39;</span><span class="p">)</span>
@@ -16995,7 +18026,7 @@ In th same way, try to avoid testing for things that might be platform dependent
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[27]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[132]:</div>
 
 
 
@@ -17004,52 +18035,6 @@ In th same way, try to avoid testing for things that might be platform dependent
 <pre>CompletedProcess(args=[&#39;python&#39;, &#39;temp.py&#39;], returncode=0, stdout=&#39;tell me your name:hello enrico\n&#39;, stderr=&#39;&#39;)</pre>
 </div>
 
-</div>
-
-</div>
-
-</div>
-
-</div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>It also allow us to keep the process alive and to interact with it by using the PIPE object</p>
-
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[28]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">process</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">([</span><span class="s2">&quot;python&quot;</span><span class="p">,</span> <span class="s2">&quot;temp.py&quot;</span><span class="p">],</span>
-                           <span class="n">stdin</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span>
-                           <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">)</span>
-<span class="n">process</span><span class="o">.</span><span class="n">stdin</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;enrico</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">process</span><span class="o">.</span><span class="n">communicate</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span>
-<span class="n">process</span><span class="o">.</span><span class="n">stdin</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-<div class="jp-Cell-outputWrapper">
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>b&#39;tell me your name:hello enrico\r\n&#39;
-</pre>
-</div>
 </div>
 
 </div>
@@ -17191,7 +18176,65 @@ In th same way, try to avoid testing for things that might be platform dependent
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>At this point we can test that our progrma write to the destination as intended we we pass it as an argument!</p>
+<p>an alternative is the tempfile module</p>
+
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[141]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">tempfile</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[142]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">tf</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">NamedTemporaryFile</span><span class="p">(</span><span class="nb">dir</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+<span class="n">tf</span><span class="o">.</span><span class="n">name</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[142]:</div>
+
+
+
+
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
+<pre>&#39;/home/enrico/didattica/programmingCourseDIFA/tmp6cyvjh6g&#39;</pre>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>At this point we can test that our program write to the destination as intended we we pass it as an argument!</p>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
@@ -17361,6 +18404,32 @@ printed in file: [&#39;printed to file!\n&#39;]
 
 </div>
 
+</div>
+
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>If you want to be able to parse from both stdin and files you can use the fileinput library</p>
+<p>This iterates over the lines of all files listed in <code>sys.argv[1:]</code>, defaulting to sys.stdin if the list is empty.</p>
+<p>If a filename is <code>'-'</code>, it is also replaced by sys.stdin and the optional arguments mode and openhook are ignored.</p>
+<p>To specify an alternative list of filenames, pass it as the first argument to input().</p>
+<p>A single file name is also allowed.</p>
+
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">fileinput</span>
+<span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">fileinput</span><span class="o">.</span><span class="n">input</span><span class="p">():</span>
+    <span class="n">process</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
 </div>
 
 </div>
@@ -19187,6 +20256,59 @@ Locale from environment: (&#39;English_United States&#39;, &#39;1252&#39;)
 
 </div>
 
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">argparse</span>
+<span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">()</span>
+<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--debug&quot;</span><span class="p">)</span>
+<span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+<span class="n">cli_args</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">value</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">vars</span><span class="p">(</span><span class="n">args</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">value</span><span class="p">}</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">Popen</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">stdout</span><span class="o">=</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">stdin</span><span class="o">=</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">p</span> <span class="o">=</span> <span class="n">execute</span><span class="p">(</span><span class="s2">&quot;echo&quot;</span><span class="p">,</span> <span class="s2">&quot;ciao&quot;</span><span class="p">)</span>
+<span class="n">p</span><span class="o">.</span><span class="n">communicate</span><span class="p">()</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">execute</span><span class="p">(</span><span class="s2">&quot;sleep&quot;</span><span class="p">,</span> <span class="s2">&quot;10&quot;</span><span class="p">)</span>
+<span class="n">p</span><span class="o">.</span><span class="n">poll</span><span class="p">()</span>
+<span class="c1"># None if running</span>
+<span class="c1"># retcode if ended</span>
+
+<span class="n">run</span><span class="p">([</span><span class="s2">&quot;echo ciao; echo bello&quot;</span><span class="p">],</span> <span class="n">stdout</span><span class="o">=</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">stdin</span><span class="o">=</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">run</span><span class="p">([</span><span class="s2">&quot;ssh bio8 pwd&quot;</span><span class="p">],</span> <span class="n">stdout</span><span class="o">=</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">stdin</span><span class="o">=</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+
+<span class="kn">import</span> <span class="nn">fileinput</span>
+<span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">fileinput</span><span class="o">.</span><span class="n">input</span><span class="p">():</span>
+    <span class="n">process</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+
+<span class="c1"># This iterates over the lines of all files listed in sys.argv[1:], defaulting to sys.stdin if the list is empty.</span>
+<span class="c1"># If a filename is &#39;-&#39;, it is also replaced by sys.stdin and the optional arguments mode and openhook are ignored.</span>
+<span class="c1"># To specify an alternative list of filenames, pass it as the first argument to input().</span>
+<span class="c1"># A single file name is also allowed.</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
 </div>
 
 </div>
