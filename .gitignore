@@ -3,4 +3,6 @@ temp*
 test*
 .snakemake
 .ipynb_checkpoints
-
+__pycache__
+myapp
+.myapp_rc
