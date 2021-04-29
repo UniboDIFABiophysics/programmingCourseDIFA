@@ -814,6 +814,34 @@ if __name__=='__main__':
     the received arguments are: Namespace(echo='to_be_said')
 
 
+The return value of the parsing is an object and as such does not play well with the ChainMap discussed earlier.
+
+A simple solution is to transform it in a dictionary using the `vars` function
+
+
+```python
+%%file my_first_app.py
+if __name__=='__main__':
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument("echo", help="echo the string you use here")
+    args = parser.parse_args()
+    args_dict = vars(args)
+    assert isinstance(args_dict, dict)
+    print(args_dict)
+```
+
+    Overwriting my_first_app.py
+
+
+
+```python
+!python ./my_first_app.py to_be_said
+```
+
+    {'echo': 'to_be_said'}
+
+
 # Command line arguments structure
 
 command line applications can be imagined as structured in a similar way to a function:
