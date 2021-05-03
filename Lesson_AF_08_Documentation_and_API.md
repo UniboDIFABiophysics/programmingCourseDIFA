@@ -1,6 +1,6 @@
 # Documentation guidelines
 
-let the user understand your work
+how to help the user understand your work
 
 Documentation is one of the big points on which you need to focus to allow your work to be usable by others.
 
@@ -14,7 +14,7 @@ None of these actually allow the user to use your code: you need to explain them
 Documentation is often a forgotten topic because it feels like a "chore": you already wrote the program, it works, your job is done!
 
 Nothing further from the truth!
-In a similar way to the tests, documentation should be part of the fundations of what you perceive your work to be when programming, and done alongside the code as for the tests.
+In a similar way to the tests, documentation should be part of the fundations of what you perceive your work to be when programming, and done alongside the code in the same way as the tests.
 
 ### Target users
 
@@ -65,11 +65,11 @@ it might not be available, as one might not be able to run the program!
 
 should be comprehensive of everything!
 
-from every page there shuld be a way of navigating links to reach any other
+from every page there should be a way of navigating links to reach any other
 
 Give multiple path to reach the information!
 
-### Documentations types
+## Documentations types
 
 Theory of documentation for users brought forward by Daniele Procida (https://www.divio.com/blog/documentation/)
 
@@ -138,6 +138,13 @@ good to have:
 * explaination of the theory
 * references for the theory
 
+One should provide docstrings for:
+
+* each module
+* each function in the module
+* each class in the module
+* each method of each class
+
 #### numpy docstring standard:
 https://numpydoc.readthedocs.io/en/latest/format.html#docstring-standard
 
@@ -190,6 +197,18 @@ comments can be seens as a form of documentations as any other, but with the dev
 the following is my personal opinion:
 * try to be conservative with the number of comments you write
 * focus on "why" and not on what
+* use them to fill the "negative space"
+
+#### code negative space
+
+related to the idea of self-documenting code.
+
+even the most readable code can't explain why some code IS NOT THERE.
+
+one needs comments to explain:
+
+* why certain "expected" procedures have been removed by a piece of code
+* what approaches has been tested but failed, and why
 
 #### comments with markup
 
@@ -222,9 +241,9 @@ This is the hardest level to reach, but also one you shold strive for:
 
 **writing code with clear name and relationships, that allow to understand what is happening by just reading it**
 
-* Everybody wants to do it (because it sounds less effort than writing documentation...)
+* Everybody wants to do it (because it sounds less effort than writing documentation... Oh, my sweet summer child!)
 * most think they manage to
-* almost everybody fails.
+* almost everybody fails (and I'm being generous).
 
 One should still aim to reach this state, and it is always good to refactor to get closer to this state
 
@@ -242,7 +261,11 @@ your goal is to improve your code over time, but also to allow your users to kee
 
 The program version is a number or a string that is used to indicate the successive releases of the software.
 
-I will explain here the so-called semantic vesioning, a widely used standard to convey informations about the compatibility of software over time
+I will explain here the so-called semantic vesioning, a widely used standard to convey informations about the compatibility of software over time.
+
+It is not the only approach:
+* many prefers to use the date of release
+* there are many (valid) criticisms of a "pure" semver approach
 
 #### basic structure
 
@@ -266,7 +289,7 @@ as a good practice, it is often a good idea to update the changelog with what yo
 
 Usually they contains the following informations:
 
-* bug corrected (possibly with reference to the the issue of the bug)
+* bug corrected (possibly with reference to the the issue of the bug on the ticket management system, such as the github one)
 * code improvement (performances)
 * new functionalities
 * extension of old API
@@ -288,3 +311,367 @@ Useful reads:
 suggested reading:
 * https://emptysqua.re/blog/api-evolution-the-right-way/
 
+
+## Documentation generation using Sphinx e readthedocs
+
+* www.sphinx-doc.org
+* www.readthedocs.io
+
+Sphinx is a program that allows you to semi-automatically generate web-pages containing documentation for your code.
+
+Readthedocs is a free hosting platform connected with github that provides a platform for the documentation of Open Source Software.
+
+You will still have to write the documentation, they will not do magic for you!
+
+
+```python
+!mkdir -p ./myapp/docs
+```
+
+Sphinx provides a quickstart program to setup your documentation is a simple-to compile way using a makefile.
+
+
+```python
+%% bash
+cd docs
+sphinx-quickstart
+```
+
+once one accept the default and provides some basic info (such as the project name) sphinx will create the whole backbone of the documentation project 
+
+
+```python
+!ls ./myapp/docs/
+```
+
+    _build	conf.py  index.rst  make.bat  Makefile	_static  _templates
+
+
+the main two files are the conf.py and the index.rst.
+
+index.rst is the actual home page, while conf.py tells sphinx how to compile it
+
+
+```python
+!cat ./myapp/docs/index.rst
+```
+
+    .. myapp documentation master file, created by
+       sphinx-quickstart on Mon May  3 11:40:01 2021.
+       You can adapt this file completely to your liking, but it should at least
+       contain the root `toctree` directive.
+    
+    Welcome to myapp's documentation!
+    =================================
+    
+    .. toctree::
+       :maxdepth: 2
+       :caption: Contents:
+    
+    
+    
+    Indices and tables
+    ==================
+    
+    * :ref:`genindex`
+    * :ref:`modindex`
+    * :ref:`search`
+
+
+to create the actual web site, one just need to call `make html` from the docs folder
+
+
+```python
+!make html
+```
+
+
+```python
+from IPython.display import display, HTML
+```
+
+
+```python
+HTML("./myapp/docs/_build/html/index.html")
+```
+
+
+
+
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Welcome to myapp’s documentation! &#8212; myapp 2021-05-03 documentation</title>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+
+
+          <div class="body" role="main">
+
+  <section id="welcome-to-myapp-s-documentation">
+<h1>Welcome to myapp’s documentation!<a class="headerlink" href="#welcome-to-myapp-s-documentation" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+<section id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+</section>
+
+
+          </div>
+
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="#">myapp</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="#">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2021, Enrico Giampieri.
+
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+
+      |
+      <a href="_sources/index.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+
+
+
+  </body>
+</html>
+
+
+
+### automatic docstring inclusion
+
+sphinx can automatically load and parse the docstring (in rst format) that have been written
+
+one needs to include in the `conf.py` the `autodoc` module:
+
+```python
+extensions = ['sphinx.ext.autodoc']
+```
+    
+and to document a module/function use anywhere in the rst files:
+
+```rst
+.. autofunction:: io.open
+```
+
+the module needs to be importable for sphinx to be able to parse it!
+
+for example, once we install our module with `pip --editable` we could import on of the main functions as:
+
+```python
+from myapp.__main__ import main_square
+```
+
+so to document this function we would put:
+
+```rst
+.. autofunction:: myapp.__main__.main_square
+```
+
+
+```python
+display(HTML("./myapp/docs/_build/html/index.html"))
+```
+
+
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Welcome to myapp’s documentation! &#8212; myapp 2021-05-03 documentation</title>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+
+
+          <div class="body" role="main">
+
+  <section id="welcome-to-myapp-s-documentation">
+<h1>Welcome to myapp’s documentation!<a class="headerlink" href="#welcome-to-myapp-s-documentation" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+<section id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+<dl class="py function">
+<dt id="myapp.__main__.main_square">
+<code class="sig-prename descclassname"><span class="pre">myapp.__main__.</span></code><code class="sig-name descname"><span class="pre">main_square</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#myapp.__main__.main_square" title="Permalink to this definition">¶</a></dt>
+<dd><p>main function to parse the arguments</p>
+</dd></dl>
+
+</section>
+
+
+          </div>
+
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="#">myapp</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="#">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2021, Enrico Giampieri.
+
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+
+      |
+      <a href="_sources/index.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+
+
+
+  </body>
+</html>
+
+
+Once the documentation is ready, one can include it in the repository on github.
+
+The next step is to make an account of readthedocs, from which one can import the documentation from the repository in a more or less automated way, and have it online and aligned with the latest version of the repository.
+
+suggested read:
+
+An introduction to Sphinx and Read the Docs for Technical Writers: 
+* https://www.ericholscher.com/blog/2016/jul/1/sphinx-and-rtd-for-writers/
