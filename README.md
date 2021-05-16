@@ -123,6 +123,11 @@ the slides can be seen live at:
 
 [markdown](./Lesson_AF_08_Documentation_and_API.html)
 
+#### AF 10 remote server management
+
+[slides](./Lesson_AF_10_remote_server_management.slides.html)
+
+[markdown](./Lesson_AF_10_remote_server_management.html)
 
 ### older lectures
 #### AF_04_random_chain_text_generation
