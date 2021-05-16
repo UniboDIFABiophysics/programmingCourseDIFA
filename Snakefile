@@ -19,7 +19,12 @@ files = [
     "Lesson_AF_07_command_line_applications.ipynb",
     "Lesson_AF_08_Documentation_and_API.ipynb",
     "Lesson_AF_09_random_sampling_and_statistics.ipynb",
+    "Lesson_AF_10_remote_server_management.ipynb",
 ]
+
+rule all:
+  input:
+    [f.replace("ipynb", "html") for f in files]+[f.replace("ipynb", "md") for f in files]+[f.replace("ipynb", "slides.html") for f in files]
 
 rule html_all:
   input:
