@@ -123,7 +123,7 @@ the slides can be seen live at:
 
 [markdown](./Lesson_AF_08_Documentation_and_API.html)
 
-#### AF 10 remote server management
+#### AF_10_remote_server_management
 
 [slides](./Lesson_AF_10_remote_server_management.slides.html)
 
