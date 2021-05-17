@@ -14478,6 +14478,61 @@ Now when you move the cursors it will select the text.</p>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h3 id="tmux-scripting">tmux scripting<a class="anchor-link" href="#tmux-scripting">&#182;</a></h3><p>tmux allows complete control from simple bash scripts.</p>
+<p>This can be used to automatize it without the need for any external tool any external tool</p>
+<p>a basic script would look something like:</p>
+<div class="highlight"><pre><span></span><span class="c1"># Start new detached session called &quot;work&quot;</span>
+tmux new -d -s work
+<span class="c1"># rename the current selected window</span>
+<span class="c1"># in the &quot;work&quot; session as &quot;terminal&quot;</span>
+tmux rename-window -t work terminal
+<span class="c1"># attach to the session &quot;work&quot;</span>
+tmux attach -t work
+</pre></div>
+
+</div>
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>this is the script I use when working on these lectures</p>
+<div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="c1"># Session Name</span>
+<span class="nv">session</span><span class="o">=</span><span class="s2">&quot;SandC&quot;</span>
+<span class="c1"># avoid changing the session if it already exists</span>
+<span class="nv">SESSIONEXISTS</span><span class="o">=</span><span class="k">$(</span>tmux list-sessions <span class="p">|</span> grep <span class="nv">$session</span><span class="k">)</span>
+<span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;</span><span class="nv">$SESSIONEXISTS</span><span class="s2">&quot;</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span> <span class="o">]</span>
+<span class="k">then</span>
+    <span class="c1"># Start new detached session with given name</span>
+    tmux new-session -d -s <span class="nv">$session</span>
+    <span class="c1"># rename a window and split in two terminals</span>
+    tmux rename-window -t <span class="nv">$session</span> terminal
+    <span class="c1"># create a new window and change the name directly</span>
+    tmux new-window -t <span class="nv">$session</span> -n <span class="s2">&quot;server&quot;</span>
+    <span class="c1"># start a program in it</span>
+    tmux send-keys -t <span class="nv">$session</span> <span class="s1">&#39;jupyter notebook&#39;</span> C-m
+    <span class="c1"># split the window vertically and start another program</span>
+    tmux split-window -v -t <span class="nv">$session</span>
+    tmux send-keys -t <span class="nv">$session</span> <span class="s1">&#39;htop&#39;</span> C-m
+    <span class="c1"># select a specific pane (session:window.pane)</span>
+    <span class="c1"># needs to select the windows first</span>
+    tmux <span class="k">select</span>-window -t <span class="nv">$session</span>:terminal
+    tmux <span class="k">select</span>-pane -t <span class="nv">$session</span>:terminal.2
+<span class="k">fi</span>
+<span class="c1"># attach to the session</span>
+tmux attach-session -t <span class="nv">$session</span>
+</pre></div>
+
+</div>
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>you might want to check out <strong>tmuxinator</strong> for a yaml based configuration.</p>
+<p>it works very well, but I prefere a project based script that is located in the project directory rather than using a global list of configurations.</p>
+
+</div>
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h1 id="SSH---connecting-to-a-remote-server">SSH - connecting to a remote server<a class="anchor-link" href="#SSH---connecting-to-a-remote-server">&#182;</a></h1><p>ssh is the default way to connect to a remote server.</p>
 <p>for today's lesson we will use the remote server provided by <strong>overthewire.org</strong>.</p>
 <p>please be good citizens and don't mess around too much in their machine!</p>
