@@ -2,13 +2,9 @@
 %matplotlib inline
 ```
 
-# SOFTWARE AND COMPUTING FOR PHYSICS
+# SOFTWARE AND COMPUTING FOR APPLIED PHYSICS
 
 ### Enrico Giampieri, PhD (enrico.giampieri@unibo.it)
-
-### Prof. Daniele Bonacorsi, PhD (daniele.bonacorsi@unibo.it)
-
-### Prof. Lorenzo Rinaldi, PhD (lorenzo.rinaldi@unibo.it)
 
 ### https://github.com/UniboDIFABiophysics/programmingCourseDIFA
 
@@ -38,8 +34,6 @@ We will employ Python as a model language, but all these concepts will be applic
 1. databases and dataframes
 1. data pipeline and data formats
 1. introduction to machine learning
-
-## module 2 will differ for applied physics and nuclear physics
 
 ## The exam
 
