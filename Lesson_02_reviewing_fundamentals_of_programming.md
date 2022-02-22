@@ -442,6 +442,52 @@ while x<3:
     position= 2
 
 
+sometimes one needs to break out early from a loop.
+
+this can be done using the `break` keyword, that kills the loop immediately and completely
+
+similarly, one can skip a single iteration of the loop with the `continue` keyword
+
+
+```python
+# the `break` keyword is useful to perform a do-while loop
+
+import random
+x = 0
+while True:
+    print("position=", x)
+    step = random.choice([-1, 1])
+    x = x + step
+    if x>=3:
+        break
+```
+
+    position= 0
+    position= 1
+    position= 2
+    position= 1
+    position= 0
+    position= 1
+    position= 2
+
+
+
+```python
+# continue can be used to skip data that we don't want to process
+
+years = [2018, 2019, 2020, 2021, 2022, 2023]
+for year in years:
+    if year<2020:
+        continue
+    print(year)
+```
+
+    2020
+    2021
+    2022
+    2023
+
+
 ## data structures
 
 This are containers that holds the informations, and make more or less easy to retrieve and manipulate this information.
