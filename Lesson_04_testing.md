@@ -363,241 +363,6 @@ def test_zero_division():
         1 / 0
 ```
 
-Pytest automatize our testing procedure, but we still have to think and write a great number of tests, and most of them are going to be similar with small variations
-
-The best solution would be for the computer to generate and keep track of tests for us
-
-This is not possible in a literal sense, but we can get pretty close to it
-
-## Property based testing
-
-I can generalize the anecdotal tests I wrote earlier, trying to check not for individual results, but general properties and simmetries of my code
-
-In **unit testing**:
-    
-* for each test:
-    * for each individual case
-        1. I have to specify the input
-        2. I have to specify the expected output (or error)
-        
-in **property based testing**:
-
-* I need to specify the kind of output I will provide to the function
-* for each test
-    1. specificy the invariants of that test property
-
-The library I am going to use will specify the input dat in a random way according to the rules I specified.
-
-Will trow them at the function actively trying to break it
-
-If it finds an example that breaks the expected properties of the functions, tries to find the simplest example that still breaks it
-
-keeps track of that example and will provide it to all the future iterations of the test
-
-property based testing does not replace unit testing.
-
-It extends it and makes it more powerful, and reduces the amount of trivial and repeated code we have to write
-
-Of course, to use it one needs to think harder about what they want to test, but you wouldn't be here if you were afraid of thinking
-
-The library we are going to use is called [hypothesis](https://hypothesis.readthedocs.io/en/latest/).
-
-Hypothesis leverage libraries such as pytest for the basic testing, but generates test automatically using **strategies**.
-
-A **strategy** defines how the data are randomly generated and passed to the function to be tested
-
-
-```python
-%%file test_prova.py
-from hypothesis import given
-import hypothesis.strategies as st
-
-def inc(x):
-    if x==5:
-        return 0
-    return x + 1
-
-def dec(x):
-    return x - 1
-
-@given(value=st.integers())
-def test_answer_1(value):
-    print(value)
-    assert dec(inc(value)) == value
-    
-@given(value=st.integers())
-def test_answer_2(value):
-    assert dec(inc(value)) == inc(dec(value))
-```
-
-    Overwriting test_prova.py
-
-
-
-```python
-!pytest test_prova.py
-```
-
-    [1m============================= test session starts ==============================[0m
-    platform linux -- Python 3.6.0, pytest-3.0.6, py-1.4.32, pluggy-0.4.0
-    rootdir: /home/enrico, inifile: 
-    plugins: xonsh-0.5.6, hypothesis-3.6.1
-    collected 2 items [0m[1m
-    [0m
-    test_prova.py .F
-    
-    =================================== FAILURES ===================================
-    [31m[1m________________________________ test_answer_2 _________________________________[0m
-    
-    [1m    @given(value=st.integers())[0m
-    [1m>   def test_answer_2(value):[0m
-    
-    [1m[31mtest_prova.py[0m:18: 
-    _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-    [1m[31m/usr/local/lib/python3.6/site-packages/hypothesis/core.py[0m:524: in wrapped_test
-    [1m    print_example=True, is_final=True[0m
-    [1m[31m/usr/local/lib/python3.6/site-packages/hypothesis/executors.py[0m:58: in default_new_style_executor
-    [1m    return function(data)[0m
-    [1m[31m/usr/local/lib/python3.6/site-packages/hypothesis/core.py[0m:111: in run
-    [1m    return test(*args, **kwargs)[0m
-    _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-    
-    value = 5
-    
-    [1m    @given(value=st.integers())[0m
-    [1m    def test_answer_2(value):[0m
-    [1m>       assert dec(inc(value)) == inc(dec(value))[0m
-    [1m[31mE       assert -1 == 5[0m
-    [1m[31mE        +  where -1 = dec(0)[0m
-    [1m[31mE        +    where 0 = inc(5)[0m
-    [1m[31mE        +  and   5 = inc(4)[0m
-    [1m[31mE        +    where 4 = dec(5)[0m
-    
-    [1m[31mtest_prova.py[0m:19: AssertionError
-    ---------------------------------- Hypothesis ----------------------------------
-    Falsifying example: test_answer_2(value=5)
-    [31m[1m====================== 1 failed, 1 passed in 0.15 seconds ======================[0m
-
-
-To write property based testing one doesn't need to start from scratch, but can progressively extends the classic unit tests.
-
-for a starter, jut replace the fixed parameters with the **just** strategy.
-
-
-```python
-%%file test_prova.py
-def inc(x):
-    return x + 1
-
-def test_answer_1a():
-    assert inc(3) == 4
-    
-
-from hypothesis import given
-import hypothesis.strategies as st
-
-@given(x=st.just(3))
-def test_answer_1b(x):
-    assert inc(x) == x+1
-    
-@given(x=st.floats())
-def test_answer_1c(x):
-    assert inc(x) == x+1
-```
-
-    Overwriting test_prova.py
-
-
-
-```python
-!pytest test_prova.py
-```
-
-    [1m============================= test session starts ==============================[0m
-    platform linux -- Python 3.6.0, pytest-3.0.6, py-1.4.32, pluggy-0.4.0
-    rootdir: /home/enrico, inifile: 
-    plugins: xonsh-0.5.6, hypothesis-3.6.1
-    collected 3 items [0m[1m
-    [0m
-    test_prova.py ..F
-    
-    =================================== FAILURES ===================================
-    [31m[1m________________________________ test_answer_1c ________________________________[0m
-    
-    [1m    @given(x=st.floats())[0m
-    [1m>   def test_answer_1c(x):[0m
-    
-    [1m[31mtest_prova.py[0m:16: 
-    _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-    [1m[31m/usr/local/lib/python3.6/site-packages/hypothesis/core.py[0m:524: in wrapped_test
-    [1m    print_example=True, is_final=True[0m
-    [1m[31m/usr/local/lib/python3.6/site-packages/hypothesis/executors.py[0m:58: in default_new_style_executor
-    [1m    return function(data)[0m
-    [1m[31m/usr/local/lib/python3.6/site-packages/hypothesis/core.py[0m:111: in run
-    [1m    return test(*args, **kwargs)[0m
-    _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-    
-    x = nan
-    
-    [1m    @given(x=st.floats())[0m
-    [1m    def test_answer_1c(x):[0m
-    [1m>       assert inc(x) == x+1[0m
-    [1m[31mE       assert nan == (nan + 1)[0m
-    [1m[31mE        +  where nan = inc(nan)[0m
-    
-    [1m[31mtest_prova.py[0m:17: AssertionError
-    ---------------------------------- Hypothesis ----------------------------------
-    Falsifying example: test_answer_1c(x=nan)
-    [31m[1m====================== 1 failed, 2 passed in 0.62 seconds ======================[0m
-
-
-As we were saying, math on a computer is hard...
-
-If we want to ignore some of these cases, we could use the **assume** function, that restricts the random function generation for the testing of each individual function
-
-
-```python
-from math import isnan
-from hypothesis import assume
-
-@given(x=st.floats())
-def test_answer_1c(x):
-    assume(not isnan(x))
-    assert inc(x) == x+1
-```
-
-## (Some) Patterns of properties to be tested
-
-The following examples are taken from [this website](http://fsharpforfunandprofit.com/posts/property-based-testing-2/)
-
-### Commutative property
-
-![](./immagini/property/property_commutative.png)
-
-### Existence of an inverse function
-
-![](./immagini/property/property_inverse.png)
-
-### Conservation law
-
-![](./immagini/property/property_invariant.png)
-
-### idempotence
-
-![](./immagini/property/property_idempotence.png)
-
-### Induction
-
-![](./immagini/property/property_induction.png)
-
-### Hard to proof, easy to verify
-
-![](./immagini/property/property_easy_verification.png)
-
-### Oracle testing
-
-![](./immagini/property/property_test_oracle.png)
-
 ## Test driven development
 
 In the **test driven development** code and tests are written together, starting from the specifics.
@@ -1021,9 +786,237 @@ RULES = {30: {"...": '0', "..0": '0', ".0.": '0', "000": '0',
          }
 ```
 
+## Property based testing
+
+Pytest automatize our testing procedure, but we still have to think and write a great number of tests, and most of them are going to be similar with small variations
+
+The best solution would be for the computer to generate and keep track of tests for us
+
+This is not possible in a literal sense, but we can get pretty close to it
+
+I can generalize the anecdotal tests I wrote earlier, trying to check not for individual results, but general properties and simmetries of my code
+
+In **unit testing**:
+    
+* for each test:
+    * for each individual case
+        1. I have to specify the input
+        2. I have to specify the expected output (or error)
+        
+in **property based testing**:
+
+* I need to specify the kind of output I will provide to the function
+* for each test
+    1. specificy the invariants of that test property
+
+The library I am going to use will specify the input dat in a random way according to the rules I specified.
+
+Will trow them at the function actively trying to break it
+
+If it finds an example that breaks the expected properties of the functions, tries to find the simplest example that still breaks it
+
+keeps track of that example and will provide it to all the future iterations of the test
+
+property based testing does not replace unit testing.
+
+It extends it and makes it more powerful, and reduces the amount of trivial and repeated code we have to write
+
+Of course, to use it one needs to think harder about what they want to test, but you wouldn't be here if you were afraid of thinking
+
+The library we are going to use is called [hypothesis](https://hypothesis.readthedocs.io/en/latest/).
+
+Hypothesis leverage libraries such as pytest for the basic testing, but generates test automatically using **strategies**.
+
+A **strategy** defines how the data are randomly generated and passed to the function to be tested
+
 
 ```python
-state_0 = generate_state()
-state_1 = evolve(state_0)
-state_2 = evolve(state_1)
+%%file test_prova.py
+from hypothesis import given
+import hypothesis.strategies as st
+
+def inc(x):
+    if x==5:
+        return 0
+    return x + 1
+
+def dec(x):
+    return x - 1
+
+@given(value=st.integers())
+def test_answer_1(value):
+    print(value)
+    assert dec(inc(value)) == value
+    
+@given(value=st.integers())
+def test_answer_2(value):
+    assert dec(inc(value)) == inc(dec(value))
 ```
+
+    Overwriting test_prova.py
+
+
+
+```python
+!pytest test_prova.py
+```
+
+    [1m============================= test session starts ==============================[0m
+    platform linux -- Python 3.6.0, pytest-3.0.6, py-1.4.32, pluggy-0.4.0
+    rootdir: /home/enrico, inifile: 
+    plugins: xonsh-0.5.6, hypothesis-3.6.1
+    collected 2 items [0m[1m
+    [0m
+    test_prova.py .F
+    
+    =================================== FAILURES ===================================
+    [31m[1m________________________________ test_answer_2 _________________________________[0m
+    
+    [1m    @given(value=st.integers())[0m
+    [1m>   def test_answer_2(value):[0m
+    
+    [1m[31mtest_prova.py[0m:18: 
+    _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+    [1m[31m/usr/local/lib/python3.6/site-packages/hypothesis/core.py[0m:524: in wrapped_test
+    [1m    print_example=True, is_final=True[0m
+    [1m[31m/usr/local/lib/python3.6/site-packages/hypothesis/executors.py[0m:58: in default_new_style_executor
+    [1m    return function(data)[0m
+    [1m[31m/usr/local/lib/python3.6/site-packages/hypothesis/core.py[0m:111: in run
+    [1m    return test(*args, **kwargs)[0m
+    _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+    
+    value = 5
+    
+    [1m    @given(value=st.integers())[0m
+    [1m    def test_answer_2(value):[0m
+    [1m>       assert dec(inc(value)) == inc(dec(value))[0m
+    [1m[31mE       assert -1 == 5[0m
+    [1m[31mE        +  where -1 = dec(0)[0m
+    [1m[31mE        +    where 0 = inc(5)[0m
+    [1m[31mE        +  and   5 = inc(4)[0m
+    [1m[31mE        +    where 4 = dec(5)[0m
+    
+    [1m[31mtest_prova.py[0m:19: AssertionError
+    ---------------------------------- Hypothesis ----------------------------------
+    Falsifying example: test_answer_2(value=5)
+    [31m[1m====================== 1 failed, 1 passed in 0.15 seconds ======================[0m
+
+
+To write property based testing one doesn't need to start from scratch, but can progressively extends the classic unit tests.
+
+for a starter, jut replace the fixed parameters with the **just** strategy.
+
+
+```python
+%%file test_prova.py
+def inc(x):
+    return x + 1
+
+def test_answer_1a():
+    assert inc(3) == 4
+    
+
+from hypothesis import given
+import hypothesis.strategies as st
+
+@given(x=st.just(3))
+def test_answer_1b(x):
+    assert inc(x) == x+1
+    
+@given(x=st.floats())
+def test_answer_1c(x):
+    assert inc(x) == x+1
+```
+
+    Overwriting test_prova.py
+
+
+
+```python
+!pytest test_prova.py
+```
+
+    [1m============================= test session starts ==============================[0m
+    platform linux -- Python 3.6.0, pytest-3.0.6, py-1.4.32, pluggy-0.4.0
+    rootdir: /home/enrico, inifile: 
+    plugins: xonsh-0.5.6, hypothesis-3.6.1
+    collected 3 items [0m[1m
+    [0m
+    test_prova.py ..F
+    
+    =================================== FAILURES ===================================
+    [31m[1m________________________________ test_answer_1c ________________________________[0m
+    
+    [1m    @given(x=st.floats())[0m
+    [1m>   def test_answer_1c(x):[0m
+    
+    [1m[31mtest_prova.py[0m:16: 
+    _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+    [1m[31m/usr/local/lib/python3.6/site-packages/hypothesis/core.py[0m:524: in wrapped_test
+    [1m    print_example=True, is_final=True[0m
+    [1m[31m/usr/local/lib/python3.6/site-packages/hypothesis/executors.py[0m:58: in default_new_style_executor
+    [1m    return function(data)[0m
+    [1m[31m/usr/local/lib/python3.6/site-packages/hypothesis/core.py[0m:111: in run
+    [1m    return test(*args, **kwargs)[0m
+    _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+    
+    x = nan
+    
+    [1m    @given(x=st.floats())[0m
+    [1m    def test_answer_1c(x):[0m
+    [1m>       assert inc(x) == x+1[0m
+    [1m[31mE       assert nan == (nan + 1)[0m
+    [1m[31mE        +  where nan = inc(nan)[0m
+    
+    [1m[31mtest_prova.py[0m:17: AssertionError
+    ---------------------------------- Hypothesis ----------------------------------
+    Falsifying example: test_answer_1c(x=nan)
+    [31m[1m====================== 1 failed, 2 passed in 0.62 seconds ======================[0m
+
+
+As we were saying, math on a computer is hard...
+
+If we want to ignore some of these cases, we could use the **assume** function, that restricts the random function generation for the testing of each individual function
+
+
+```python
+from math import isnan
+from hypothesis import assume
+
+@given(x=st.floats())
+def test_answer_1c(x):
+    assume(not isnan(x))
+    assert inc(x) == x+1
+```
+
+## (Some) Patterns of properties to be tested
+
+The following examples are taken from [this website](http://fsharpforfunandprofit.com/posts/property-based-testing-2/)
+
+### Commutative property
+
+![](./immagini/property/property_commutative.png)
+
+### Existence of an inverse function
+
+![](./immagini/property/property_inverse.png)
+
+### Conservation law
+
+![](./immagini/property/property_invariant.png)
+
+### idempotence
+
+![](./immagini/property/property_idempotence.png)
+
+### Induction
+
+![](./immagini/property/property_induction.png)
+
+### Hard to proof, easy to verify
+
+![](./immagini/property/property_easy_verification.png)
+
+### Oracle testing
+
+![](./immagini/property/property_test_oracle.png)
