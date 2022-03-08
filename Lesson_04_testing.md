@@ -786,6 +786,208 @@ RULES = {30: {"...": '0', "..0": '0', ".0.": '0', "000": '0',
          }
 ```
 
+## Writing good tests
+
+until now we discussed the idea behind testing, but let's discuss some details to start mastering them.
+
+At the beginning tests are difficult, because you're going to be more concerned with the idea of making your code work than with aking it right.
+
+It's ok, you will learn with time, just try and you will get the hang of it
+
+### one test ~~one assert~~ one concept
+
+you will find online a rule of thumb saying that one test should have only one assert.
+
+it is almost right, but still wrong: one test should verify a single concept.
+
+sometimes a single assert is enough, sometimes more than one are necessary.
+
+but in general one should be able to explain simply **why** a test fails
+
+
+```python
+# WHY?!?
+def test_my_state_generator():
+    state = generate_state()
+    assert set(state) == {'.', '0'}
+
+    num_of_0 = sum(1 for i in state if i=='0')
+    assert num_of_0 == 1
+```
+
+really, you don't earn money by pushing more concepts in a single tests, you're making it harder to used the tests.
+
+once you see that a test fails, now you have to start debugging (we will talk more about that in the next lessons)... and you don't want that believe me.
+
+In an ideal world, once a test fails, you can almost pinpoint the line of code that is the cause of it
+
+### documenting a test
+
+test, as all the functions, should be documented.
+the test name is simply not enough to explain it, just keep it simple.
+
+In this case we don't need a documentation in the style of numpy, but I suggest the BEHAVIOR DRIVEN APPROACH description.
+
+Each test should state:
+* what it wants to test
+* **GIVEN**: what is the starting state of the system its testing
+* **WHEN**: what happens, what operation is going to perform
+* **THEN**: the expected effect of the operation after the operation
+
+
+```python
+def is_valid_state(state):
+    """this function tests that a state is valid
+    
+    is used mostly for testing.
+    should have its own dedicated tests!
+    """
+    ...
+
+def test_evolve_valid():
+    """ this tests that the evolve function returns valid states when used
+    
+    GIVEN: a valid state of my simulation
+    WHEN: I apply to it the evolve function
+    THEN: the resulting state is still a valid one
+    """
+    state = generate_state() # the validity of this should be tested separetely
+    new_state = evolve(state)
+    assert is_valid_state(new_state)
+```
+
+### tests and random numbers
+
+random numbers do not play well with testing.
+
+tests should be deterministic, and reliably pass or fail.
+
+if you have a function that relies on random number (such as certain simulations) it's better to isolate the random and the determistic code, and test the deterministic part very carefully.
+
+one can usually isolate the random component almost totally
+
+
+A different case is when you use the random number as a way of saying: 
+
+> I don't care about the specific value, and there are a lot of them and I can't be bothered of writing them all, let's use a random generator
+
+it is legitimate, the simple solution is to fix the random seed in **every** function that use this trick
+
+
+```python
+import random as rn
+
+# passes but is conceptually wrong
+def test_random_pick():
+    values = rn.choose(["a", "b", "c"], k=3)
+    assert len(values)==3
+```
+
+
+```python
+import random as rn
+
+# passes and is completely deterministic
+def test_random_pick():
+    rn.seed(42)
+    values = rn.choose(["a", "b", "c"], k=3)
+    assert len(values)==3
+```
+
+### second order functions
+
+inside the body of the test ideally there should be only 3 lines of codes:
+* defining the expected result
+* executing the function one wants to test
+* asserting that the results are equal
+
+sometimes one might need more code to execute the test.
+
+Part of this can be solved with fixtures, when the code to generate the expected result is repeated or a little more involved.
+
+but in general, if there is non trivial code used is a test, it should:
+* be encapsulated in a function
+* tested itself
+
+think back to the `is_valid_state` defined before
+
+### pytest specific - test coverage
+
+using the `pytest-cov` package you can verify how many of the original code lines have been executed by your tests.
+
+a coverage less than 100% (for the actual code, excluding things like plotting and GUI, at least now) means that the tests are incompleted.
+
+A coverage of 100% is the minimal starting point, one still have to make sure that the tests are actually covering all the **logical** cases.
+
+to use it just run you pytest program with:
+
+```bash
+pytest --cov=myproj tests/
+```
+
+### pytest specific - parametrization
+
+sometimes we have the same code for the test, just used on many different values to extensively test a single property.
+
+The simple solution is just to have multiple tests, but pytest provide the option to **parametrize** the test, passing it several values to be tested using the same code.
+
+I'm not a huge fan, but it's a possibility.
+
+
+```python
+import pytest
+
+@pytest.mark.parametrize("a, b, remainder", [
+    (3, 2, 1),
+    (2, 3, 2),
+    (2, 2, 0),
+])
+def test_divide_ok(a, b, expected):
+    assert module(a, b) == expected
+```
+
+### pytest specific - fixtures
+
+a common problem in most testing framework is the **setup** and **teardown** of the test data.
+
+If it's complicated it means a lot of repeated code, source of potential bugs.
+
+Each framework solves this in its own way.
+
+pytest approach are the **fixtures**.
+
+they should the **yield** keyword, that we will see in the future in more detail.
+
+for now we will see the simpler version with the **return**.
+
+to create a fixture one just needs to create a function with the name of the object that it wants to create.
+
+all the test methods can now take an argument with the same name as the fixture, and they will receive the value of that fixture as the argument
+
+typical uses might involve reading the content of a file or setting up complex data structures.
+
+
+```python
+import pytest
+
+@pytest.fixture
+def valid_state():
+    return generate_state()
+
+def test_evolve_valid(valid_state):
+    new_state = evolve(state)
+    assert is_valid_state(new_state)
+```
+
+### pytest specific - command line options
+
+here are some of the pytest command line options that might be useful to shorten your testing cycle.
+
+* showing the local variables of a failing test: `-l / --showlocals`
+* exit the testing suite as soon as a test fails: `-x / --exitfirst`
+* rerun only the tests that failed with the last run: `--lf / --last-failed`
+* rerun all the tests, but start with those that failed first: `--ff / --failed-first`
+
 ## Property based testing
 
 Pytest automatize our testing procedure, but we still have to think and write a great number of tests, and most of them are going to be similar with small variations

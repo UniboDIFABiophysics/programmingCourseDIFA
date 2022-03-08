@@ -16244,6 +16244,373 @@ test_prova.py <span class="ansi-green-fg">.</span><span class="ansi-green-fg">.<
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h2 id="Writing-good-tests">Writing good tests<a class="anchor-link" href="#Writing-good-tests">&#182;</a></h2><p>until now we discussed the idea behind testing, but let's discuss some details to start mastering them.</p>
+<p>At the beginning tests are difficult, because you're going to be more concerned with the idea of making your code work than with aking it right.</p>
+<p>It's ok, you will learn with time, just try and you will get the hang of it</p>
+
+</div>
+</div>
+</div>
+</div></section></section><section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h3 id="one-test-one-assert-one-concept">one test <del>one assert</del> one concept<a class="anchor-link" href="#one-test-one-assert-one-concept">&#182;</a></h3><p>you will find online a rule of thumb saying that one test should have only one assert.</p>
+<p>it is almost right, but still wrong: one test should verify a single concept.</p>
+<p>sometimes a single assert is enough, sometimes more than one are necessary.</p>
+<p>but in general one should be able to explain simply <strong>why</strong> a test fails</p>
+
+</div>
+</div>
+</div>
+</div></section></section><section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># WHY?!?</span>
+<span class="k">def</span> <span class="nf">test_my_state_generator</span><span class="p">():</span>
+    <span class="n">state</span> <span class="o">=</span> <span class="n">generate_state</span><span class="p">()</span>
+    <span class="k">assert</span> <span class="nb">set</span><span class="p">(</span><span class="n">state</span><span class="p">)</span> <span class="o">==</span> <span class="p">{</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="s1">&#39;0&#39;</span><span class="p">}</span>
+
+    <span class="n">num_of_0</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="mi">1</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">state</span> <span class="k">if</span> <span class="n">i</span><span class="o">==</span><span class="s1">&#39;0&#39;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">num_of_0</span> <span class="o">==</span> <span class="mi">1</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div></section></section><section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>really, you don't earn money by pushing more concepts in a single tests, you're making it harder to used the tests.</p>
+<p>once you see that a test fails, now you have to start debugging (we will talk more about that in the next lessons)... and you don't want that believe me.</p>
+<p>In an ideal world, once a test fails, you can almost pinpoint the line of code that is the cause of it</p>
+
+</div>
+</div>
+</div>
+</div></section></section><section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h3 id="documenting-a-test">documenting a test<a class="anchor-link" href="#documenting-a-test">&#182;</a></h3><p>test, as all the functions, should be documented.
+the test name is simply not enough to explain it, just keep it simple.</p>
+<p>In this case we don't need a documentation in the style of numpy, but I suggest the BEHAVIOR DRIVEN APPROACH description.</p>
+
+</div>
+</div>
+</div>
+</div></section></section><section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>Each test should state:</p>
+<ul>
+<li>what it wants to test</li>
+<li><strong>GIVEN</strong>: what is the starting state of the system its testing</li>
+<li><strong>WHEN</strong>: what happens, what operation is going to perform</li>
+<li><strong>THEN</strong>: the expected effect of the operation after the operation</li>
+</ul>
+
+</div>
+</div>
+</div>
+</div></section></section><section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[11]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">is_valid_state</span><span class="p">(</span><span class="n">state</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;this function tests that a state is valid</span>
+<span class="sd">    </span>
+<span class="sd">    is used mostly for testing.</span>
+<span class="sd">    should have its own dedicated tests!</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="o">...</span>
+
+<span class="k">def</span> <span class="nf">test_evolve_valid</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; this tests that the evolve function returns valid states when used</span>
+<span class="sd">    </span>
+<span class="sd">    GIVEN: a valid state of my simulation</span>
+<span class="sd">    WHEN: I apply to it the evolve function</span>
+<span class="sd">    THEN: the resulting state is still a valid one</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">state</span> <span class="o">=</span> <span class="n">generate_state</span><span class="p">()</span> <span class="c1"># the validity of this should be tested separetely</span>
+    <span class="n">new_state</span> <span class="o">=</span> <span class="n">evolve</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">is_valid_state</span><span class="p">(</span><span class="n">new_state</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div></section></section><section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h3 id="tests-and-random-numbers">tests and random numbers<a class="anchor-link" href="#tests-and-random-numbers">&#182;</a></h3><p>random numbers do not play well with testing.</p>
+<p>tests should be deterministic, and reliably pass or fail.</p>
+<p>if you have a function that relies on random number (such as certain simulations) it's better to isolate the random and the determistic code, and test the deterministic part very carefully.</p>
+<p>one can usually isolate the random component almost totally</p>
+
+</div>
+</div>
+</div>
+</div></section></section><section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>A different case is when you use the random number as a way of saying:</p>
+<blockquote><p>I don't care about the specific value, and there are a lot of them and I can't be bothered of writing them all, let's use a random generator</p>
+</blockquote>
+<p>it is legitimate, the simple solution is to fix the random seed in <strong>every</strong> function that use this trick</p>
+
+</div>
+</div>
+</div>
+</div></section></section><section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[5]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">random</span> <span class="k">as</span> <span class="nn">rn</span>
+
+<span class="c1"># passes but is conceptually wrong</span>
+<span class="k">def</span> <span class="nf">test_random_pick</span><span class="p">():</span>
+    <span class="n">values</span> <span class="o">=</span> <span class="n">rn</span><span class="o">.</span><span class="n">choose</span><span class="p">([</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">],</span> <span class="n">k</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">)</span><span class="o">==</span><span class="mi">3</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div></section></section><section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[9]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">random</span> <span class="k">as</span> <span class="nn">rn</span>
+
+<span class="c1"># passes and is completely deterministic</span>
+<span class="k">def</span> <span class="nf">test_random_pick</span><span class="p">():</span>
+    <span class="n">rn</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+    <span class="n">values</span> <span class="o">=</span> <span class="n">rn</span><span class="o">.</span><span class="n">choose</span><span class="p">([</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">],</span> <span class="n">k</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">)</span><span class="o">==</span><span class="mi">3</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div></section></section><section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h3 id="second-order-functions">second order functions<a class="anchor-link" href="#second-order-functions">&#182;</a></h3><p>inside the body of the test ideally there should be only 3 lines of codes:</p>
+<ul>
+<li>defining the expected result</li>
+<li>executing the function one wants to test</li>
+<li>asserting that the results are equal</li>
+</ul>
+<p>sometimes one might need more code to execute the test.</p>
+
+</div>
+</div>
+</div>
+</div></section></section><section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>Part of this can be solved with fixtures, when the code to generate the expected result is repeated or a little more involved.</p>
+<p>but in general, if there is non trivial code used is a test, it should:</p>
+<ul>
+<li>be encapsulated in a function</li>
+<li>tested itself</li>
+</ul>
+<p>think back to the <code>is_valid_state</code> defined before</p>
+
+</div>
+</div>
+</div>
+</div></section></section><section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h3 id="pytest-specific---test-coverage">pytest specific - test coverage<a class="anchor-link" href="#pytest-specific---test-coverage">&#182;</a></h3><p>using the <code>pytest-cov</code> package you can verify how many of the original code lines have been executed by your tests.</p>
+<p>a coverage less than 100% (for the actual code, excluding things like plotting and GUI, at least now) means that the tests are incompleted.</p>
+<p>A coverage of 100% is the minimal starting point, one still have to make sure that the tests are actually covering all the <strong>logical</strong> cases.</p>
+<p>to use it just run you pytest program with:</p>
+<div class="highlight"><pre><span></span>pytest --cov<span class="o">=</span>myproj tests/
+</pre></div>
+
+</div>
+</div>
+</div>
+</div></section></section><section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h3 id="pytest-specific---parametrization">pytest specific - parametrization<a class="anchor-link" href="#pytest-specific---parametrization">&#182;</a></h3><p>sometimes we have the same code for the test, just used on many different values to extensively test a single property.</p>
+<p>The simple solution is just to have multiple tests, but pytest provide the option to <strong>parametrize</strong> the test, passing it several values to be tested using the same code.</p>
+<p>I'm not a huge fan, but it's a possibility.</p>
+
+</div>
+</div>
+</div>
+</div></section></section><section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pytest</span>
+
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;a, b, remainder&quot;</span><span class="p">,</span> <span class="p">[</span>
+    <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+    <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+    <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+<span class="p">])</span>
+<span class="k">def</span> <span class="nf">test_divide_ok</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">expected</span><span class="p">):</span>
+    <span class="k">assert</span> <span class="n">module</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="o">==</span> <span class="n">expected</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div></section></section><section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h3 id="pytest-specific---fixtures">pytest specific - fixtures<a class="anchor-link" href="#pytest-specific---fixtures">&#182;</a></h3><p>a common problem in most testing framework is the <strong>setup</strong> and <strong>teardown</strong> of the test data.</p>
+<p>If it's complicated it means a lot of repeated code, source of potential bugs.</p>
+<p>Each framework solves this in its own way.</p>
+<p>pytest approach are the <strong>fixtures</strong>.</p>
+<p>they should the <strong>yield</strong> keyword, that we will see in the future in more detail.</p>
+<p>for now we will see the simpler version with the <strong>return</strong>.</p>
+
+</div>
+</div>
+</div>
+</div></section></section><section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>to create a fixture one just needs to create a function with the name of the object that it wants to create.</p>
+<p>all the test methods can now take an argument with the same name as the fixture, and they will receive the value of that fixture as the argument</p>
+<p>typical uses might involve reading the content of a file or setting up complex data structures.</p>
+
+</div>
+</div>
+</div>
+</div></section></section><section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pytest</span>
+
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
+<span class="k">def</span> <span class="nf">valid_state</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">generate_state</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">test_evolve_valid</span><span class="p">(</span><span class="n">valid_state</span><span class="p">):</span>
+    <span class="n">new_state</span> <span class="o">=</span> <span class="n">evolve</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">is_valid_state</span><span class="p">(</span><span class="n">new_state</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div></section></section><section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h3 id="pytest-specific---command-line-options">pytest specific - command line options<a class="anchor-link" href="#pytest-specific---command-line-options">&#182;</a></h3><p>here are some of the pytest command line options that might be useful to shorten your testing cycle.</p>
+<ul>
+<li>showing the local variables of a failing test: <code>-l / --showlocals</code></li>
+<li>exit the testing suite as soon as a test fails: <code>-x / --exitfirst</code></li>
+<li>rerun only the tests that failed with the last run: <code>--lf / --last-failed</code></li>
+<li>rerun all the tests, but start with those that failed first: <code>--ff / --failed-first</code></li>
+</ul>
+
+</div>
+</div>
+</div>
+</div></section></section><section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h2 id="Property-based-testing">Property based testing<a class="anchor-link" href="#Property-based-testing">&#182;</a></h2><p>Pytest automatize our testing procedure, but we still have to think and write a great number of tests, and most of them are going to be similar with small variations</p>
 <p>The best solution would be for the computer to generate and keep track of tests for us</p>
 <p>This is not possible in a literal sense, but we can get pretty close to it</p>
