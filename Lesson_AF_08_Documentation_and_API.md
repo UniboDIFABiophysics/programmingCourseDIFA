@@ -14,6 +14,7 @@ None of these actually allow the user to use your code: you need to explain them
 Documentation is often a forgotten topic because it feels like a "chore": you already wrote the program, it works, your job is done!
 
 Nothing further from the truth!
+
 In a similar way to the tests, documentation should be part of the fundations of what you perceive your work to be when programming, and done alongside the code in the same way as the tests.
 
 ### Target users
@@ -83,10 +84,10 @@ it divides the documentation in 4 distinct kind of documents, each one with its 
 
 Each of the quadrants is similar to its two neighbours:
 
-* tutorials and how-to guides are both concerned with describing practical steps
-* how-to guides and technical reference are both what we need when we are at work, coding
-* reference guides and explanation are both concerned with theoretical knowledge
-* tutorials and explanation are both most useful when we are studying, rather than actually working
+* **tutorials** and **how-to guides** are both concerned with **describing practical steps**
+* **how-to guides** and **technical reference** are both what we need when we are at work, **coding**
+* **reference guides** and **explanation** are both concerned with **theoretical knowledge**
+* **tutorials** and **explanation** are both most useful when we are **studying**, rather than actually working
 
 ### Jupyter notebooks
 
@@ -144,6 +145,7 @@ One should provide docstrings for:
 * each function in the module
 * each class in the module
 * each method of each class
+* each test in the test suite (but use the BDD description style instead)
 
 #### numpy docstring standard:
 https://numpydoc.readthedocs.io/en/latest/format.html#docstring-standard
@@ -158,10 +160,118 @@ just remember to keep types as general as possible:
 * numbers instead of ints and floats
 
 describe types of input and output, it allows you to:
-* inform the user of what you can take, removing the need for explicit checks
+* inform the user of what you can take, removing the need for explicit checks (and the associated unit tests)
 * allow to use automatic code checking tools
 * keep track during development of what every object should be
 * modern IDE can do type inference and provide autocomplete and suggestions
+
+Python is a dynamic language, but is still strongly typed.
+One just don't have to declare the typed beforehand.
+
+What they introduced is the possibility to annotate the code to express expectations over the type of variables, arguments and functions.
+This does not have any effect on running the code, but allow type checkers (the most famous one is `mypy`) to assess if the code is correct
+
+to test your typing you can use the `mypy` application:
+    
+    mypy my_file.py
+
+for example, the following code have a lot of issues, but they migh not be immediately apparent just looking at it.
+
+If we don't put any typing information, mypy doesn't complain and doesn't do anything
+
+
+```python
+%%file test.py
+
+def eleva(n):
+    return n.upper()
+
+dati = [1, 2, 3, 4]
+
+for dato in dati:
+    print(1+eleva(dati[dato]))
+```
+
+    Overwriting test.py
+
+
+
+```python
+!mypy test.py
+```
+
+    [1m[32mSuccess: no issues found in 1 source file[m
+
+
+I can start introducing types informations and will find progressively more possible mistakes.
+
+types are specified with a colon (`:`) after the argument or variable, followed by the type object that it should have.
+
+for the return type, one can use an arrow `->`
+
+
+```python
+%%file test.py
+
+def eleva(n: str) -> str:
+    return n.upper()
+
+dati = [1, 2, 3, 4]
+
+for dato in dati:
+    print(1+eleva(dati[dato]))
+```
+
+    Overwriting test.py
+
+
+
+```python
+!mypy test.py
+```
+
+    test.py:8: [1m[31merror:[m Unsupported operand types for + ([m[1m"int"[m and [m[1m"str"[m)[m
+    test.py:8: [1m[31merror:[m Argument 1 to [m[1m"eleva"[m has incompatible type [m[1m"int"[m; expected [m[1m"str"[m[m
+    [1m[31mFound 2 errors in 1 file (checked 1 source file)[m
+
+
+
+```python
+%%file test.py
+
+from typing import List
+
+def eleva(n: str):
+    return n.upper()
+
+dati: List[str] = [1, 2, 3, 4]
+
+for dato in dati:
+    print(eleva(dati[dato]))
+```
+
+    Overwriting test.py
+
+
+
+```python
+!mypy test.py
+```
+
+    test.py:7: [1m[31merror:[m List item 0 has incompatible type [m[1m"int"[m; expected [m[1m"str"[m[m
+    test.py:7: [1m[31merror:[m List item 1 has incompatible type [m[1m"int"[m; expected [m[1m"str"[m[m
+    test.py:7: [1m[31merror:[m List item 2 has incompatible type [m[1m"int"[m; expected [m[1m"str"[m[m
+    test.py:7: [1m[31merror:[m List item 3 has incompatible type [m[1m"int"[m; expected [m[1m"str"[m[m
+    test.py:10: [1m[31merror:[m No overload variant of [m[1m"__getitem__"[m of [m[1m"list"[m matches argument type [m[1m"str"[m[m
+    test.py:10: [34mnote:[m Possible overload variants:[m
+    test.py:10: [34mnote:[m     def __getitem__(self, SupportsIndex) -> str[m
+    test.py:10: [34mnote:[m     def __getitem__(self, slice) -> List[str][m
+    [1m[31mFound 5 errors in 1 file (checked 1 source file)[m
+
+
+this allows me to annotate only the code I **care about** without having to deal with typing everywhere
+
+I can specify more complex types using the library `typing`, that allows to specify very complex structures
 
 I would suggest also to leverage the user-defined types to future proof your code, and make it more explicit in its intentions
 
@@ -186,9 +296,95 @@ def first(l: Sequence[T]) -> T:   # Generic function
 
 if you find that writing the type declaration of a function is too complicated, probably you should break the function into smaller chunks!
 
-to test your typing you can use the `mypy` application:
-    
-    mypy my_file.py
+#### a note on typing readability
+
+Having a lot of typing in you functions and methods could quickly lead to a perception of low readability, due to the "noise" that the type declaration adds.
+
+there are two solutions for that:
+
+* following an appropriate coding style
+* giving types a descriptive names
+
+##### descriptive names
+
+as discussed earlier, nothing stops us to assign a name to a type and use that in our code
+
+
+```python
+%%file test.py
+
+from typing import Iterable
+
+data_list = Iterable[int]
+
+def eleva(n: str):
+    return n.upper()
+
+dati: data_list = [1, 2, 3, 4]
+
+for dato in dati:
+    print(eleva(dato))
+```
+
+    Overwriting test.py
+
+
+
+```python
+!mypy test.py
+```
+
+    test.py:12: [1m[31merror:[m Argument 1 to [m[1m"eleva"[m has incompatible type [m[1m"int"[m; expected [m[1m"str"[m[m
+    [1m[31mFound 1 error in 1 file (checked 1 source file)[m
+
+
+##### coding style
+
+a commonly recommended coding style (such as the one enforced by `black`) suggests to put all arguments of a function in a new line, with one level of indentation, and a new line with the closing parenthesis.
+
+This gives plenty of space for typing informations and *ad-hoc* comments
+
+following these kind of guideline, a function written as:
+
+```python
+def my_function(arg_1, arg_2, arg_3, arg_4, args_5):
+    """docstring"""
+    function body
+```
+
+would be rewritten as:
+
+```python
+def my_function(
+    arg_1: type_1, # some comment
+    arg_2: type_2, # more comment
+    arg_3: type_3, # let's discuss this
+    arg_4: type_4, # I used this name because ...
+    args_5: type_5, # etc...
+) -> return_type:
+    """docstring"""
+    function body
+```
+
+This approach is also **way more friendly** for version control, as it allows to recognize modifications to single arguments in the diffs.
+
+**IMPORTANT: there are variations and preferences in this, do not feel restrained!**
+
+you can read a more detailed argument here, from the writer of `black`:
+
+* [Why the sad face?](https://lukasz.langa.pl/1d1a43c4-9c8a-4c5f-a366-7f22ce6a49fc/)
+
+you can find more info about tye checking and how to use it on this blog posts:
+  
+#### a general overview of the type systems
+* [the state of type hints in python](https://www.bernat.tech/the-state-of-type-hints-in-python/)
+
+#### an in-depth discussion of how the type system works and how to use it
+* [S01E01 - First Steps with Python Type System](https://blog.daftcode.pl/first-steps-with-python-type-system-30e4296722af)
+* [S01E02 - Next Steps with Python Type System](https://blog.daftcode.pl/next-steps-with-python-type-system-efc4df5251c9)
+* [S02E01 - Understanding Contravariance](https://blog.daftcode.pl/csi-python-type-system-episode-1-1c2ee1f8047c)
+* [S02E02 - Dealing With the Contravariance Related Bug](https://blog.daftcode.pl/csi-python-type-system-episode-2-baf5168038c0)
+* [S02E03 - Covariance, Contravariance, and Invariance](https://blog.daftcode.pl/covariance-contravariance-and-invariance-the-ultimate-python-guide-8fabc0c24278)
 
 ### comments
 
@@ -198,6 +394,24 @@ the following is my personal opinion:
 * try to be conservative with the number of comments you write
 * focus on "why" and not on what
 * use them to fill the "negative space"
+
+#### focus on "why" and not "what"
+
+if the code is written with good style, and read by someone half competent, describing the line of code in a comment is redundant at best
+
+```python
+# increase the width by 1
+width += 1
+```
+
+
+explaining **why** a piece of code exists, is way more important
+
+```python
+# need to increase the width of the window to compensate a off-by-one
+# error due to the window management system (see bug#12345)
+width += 1
+```
 
 #### code negative space
 
@@ -243,7 +457,7 @@ This is the hardest level to reach, but also one you shold strive for:
 
 * Everybody wants to do it (because it sounds less effort than writing documentation... Oh, my sweet summer child!)
 * most think they manage to
-* almost everybody fails (and I'm being generous).
+* almost everybody fails (and I'm being generous by using *almost*).
 
 One should still aim to reach this state, and it is always good to refactor to get closer to this state
 
