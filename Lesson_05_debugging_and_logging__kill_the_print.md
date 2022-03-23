@@ -9,11 +9,7 @@ We will discuss:
 * debugging
 * assertions
 * logging
-
-and, given time:
-
 * linters
-* type checkers
 * warnings
 
 
@@ -284,125 +280,154 @@ def my_smart_sort(sequence):
 
 you can look at asserts as a stronger form of comments: comments can potentially go out of snc with your code, while assert can't, so they can communicate to the programmer reading the function with a higher degree of confidence.
 
-let's be honest, assert in general does have a terrible syntax
+asserts are a little fidgety, and there a couple of ways of making their use more "humane"
 
-We could use a better (albeit slower) assertion library, **grappa**, to help get better syntax and better error results.
-
-
-```python
-from grappa import should, expect
-```
+the main problem with asserts is that unless one does a good job at using the return string, they will be completely obscure as a reason for an error
 
 
 ```python
-try:
-    'foo' | should.be.equal.to('bar')
-except AssertionError as e:
-    print(e)
+observed = 3
+expected = 4
+assert observed == expected
 ```
 
-    Oops! Something went wrong!
-    
-      The following assertion was not satisfied
-        subject "foo" should be equal to "bar"
-    
-      What we expected
-        a value that is equal to "bar"
-    
-      What we got instead
-        an value of type "str" with data "foo"
-    
-      Difference comparison
-        > - foo
-        > + bar
-    
-      Where
-        File "<ipython-input-3-dd9644d0aacd>", line 2, in <module>
-    
-         1|   try:
-         2| >     'foo' | should.be.equal.to('bar')
-         3|   except AssertionError as e:
-         4|       print(e)
-    
 
+    ---------------------------------------------------------------------------
+
+    AssertionError                            Traceback (most recent call last)
+
+    Input In [4], in <cell line: 3>()
+          1 observed = 3
+          2 expected = 4
+    ----> 3 assert observed == expected
+
+
+    AssertionError: 
+
+
+first of all, one can write a longer error message by wrapping the string between parenthesis.
+
+**IMPORTANT:** do not wrap the whole expression in parenthesis, or it will always pass!
+
+WRONG, always passes! (but in modern python will raise a warning)
+
+```python
+assert (observed == expected, "they are different")
+```
+
+CORRECT (but **do not** separate the strings with commas):
+
+```python
+assert observed == expected, (
+    "they are different"
+    "and I can write a string as long as I please"
+)
+```
+
+Second, one can use modern string formatting (`f-strings`) to obtain informative formatting for low cost.
+
+here we use two special capabilities of the f-strings:
+* `{x=}` will print the string `"x=<value of the variable x>"`
+* `{x!r}` will print the representation of the value using the `repr` function, that allows for example to distinguish between numbers and string when printed
 
 
 ```python
-with should({'foo': 'bar'}):
-    should.be.a(dict)
-    should.have.length(1)
-    should.have.key('foo').that.should.be.equal.to('bar')
+observed = 3
+expected = '3'
+assert observed == expected, (
+    f"{observed=!r} different from {expected=!r}"
+)
 ```
+
+
+    ---------------------------------------------------------------------------
+
+    AssertionError                            Traceback (most recent call last)
+
+    Input In [7], in <cell line: 3>()
+          1 observed = 3
+          2 expected = '3'
+    ----> 3 assert observed == expected, (
+          4     f"{observed=!r} different from {expected=!r}"
+          5 )
+
+
+    AssertionError: observed=3 different from expected='3'
+
+
+Third and last, similarly to testing, consider using helper functions to express more clearly what the assert is checking for.
+
+It will be shorter to write and easier to read (and will force you to think a bit more about what you are doing
+
+this is opaque to understand
+```python
+mylist = [1, 2, 3]
+assert all(type(i)==type(mylist[0]) for i in mylist)
+```
+
+compare to this:
+
+```python
+def all_elements_are_same_type(iterable):
+    return all(type(i)==type(iterable[0]) for i in iterable)
+
+mylist = [1, 2, 3]
+assert all_elements_are_same_type(mylist)
+```
+
+this is better:
+* easier to undestand
+* less prone to error
+* easier to reuse in your code
+* easier to change the implementation
+
+
+the only limitation of this approach is that one still have to write their one error string, and cannot trivially generate it while performing the test.
+
+there is a solution, albeit exotic, and that require implementing objects.
+
+I'll leave a simple implementation if you feel like taking a look at it
+
+I'm not sure if it would be worth for anything less than a full fledged program that also requires not using any other external library.
+
+it does have the advantage that, same as the code for general expressions, perform basically no computation if the `assert` are removed...
 
 
 ```python
-try:
-    'hello' | should.be.empty
-except AssertionError as e:
-    print(e)
+from collections import Counter
+
+class All_elements_are_same_type:
+    def __init__(self, *args, **kwargs):
+        self.args = args
+        self.kwargs = kwargs
+    
+    def test(self):
+        iterable = self.args[0]
+        result = all(type(i)==type(iterable[0]) for i in iterable)
+        return result
+    
+    def error_message(self):
+        iterable = self.args[0]
+        types = Counter(type(i) for i in iterable)
+        return f"the tested iterable {iterable!r} has different types: {types}"
+    
+mylist = [1, 2, '3']
+test = All_elements_are_same_type(mylist)
+assert test.test(), test.error_message()
 ```
 
-    Oops! Something went wrong!
-    
-      The following assertion was not satisfied
-        subject "hello" should be empty
-    
-      What we expected
-        a value that is not "None" and its length is higher than zero
-    
-      What we got instead
-        an object with type "str" which its length cannot be measured
-    
-      Information
-        > An empty object can be "None", "0" or "len(x) == 0".
-          Most objects in Python can be tested via "len(x)"
-          such as str, list, tuple, dict, generator...
-          as well as any object that implements "__len__()" method.
-          => Reference: https://docs.python.org/3/library/functions.html#len
-    
-      Where
-        File "<ipython-input-29-fac7d0be13c0>", line 2, in <module>
-    
-         1|   try:
-         2| >     'hello' | should.be.empty
-         3|   except AssertionError as e:
-         4|       print(e)
-    
+
+    ---------------------------------------------------------------------------
+
+    AssertionError                            Traceback (most recent call last)
+
+    Input In [11], in <cell line: 20>()
+         18 mylist = [1, 2, '3']
+         19 test = All_elements_are_same_type(mylist)
+    ---> 20 assert test.test(), test.error_message()
 
 
-
-```python
-data = 'hello'
-try:
-    expect(data).to.be.a('int')
-except AssertionError as e:
-    print(e)
-```
-
-    Oops! Something went wrong!
-    
-      The following assertion was not satisfied
-        subject "hello" expect to be a "<class 'int'>"
-    
-      What we expected
-        an object that is a "<class 'int'>" type
-    
-      What we got instead
-        an object of type "str" with value "hello"
-    
-      Difference comparison
-        > - hello
-        > + <class 'int'>
-    
-      Where
-        File "<ipython-input-33-26e9dc31d426>", line 3, in <module>
-    
-         1|   data = 'hello'
-         2|   try:
-         3| >     expect(data).to.be.a('int')
-         4|   except AssertionError as e:
-         5|       print(e)
-    
+    AssertionError: the tested iterable [1, 2, '3'] has different types: Counter({<class 'int'>: 2, <class 'str'>: 1})
 
 
 ## Logging
@@ -437,8 +462,33 @@ logging.critical('This is a critical message')
 ```python
 logging.basicConfig(filename='app.log', filemode='w',
                     format='%(name)s - %(levelname)s - %(message)s')
-
 ```
+
+if you need a simple timer with decent time formatting, you can use this one:
+
+
+```python
+from contextlib import contextmanager
+from datetime import datetime
+
+@contextmanager
+def Timer(description):
+    start = datetime.now()
+    try:
+        yield
+    finally:
+        end = datetime.now()
+        timedelta = end-start
+        message = f"{description}, started: {start}, ended: {end}, ellapsed: {timedelta}"
+        logging.warning(message)
+        
+with Timer("test run"):
+    import time
+    time.sleep(2)
+```
+
+    WARNING:root:test run, started: 2022-03-23 17:12:48.767673, ended: 2022-03-23 17:12:50.769854, ellapsed: 0:00:02.002181
+
 
 A better library is called **eliot**, that allows for a more structured logging instead of just printing to stderr
 
@@ -446,19 +496,22 @@ A better library is called **eliot**, that allows for a more structured logging 
 ```python
 %%file test.py
 
-from eliot import start_action, to_file, Message
+from eliot import start_action, to_file, log_message, log_call, start_task
 to_file(open("test.log", "w"))
 
+@log_call
 def myfunction(value):
-    with start_action(action_type='myfunction', value=value):
-        return 1/value
+    result = 1/value
+    log_message("during operation", vars=locals())
+    return result
 
-for number in [4, 1, 0, 2, 4]:
-    with start_action(action_type="start evaluation", number=number):
-        point = number *2
-        total = sum(i for i in range(point))
-        with start_action(action_type="inside evaluation", total=total):
-            result = myfunction(total)
+with start_task(action_type="processing numbers"):
+    for number in [4, 1, 0, 2, 4]:
+        with start_action(action_type="start evaluation", number=number):
+            point = number *2
+            total = sum(i for i in range(point))
+            with start_action(action_type="inside evaluation", total=total):
+                result = myfunction(total)
 
 ```
 
@@ -476,18 +529,29 @@ for number in [4, 1, 0, 2, 4]:
 
     ZeroDivisionError                         Traceback (most recent call last)
 
-    ~/didattica/corso_programmazione_1819/programmingCourseDIFA/test.py in <module>()
-         12         total = sum(i for i in range(point))
-         13         with start_action(action_type="inside evaluation", total=total):
-    ---> 14             result = myfunction(total)
-    
+    File ~/didattica/programmingCourseDIFA_repo/master/test.py:17, in <module>
+         15 total = sum(i for i in range(point))
+         16 with start_action(action_type="inside evaluation", total=total):
+    ---> 17     result = myfunction(total)
 
-    ~/didattica/corso_programmazione_1819/programmingCourseDIFA/test.py in myfunction(value)
-          5 def myfunction(value):
-          6     with start_action(action_type='myfunction', value=value):
-    ----> 7         return 1/value
-          8 
-          9 for number in [4, 1, 0, 2, 4]:
+
+    File <boltons.funcutils.FunctionBuilder-8>:2, in myfunction(value)
+
+
+    File /home/storage/miniconda3/lib/python3.9/site-packages/eliot/_action.py:943, in log_call.<locals>.logging_wrapper(*args, **kwargs)
+        940     callargs = {k: callargs[k] for k in include_args}
+        942 with start_action(action_type=action_type, **callargs) as ctx:
+    --> 943     result = wrapped_function(*args, **kwargs)
+        944     if include_result:
+        945         ctx.add_success_fields(result=result)
+
+
+    File ~/didattica/programmingCourseDIFA_repo/master/test.py:7, in myfunction(value)
+          5 @log_call
+          6 def myfunction(value):
+    ----> 7     result = 1/value
+          8     log_message("during operation", vars=locals())
+          9     return result
 
 
     ZeroDivisionError: division by zero
@@ -498,44 +562,54 @@ for number in [4, 1, 0, 2, 4]:
 !eliot-tree test.log
 ```
 
-    bc135185-26bb-44f4-adbf-93a762eca2f3
-    └── start evaluation/1 ⇒ started 2018-09-03 09:03:04 ⧖ 0.003s
-        ├── number: 4
-        ├── inside evaluation/2/1 ⇒ started 2018-09-03 09:03:04 ⧖ 0.002s
-        │   ├── total: 28
-        │   ├── myfunction/2/2/1 ⇒ started 2018-09-03 09:03:04 ⧖ 0.001s
-        │   │   ├── value: 28
-        │   │   └── myfunction/2/2/2 ⇒ succeeded 2018-09-03 09:03:04
-        │   └── inside evaluation/2/3 ⇒ succeeded 2018-09-03 09:03:04
-        └── start evaluation/3 ⇒ succeeded 2018-09-03 09:03:04
-    
-    75834879-b121-40f8-97ef-04e27bbc6d61
-    └── start evaluation/1 ⇒ started 2018-09-03 09:03:04 ⧖ 0.002s
-        ├── number: 1
-        ├── inside evaluation/2/1 ⇒ started 2018-09-03 09:03:04 ⧖ 0.001s
-        │   ├── total: 1
-        │   ├── myfunction/2/2/1 ⇒ started 2018-09-03 09:03:04 ⧖ 0.000s
-        │   │   ├── value: 1
-        │   │   └── myfunction/2/2/2 ⇒ succeeded 2018-09-03 09:03:04
-        │   └── inside evaluation/2/3 ⇒ succeeded 2018-09-03 09:03:04
-        └── start evaluation/3 ⇒ succeeded 2018-09-03 09:03:04
-    
-    e9c68561-2e34-4547-9b08-bade663468cb
-    └── start evaluation/1 ⇒ started 2018-09-03 09:03:04 ⧖ 0.002s
-        ├── number: 0
-        ├── inside evaluation/2/1 ⇒ started 2018-09-03 09:03:04 ⧖ 0.001s
-        │   ├── total: 0
-        │   ├── myfunction/2/2/1 ⇒ started 2018-09-03 09:03:04 ⧖ 0.000s
-        │   │   ├── value: 0
-        │   │   └── myfunction/2/2/2 ⇒ failed 2018-09-03 09:03:04
-        │   │       ├── exception: builtins.ZeroDivisionError
-        │   │       └── reason: division by zero
-        │   └── inside evaluation/2/3 ⇒ failed 2018-09-03 09:03:04
-        │       ├── exception: builtins.ZeroDivisionError
-        │       └── reason: division by zero
-        └── start evaluation/3 ⇒ failed 2018-09-03 09:03:04
-            ├── exception: builtins.ZeroDivisionError
-            └── reason: division by zero
+    [1m[37m8414afd7-131d-448f-8db0-b0188c00aca0[0m
+    └── [35mprocessing numbers[0m/1 ⇒ [31mstarted[0m [2m[37m2022-03-23 15:54:47[0m ⧖ [2m[34m0.015s[0m
+        ├── [35mstart evaluation[0m/2/1 ⇒ [32mstarted[0m [2m[37m2022-03-23 15:54:47[0m ⧖ [2m[34m0.004s[0m
+        │   ├── [34mnumber[0m: 4
+        │   ├── [35minside evaluation[0m/2/2/1 ⇒ [32mstarted[0m [2m[37m2022-03-23 15:54:47[0m ⧖ [2m[34m0.003s[0m
+        │   │   ├── [34mtotal[0m: 28
+        │   │   ├── [35m__main__.myfunction[0m/2/2/2/1 ⇒ [32mstarted[0m [2m[37m2022-03-23 15:54:47[0m ⧖ [2m[34m0.001s[0m
+        │   │   │   ├── [34mvalue[0m: 28
+        │   │   │   ├── [35mduring operation[0m/2/2/2/2 [2m[37m2022-03-23 15:54:47[0m
+        │   │   │   │   └── [34mvars[0m: 
+        │   │   │   │       ├── [34mresult[0m: 0.03571428571428571
+        │   │   │   │       └── [34mvalue[0m: 28
+        │   │   │   └── [35m__main__.myfunction[0m/2/2/2/3 ⇒ [32msucceeded[0m [2m[37m2022-03-23 15:54:47[0m
+        │   │   │       └── [34mresult[0m: 0.03571428571428571
+        │   │   └── [35minside evaluation[0m/2/2/3 ⇒ [32msucceeded[0m [2m[37m2022-03-23 15:54:47[0m
+        │   └── [35mstart evaluation[0m/2/3 ⇒ [32msucceeded[0m [2m[37m2022-03-23 15:54:47[0m
+        ├── [35mstart evaluation[0m/3/1 ⇒ [32mstarted[0m [2m[37m2022-03-23 15:54:47[0m ⧖ [2m[34m0.004s[0m
+        │   ├── [34mnumber[0m: 1
+        │   ├── [35minside evaluation[0m/3/2/1 ⇒ [32mstarted[0m [2m[37m2022-03-23 15:54:47[0m ⧖ [2m[34m0.003s[0m
+        │   │   ├── [34mtotal[0m: 1
+        │   │   ├── [35m__main__.myfunction[0m/3/2/2/1 ⇒ [32mstarted[0m [2m[37m2022-03-23 15:54:47[0m ⧖ [2m[34m0.001s[0m
+        │   │   │   ├── [34mvalue[0m: 1
+        │   │   │   ├── [35mduring operation[0m/3/2/2/2 [2m[37m2022-03-23 15:54:47[0m
+        │   │   │   │   └── [34mvars[0m: 
+        │   │   │   │       ├── [34mresult[0m: 1.0
+        │   │   │   │       └── [34mvalue[0m: 1
+        │   │   │   └── [35m__main__.myfunction[0m/3/2/2/3 ⇒ [32msucceeded[0m [2m[37m2022-03-23 15:54:47[0m
+        │   │   │       └── [34mresult[0m: 1.0
+        │   │   └── [35minside evaluation[0m/3/2/3 ⇒ [32msucceeded[0m [2m[37m2022-03-23 15:54:47[0m
+        │   └── [35mstart evaluation[0m/3/3 ⇒ [32msucceeded[0m [2m[37m2022-03-23 15:54:47[0m
+        ├── [35mstart evaluation[0m/4/1 ⇒ [31mstarted[0m [2m[37m2022-03-23 15:54:47[0m ⧖ [2m[34m0.004s[0m
+        │   ├── [34mnumber[0m: 0
+        │   ├── [35minside evaluation[0m/4/2/1 ⇒ [31mstarted[0m [2m[37m2022-03-23 15:54:47[0m ⧖ [2m[34m0.002s[0m
+        │   │   ├── [34mtotal[0m: 0
+        │   │   ├── [35m__main__.myfunction[0m/4/2/2/1 ⇒ [31mstarted[0m [2m[37m2022-03-23 15:54:47[0m ⧖ [2m[34m0.001s[0m
+        │   │   │   ├── [34mvalue[0m: 0
+        │   │   │   └── [35m__main__.myfunction[0m/4/2/2/2 ⇒ [31mfailed[0m [2m[37m2022-03-23 15:54:47[0m
+        │   │   │       ├── [34mexception[0m: builtins.ZeroDivisionError
+        │   │   │       └── [34mreason[0m: division by zero
+        │   │   └── [35minside evaluation[0m/4/2/3 ⇒ [31mfailed[0m [2m[37m2022-03-23 15:54:47[0m
+        │   │       ├── [34mexception[0m: builtins.ZeroDivisionError
+        │   │       └── [34mreason[0m: division by zero
+        │   └── [35mstart evaluation[0m/4/3 ⇒ [31mfailed[0m [2m[37m2022-03-23 15:54:47[0m
+        │       ├── [34mexception[0m: builtins.ZeroDivisionError
+        │       └── [34mreason[0m: division by zero
+        └── [35mprocessing numbers[0m/5 ⇒ [31mfailed[0m [2m[37m2022-03-23 15:54:47[0m
+            ├── [34mexception[0m: builtins.ZeroDivisionError
+            └── [34mreason[0m: division by zero
     
 
 
@@ -544,16 +618,16 @@ for number in [4, 1, 0, 2, 4]:
 !head test.log
 ```
 
-    {"action_type": "start evaluation", "task_level": [1], "timestamp": 1535965154.3335845, "task_uuid": "409f42e6-0c10-4f59-b882-e4fb7f112241", "action_status": "started", "number": 4}
-    {"action_type": "inside evaluation", "task_level": [2, 1], "timestamp": 1535965154.333918, "task_uuid": "409f42e6-0c10-4f59-b882-e4fb7f112241", "action_status": "started", "total": 28}
-    {"task_uuid": "409f42e6-0c10-4f59-b882-e4fb7f112241", "timestamp": 1535965154.3341036, "action_type": "inside evaluation", "task_level": [2, 2], "action_status": "succeeded"}
-    {"task_uuid": "409f42e6-0c10-4f59-b882-e4fb7f112241", "timestamp": 1535965154.3342803, "action_type": "start evaluation", "task_level": [3], "action_status": "succeeded"}
-    {"action_type": "start evaluation", "task_level": [1], "timestamp": 1535965154.334487, "task_uuid": "3d429872-a765-4c18-9559-cc41c68be49f", "action_status": "started", "number": 1}
-    {"action_type": "inside evaluation", "task_level": [2, 1], "timestamp": 1535965154.3346956, "task_uuid": "3d429872-a765-4c18-9559-cc41c68be49f", "action_status": "started", "total": 1}
-    {"task_uuid": "3d429872-a765-4c18-9559-cc41c68be49f", "timestamp": 1535965154.3348691, "action_type": "inside evaluation", "task_level": [2, 2], "action_status": "succeeded"}
-    {"task_uuid": "3d429872-a765-4c18-9559-cc41c68be49f", "timestamp": 1535965154.3350365, "action_type": "start evaluation", "task_level": [3], "action_status": "succeeded"}
-    {"action_type": "start evaluation", "task_level": [1], "timestamp": 1535965154.335238, "task_uuid": "7738a51b-a796-478a-8e0a-6b8aad139034", "action_status": "started", "number": 0}
-    {"action_type": "inside evaluation", "task_level": [2, 1], "timestamp": 1535965154.3354425, "task_uuid": "7738a51b-a796-478a-8e0a-6b8aad139034", "action_status": "started", "total": 0}
+    {"action_status": "started", "timestamp": 1648050887.3135529, "task_uuid": "8414afd7-131d-448f-8db0-b0188c00aca0", "action_type": "processing numbers", "task_level": [1]}
+    {"number": 4, "action_status": "started", "timestamp": 1648050887.314634, "task_uuid": "8414afd7-131d-448f-8db0-b0188c00aca0", "action_type": "start evaluation", "task_level": [2, 1]}
+    {"total": 28, "action_status": "started", "timestamp": 1648050887.3152003, "task_uuid": "8414afd7-131d-448f-8db0-b0188c00aca0", "action_type": "inside evaluation", "task_level": [2, 2, 1]}
+    {"value": 28, "action_status": "started", "timestamp": 1648050887.3162124, "task_uuid": "8414afd7-131d-448f-8db0-b0188c00aca0", "action_type": "__main__.myfunction", "task_level": [2, 2, 2, 1]}
+    {"vars": {"value": 28, "result": 0.03571428571428571}, "timestamp": 1648050887.3167036, "task_uuid": "8414afd7-131d-448f-8db0-b0188c00aca0", "task_level": [2, 2, 2, 2], "message_type": "during operation"}
+    {"result": 0.03571428571428571, "action_status": "succeeded", "timestamp": 1648050887.3173218, "task_uuid": "8414afd7-131d-448f-8db0-b0188c00aca0", "action_type": "__main__.myfunction", "task_level": [2, 2, 2, 3]}
+    {"action_status": "succeeded", "timestamp": 1648050887.3181512, "task_uuid": "8414afd7-131d-448f-8db0-b0188c00aca0", "action_type": "inside evaluation", "task_level": [2, 2, 3]}
+    {"action_status": "succeeded", "timestamp": 1648050887.319012, "task_uuid": "8414afd7-131d-448f-8db0-b0188c00aca0", "action_type": "start evaluation", "task_level": [2, 3]}
+    {"number": 1, "action_status": "started", "timestamp": 1648050887.319731, "task_uuid": "8414afd7-131d-448f-8db0-b0188c00aca0", "action_type": "start evaluation", "task_level": [3, 1]}
+    {"total": 1, "action_status": "started", "timestamp": 1648050887.3206432, "task_uuid": "8414afd7-131d-448f-8db0-b0188c00aca0", "action_type": "inside evaluation", "task_level": [3, 2, 1]}
 
 
 What if you want to see the results in real time?
@@ -568,64 +642,6 @@ The only limitations are:
 
 * you have to interrupt the tail process manually
 * actions are written only when completed, so if you have very high level actions this will not print until they are done
-
-
-```python
-%%file test.py
-
-import time
-from eliot import start_action, to_file, Message, start_task
-to_file(open("test.log", "w"))
-
-def myfunction(value):
-    with start_action(action_type='myfunction', value=value):
-        time.sleep(5)
-        result = 1/value
-        Message.log(result=result)
-        return 1/value
-
-for number in [4, 1, 3, 5, 0, 2, 4]:
-    with start_action(action_type="start evaluation", number=number):
-        point = number *2
-        total = sum(i for i in range(point))
-        with start_action(action_type="inside evaluation", total=total):
-            result = myfunction(total)
-```
-
-    Overwriting test.py
-
-
-
-```python
-!rm test.log
-%run test.py
-```
-
-
-    ---------------------------------------------------------------------------
-
-    ZeroDivisionError                         Traceback (most recent call last)
-
-    ~/didattica/corso_programmazione_1819/programmingCourseDIFA/test.py in <module>()
-         16         total = sum(i for i in range(point))
-         17         with start_action(action_type="inside evaluation", total=total):
-    ---> 18             result = myfunction(total)
-    
-
-    ~/didattica/corso_programmazione_1819/programmingCourseDIFA/test.py in myfunction(value)
-          7     with start_action(action_type='myfunction', value=value):
-          8         time.sleep(5)
-    ----> 9         result = 1/value
-         10         Message.log(result=result)
-         11         return 1/value
-
-
-    ZeroDivisionError: division by zero
-
-
-Otherwise, if you are used to live in the matrix, you can watch the log file directly with:
-
-    tail -f test.log
 
 ## Warning systems
 
@@ -691,6 +707,7 @@ Most editors can be configured to run them in the background and show the result
 examples of things that they will catch are:
 
 * variable definited but not used
+* variable used but not assigned
 * overloading of existing functions
 * syntax errors
 
@@ -725,138 +742,46 @@ print(data)
 
 
 ```python
+!batcat test.py --theme=GitHub -A
+```
+
+    [38;5;238m───────┬────────────────────────────────────────────────────────────────────────[0m
+           [38;5;238m│ [0mFile: [1mtest.py[0m
+    [38;5;238m───────┼────────────────────────────────────────────────────────────────────────[0m
+    [38;5;238m   1[0m   [38;5;238m│[0m [38;2;167;29;93m␊[0m
+    [38;5;238m   2[0m   [38;5;238m│[0m [38;2;51;51;51mdef[0m[38;2;0;134;179m•[0m[38;2;51;51;51meleva(n):[0m[38;2;167;29;93m␊[0m
+    [38;5;238m   3[0m   [38;5;238m│[0m [38;2;0;134;179m•[0m[38;2;0;134;179m•[0m[38;2;0;134;179m•[0m[38;2;0;134;179m•[0m[38;2;51;51;51mreturn[0m[38;2;0;134;179m•[0m[38;2;51;51;51mn**2[0m[38;2;167;29;93m␊[0m
+    [38;5;238m   4[0m   [38;5;238m│[0m [38;2;167;29;93m␊[0m
+    [38;5;238m   5[0m   [38;5;238m│[0m [38;2;51;51;51mdati[0m[38;2;0;134;179m•[0m[38;2;51;51;51m=[0m[38;2;0;134;179m•[0m[38;2;51;51;51m[1,[0m[38;2;0;134;179m•[0m[38;2;51;51;51m2,[0m[38;2;0;134;179m•[0m[38;2;51;51;51m3,[0m[38;2;0;134;179m•[0m[38;2;51;51;51m4][0m[38;2;167;29;93m␊[0m
+    [38;5;238m   6[0m   [38;5;238m│[0m [38;2;167;29;93m␊[0m
+    [38;5;238m   7[0m   [38;5;238m│[0m [38;2;51;51;51mfor[0m[38;2;0;134;179m•[0m[38;2;51;51;51mdato[0m[38;2;0;134;179m•[0m[38;2;51;51;51min[0m[38;2;0;134;179m•[0m[38;2;51;51;51mdati:[0m[38;2;167;29;93m␊[0m
+    [38;5;238m   8[0m   [38;5;238m│[0m [38;2;0;134;179m•[0m[38;2;0;134;179m•[0m[38;2;0;134;179m•[0m[38;2;0;134;179m•[0m[38;2;51;51;51mprint(eleva(dati[dato]))[0m[38;2;167;29;93m␊[0m
+    [38;5;238m   9[0m   [38;5;238m│[0m [38;2;0;134;179m•[0m[38;2;0;134;179m•[0m[38;2;0;134;179m•[0m[38;2;0;134;179m•[0m[38;2;167;29;93m␊[0m
+    [38;5;238m  10[0m   [38;5;238m│[0m [38;2;51;51;51mprint(data)[0m[38;2;167;29;93m␊[0m
+    [38;5;238m───────┴────────────────────────────────────────────────────────────────────────[0m
+
+
+
+```python
 !pylint test.py
 ```
 
     ************* Module test
     test.py:9:0: C0303: Trailing whitespace (trailing-whitespace)
-    test.py:10:0: C0304: Final newline missing (missing-final-newline)
-    test.py:1:0: C0111: Missing module docstring (missing-docstring)
-    test.py:2:0: C0103: Argument name "n" doesn't conform to snake_case naming style (invalid-name)
-    test.py:2:0: C0111: Missing function docstring (missing-docstring)
-    test.py:5:0: C0103: Constant name "dati" doesn't conform to UPPER_CASE naming style (invalid-name)
+    test.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+    test.py:2:10: C0103: Argument name "n" doesn't conform to snake_case naming style (invalid-name)
+    test.py:2:0: C0116: Missing function or method docstring (missing-function-docstring)
     test.py:10:6: E0602: Undefined variable 'data' (undefined-variable)
     
-    -------------------------------------------------------------------
-    Your code has been rated at -8.33/10 (previous run: 0.00/10, -8.33)
+    --------------------------------------------------------------------
+    Your code has been rated at -5.00/10 (previous run: -5.00/10, +0.00)
     
+    [0m
 
+the warning of pylint are formatted in a way that allow for most editors to go to the offending code:
+
+`<filename>:<line number>:<character number>: <error code>: description`
+
+where the lines are numbered starting from 1, anche the characters starting from 0
 
 obviously not all suggestions are equally relevant, but they can spot several **code smells** before you run a long simulation
-
-## Static type checking
-
-A specific type of linter are the static type checkers, that are made possible by new syntax from python 3.
-
-I will not get into the details of it, just the general idea.
-
-Python is a dynamic language, but is still strongly typed.
-One just don't have to declare the typed beforehand.
-
-What they introduced is the possibility to annotate the code to express expectations over the type of variables, arguments and functions.
-This does not have any effect on running the code, but allow type checkers (the most famous one is `mypy`) to assess if the code is correct
-
-for example, the following code have a lot of issues, but they migh not be immediately apparent just looking at it.
-
-If we don't put any typing information, mypy doesn't complain and doesn't do anything
-
-
-```python
-%%file test.py
-
-def eleva(n):
-    return n.upper()
-
-dati = [1, 2, 3, 4]
-
-for dato in dati:
-    print(eleva(dati[dato]))
-```
-
-    Overwriting test.py
-
-
-
-```python
-!mypy test.py
-```
-
-I can start introducing types informations and will find progressively more possible mistakes.
-
-types are specified with a colon (`:`) after the argument or variable, followed by the type object that it should have.
-
-for the return type, one can use an arrow `->`
-
-
-```python
-%%file test.py
-
-def eleva(n: str) -> str:
-    return n.upper()
-
-dati = [1, 2, 3, 4]
-
-for dato in dati:
-    print(1+eleva(dati[dato]))
-```
-
-    Overwriting test.py
-
-
-
-```python
-!mypy test.py
-```
-
-    test.py:8: error: Unsupported operand types for + ("int" and "str")
-    test.py:8: error: Argument 1 to "eleva" has incompatible type "int"; expected "str"
-
-
-I can specify more complex types using the library `typing`, that allows to specify very complex structures
-
-
-```python
-%%file test.py
-
-from typing import List
-
-def eleva(n: str):
-    return n.upper()
-
-dati: List[str] = [1, 2, 3, 4]
-
-for dato in dati:
-    print(eleva(dati[dato]))
-```
-
-    Overwriting test.py
-
-
-
-```python
-!mypy test.py
-```
-
-    test.py:7: error: List item 0 has incompatible type "int"; expected "str"
-    test.py:7: error: List item 1 has incompatible type "int"; expected "str"
-    test.py:7: error: List item 2 has incompatible type "int"; expected "str"
-    test.py:7: error: List item 3 has incompatible type "int"; expected "str"
-    test.py:10: error: No overload variant of "__getitem__" of "list" matches argument type "str"
-    test.py:10: note: Possible overload variants:
-    test.py:10: note:     def __getitem__(self, int) -> str
-    test.py:10: note:     def __getitem__(self, slice) -> List[str]
-
-
-this allows me to annotate only the code I **care about** without having to deal with typing everywhere
-
-you can find more info about tye checking and how to use it on this blog posts:
-  
-#### a general overview of the type systems
-https://www.bernat.tech/the-state-of-type-hints-in-python/
-
-#### an in-depth discussion of how the type system works and how to use it
-* [S01E01](https://blog.daftcode.pl/first-steps-with-python-type-system-30e4296722af)
-* [S01E02](https://blog.daftcode.pl/next-steps-with-python-type-system-efc4df5251c9)
-* [S02E01](https://blog.daftcode.pl/csi-python-type-system-episode-1-1c2ee1f8047c)
-* [S02E02](https://blog.daftcode.pl/csi-python-type-system-episode-2-baf5168038c0)
-* [S02E03](https://blog.daftcode.pl/covariance-contravariance-and-invariance-the-ultimate-python-guide-8fabc0c24278)
