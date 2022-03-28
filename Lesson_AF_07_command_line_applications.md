@@ -1447,7 +1447,7 @@ print(repr(result.stderr))
 print(result.returncode)
 ```
 
-    'Python 3.8.6\n'
+    'Python 3.9.12\n'
     ''
     0
 
@@ -1617,42 +1617,7 @@ for line in end_of_pipe:
 
 first we need to create unique files that will not likely conflict with existing one.
 
-To do this we can leverage the `uuid` module
-
-
-```python
-import uuid
-random_filename = str(uuid.uuid1())
-print(random_filename)
-```
-
-    1e9598ca-962b-11ea-aade-94992ee33e3e
-
-
-
-```python
-from pathlib import Path
-temp_path = Path('.')/random_filename
-assert not temp_path.exists()
-temp_path
-```
-
-
-
-
-    WindowsPath('1e9598ca-962b-11ea-aade-94992ee33e3e')
-
-
-
-
-```python
-temp_path.touch()
-assert temp_path.exists()
-temp_path.unlink()
-assert not temp_path.exists()
-```
-
-an alternative is the tempfile module
+To do this we can leverage the `tempfile` module
 
 
 ```python
@@ -1668,7 +1633,20 @@ tf.name
 
 
 
-    '/home/enrico/didattica/programmingCourseDIFA/tmp6cyvjh6g'
+    '/home/enrico/didattica/programmingCourseDIFA_repo/master/tmpvlv7cbhl'
+
+
+
+
+```python
+temp_path = tempfile.TemporaryDirectory(dir=".")
+temp_path
+```
+
+
+
+
+    <TemporaryDirectory './tmp0f3r8h3i'>
 
 
 
@@ -1688,20 +1666,14 @@ with open(sys.argv[1], "w") as outfile:
 
 
 ```python
-result = run(["python", "temp.py", str(temp_path)], capture_output=True, encoding='utf8')
-print(result.stdout)
-
-assert temp_path.exists()
-
-with temp_path.open() as result_file:
+with tempfile.NamedTemporaryFile(dir=".", mode='w+') as result_file:
+    result = run(["python", "temp.py", str(result_file.name)], capture_output=True, encoding='utf8')
+    print(result.stdout)
     lines = result_file.readlines()
 print("printed in file:", lines)
-
-temp_path.unlink()
-assert not temp_path.exists()
 ```
 
-    arguments ['temp.py', '1e9598ca-962b-11ea-aade-94992ee33e3e']
+    arguments ['temp.py', '/home/enrico/didattica/programmingCourseDIFA_repo/master/tmp1awoy0t6']
     
     printed in file: ['printed to file!\n']
 
@@ -1880,11 +1852,8 @@ print("{:.4}".format(math.pi))
 
 
 ```python
-# Example 1
 print('L {:<20} R'.format('x'))
-# Example 2
 print('L {:^20} R'.format('x'))
-# Example 3
 print('L {:>20} R'.format('x'))
 ```
 
