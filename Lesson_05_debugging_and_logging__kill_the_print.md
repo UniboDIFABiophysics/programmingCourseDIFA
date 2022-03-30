@@ -9,9 +9,8 @@ We will discuss:
 * debugging
 * assertions
 * logging
-* linters
 * warnings
-
+* linters
 
 All these tools help us ensure that the program is doing what is supposed to be doing.
 
@@ -721,6 +720,12 @@ some of these linters are:
 * pycodestyle (previously called pep8)
 * pyflakes
 * flake8
+
+Linters can perform a variety of different checks, depending on their goal.
+
+For example the `perflint` linter claims to warn the user against bad code practices that will affect python performances.
+
+[https://github.com/tonybaloney/perflint](https://github.com/tonybaloney/perflint)
 
 
 ```python
