@@ -73,6 +73,7 @@ for example, 0.1, is represented as $0.0(\overline{0011})$
 print("{:f} = {:.32f}".format(0.1, 0.1)) 
 print("{:.17f} + {:.17f} = {:.17f}".format(0.1, 0.2, 0.1 + 0.2))
 
+# python hides the horrible truth from you
 print(0.1)
 ```
 
@@ -180,7 +181,7 @@ Decimal('0.1428571428571428571428571429')
 >>> from fractions import Fraction
 >>> Fraction(16, -10)
 Fraction(-8, 5)
->>> Fraction(-'3/7')
+>>> Fraction('-3/7')
 Fraction(-3, 7)
 >>> Fraction('1.414213')
 Fraction(1414213, 1000000)
@@ -191,7 +192,7 @@ Fraction(7, 1000000)
 ```python
 >>> Fraction(2.25)
 Fraction(9, 4)
->>> Fraction(1.1)
+>>> Fraction(1.1) # why?
 Fraction(2476979795053773, 2251799813685248)
 >>> from decimal import Decimal
 >>> Fraction(Decimal('1.1'))
@@ -277,11 +278,15 @@ A consequence of this is that performing different operations that should be the
 
 ```python
 import numpy as np
-a = np.random.randn(1000)
+a = np.random.randn(100_000)
+```
+
+
+```python
 %timeit a/2
 ```
 
-    41.4 µs ± 3.03 µs per loop (mean ± std. dev. of 7 runs, 10000 loops each)
+    59.4 µs ± 1.42 µs per loop (mean ± std. dev. of 7 runs, 10,000 loops each)
 
 
 
@@ -289,7 +294,25 @@ a = np.random.randn(1000)
 %timeit a*0.5
 ```
 
-    12.4 µs ± 1.3 µs per loop (mean ± std. dev. of 7 runs, 100000 loops each)
+    35.6 µs ± 632 ns per loop (mean ± std. dev. of 7 runs, 10,000 loops each)
+
+
+this can create some mind bending effect performance wise
+
+
+```python
+%timeit a*1/2
+```
+
+    101 µs ± 1.74 µs per loop (mean ± std. dev. of 7 runs, 10,000 loops each)
+
+
+
+```python
+%timeit 1/2*a
+```
+
+    37.1 µs ± 336 ns per loop (mean ± std. dev. of 7 runs, 10,000 loops each)
 
 
 A classic example from computer science is the inverse of a square root of a number
@@ -356,6 +379,8 @@ there are several ways to speed up and optimize an algorithm, and each one of th
 
 The last one is the idea of expressing operations on entire data structures, and letting the CPU perform them on all the element at once.
 
+the performance increase comes from a reduction of the cache I/O between CPU and RAM, a huge bottleneck in operations. (we will see the `numexpr` library for even more optimization)
+
 ### Single Instruction Multiple Data
 
 ![alt text](./immagini/vec.png "## Cost of Operations")
@@ -387,9 +412,10 @@ import numpy as np
 a = np.array([1,2,3,4]) 
 print("a = ", a)
 # bidimensional array (matrix) 2x4
-b = np.array([[1,2,3,4],
-              [5,6,7,8],
-             ]) 
+b = np.array([
+    [1,2,3,4],
+    [5,6,7,8],
+]) 
 print("b = \n", b)
 ```
 
@@ -449,12 +475,27 @@ print(np.array(a, dtype='complex'))
 ```python
 a = np.array([1, 2, 3, 4], dtype='uint8')
 print(a.size, a.itemsize, a.nbytes)
+```
+
+    4 1 4
+
+
+
+```python
 a = np.array([1, 2, 3, 4], dtype='float64')
 print(a.size, a.itemsize, a.nbytes)
 ```
 
-    4 1 4
     4 8 32
+
+
+
+```python
+a = np.array([1, 2, 3, 4], dtype='complex')
+print(a.size, a.itemsize, a.nbytes)
+```
+
+    4 16 64
 
 
 
@@ -462,20 +503,32 @@ print(a.size, a.itemsize, a.nbytes)
 a = np.array([1,2,3,4], dtype=np.float64)
 print ("a = ", a)
 print ("a contains elements of type : ", a.dtype)
-a = np.array([1,2,3,4], dtype=np.uint32)
-print ("a = ", a)
-print ("a contains elements of type : ", a.dtype)
-a = np.array(['1.21', '.2', '-.4'], dtype = np.string_)
-print ("a is made out of strings = ", a)
-print ("a cast 2 float = ", a.astype(np.float64))
 ```
 
     a =  [1. 2. 3. 4.]
     a contains elements of type :  float64
+
+
+
+```python
+a = np.array([1,2,3,4], dtype=np.uint32)
+print ("a = ", a)
+print ("a contains elements of type : ", a.dtype)
+```
+
     a =  [1 2 3 4]
     a contains elements of type :  uint32
+
+
+
+```python
+a = np.array(['1.21', '.2', '-.4'], dtype = np.string_)
+print ("a is made out of strings = ", a)
+print ("a cast to float = ", a.astype(np.float64))
+```
+
     a is made out of strings =  [b'1.21' b'.2' b'-.4']
-    a cast 2 float =  [ 1.21  0.2  -0.4 ]
+    a cast to float =  [ 1.21  0.2  -0.4 ]
 
 
 ## Create an array
@@ -486,26 +539,41 @@ There are 3 important functions to create an array
 ```python
 array_zeros = np.zeros(10) # vector of 1x10 zeros
 print ("array_zeros = ", array_zeros)
+```
 
+    array_zeros =  [0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]
+
+
+
+```python
 a_matzeros = np.zeros((2,10)) # 2d array of 2x10 zeros
 print ("a_matzeros has dimensions : ", a_matzeros.shape)
+```
 
+    a_matzeros has dimensions :  (2, 10)
+
+
+
+```python
 array_ones = np.ones(10) # vector of 1x10 one
 print ("array_ones = ", array_ones)
+```
 
+    array_ones =  [1. 1. 1. 1. 1. 1. 1. 1. 1. 1.]
+
+
+
+```python
 a_empty = np.empty(20) # vector 1x20 of null values (from the free memory used)
 print ("a_empty = ", a_empty)
 print ("a_empty contains objects of type : ", a_empty.dtype)
 ```
 
-    array_zeros =  [0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]
-    a_matzeros has dimensions :  (2, 10)
-    array_ones =  [1. 1. 1. 1. 1. 1. 1. 1. 1. 1.]
-    a_empty =  [6.23042070e-307 4.67296746e-307 1.69121096e-306 1.60220257e-306
-     6.23058368e-307 1.11261162e-306 8.90104239e-307 1.24610383e-306
-     1.69118108e-306 8.06632139e-308 1.20160711e-306 1.69119330e-306
-     1.29062229e-306 1.42417222e-306 1.33512648e-306 7.56596412e-307
-     1.37962185e-306 1.78021798e-306 8.34451504e-308 4.22764034e-307]
+    a_empty =  [ 4.64555917e-310  0.00000000e+000  6.90511319e-310  1.36659607e-226
+      6.90511319e-310  6.90511319e-310 -2.31706182e+033  6.90511319e-310
+      6.90511319e-310 -1.79276248e-244  6.90511399e-310  6.90511319e-310
+      3.85332059e-049  6.90511319e-310  6.90511319e-310 -3.24679520e-211
+      6.90511319e-310  6.90511319e-310 -1.62550434e-194  6.90511400e-310]
     a_empty contains objects of type :  float64
 
 
@@ -515,7 +583,7 @@ print ("a_empty contains objects of type : ", a_empty.dtype)
 
 They are not properly random, but "garbage" remaining from the values of the previous of that section of memory
 
-often you might need to create a simple array (such as ones or zeros) in the same shape as another. a first solution might be to use the shape of the first array:
+often one might need to create a simple array (such as ones or zeros) in the same shape as another. a first solution might be to use the shape of the first array:
 
 
 ```python
@@ -553,20 +621,48 @@ The main functions are 4: `np.arange`,  `np.linspace`, `np.logspace`, `np.geomsp
 ```python
 a = np.arange(10)
 print(a)
-a = np.arange(1, 10, 2) # (initial value, final value, step size)
-print(a)
-a = np.linspace(0, 10, 5) # (initial value, final value, number of steps)
-print(a)
-a = np.logspace(0, 2, 5, base=12) # (initial value (in log), final value (in log), number of steps)
-print(a)
-a = np.geomspace(1, 100, 5) # (initial value, final value, number of steps)
-print(a)
 ```
 
     [0 1 2 3 4 5 6 7 8 9]
+
+
+
+```python
+# (initial value, final value, step size)
+a = np.arange(1, 10, 2) 
+print(a)
+```
+
     [1 3 5 7 9]
+
+
+
+```python
+# (initial value, final value, number of steps)
+a = np.linspace(0, 10, 5) 
+print(a)
+```
+
     [ 0.   2.5  5.   7.5 10. ]
+
+
+
+```python
+# (initial value (in log), final value (in log), number of steps)
+a = np.logspace(0, 2, 5, base=12) 
+print(a)
+```
+
     [  1.           3.46410162  12.          41.56921938 144.        ]
+
+
+
+```python
+# (initial value, final value, number of steps)
+a = np.geomspace(1, 100, 5) 
+print(a)
+```
+
     [  1.           3.16227766  10.          31.6227766  100.        ]
 
 
@@ -664,26 +760,69 @@ a.reshape(4,1)@b.reshape(1, 4)
 # they support traditional slicing syntax
 a = np.arange(20)
 print(a)
-print(a[8])
-print(a[:8])
-print(a[:8:2])
-print(a[8:12])
-print(a[12:-4])
-print(a[-4:])
-assert( np.all(a[-15:-10] == a[5:10]))
-
-a = np.ones((4, 4))
-a[0, :2]
 ```
 
     [ 0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19]
+
+
+
+```python
+print(a[8])
+```
+
     8
+
+
+
+```python
+print(a[:8])
+```
+
     [0 1 2 3 4 5 6 7]
+
+
+
+```python
+print(a[:8:2])
+```
+
     [0 2 4 6]
+
+
+
+```python
+print(a[8:12])
+```
+
     [ 8  9 10 11]
+
+
+
+```python
+print(a[12:-4])
+```
+
     [12 13 14 15]
+
+
+
+```python
+print(a[-4:])
+```
+
     [16 17 18 19]
 
+
+
+```python
+assert( np.all(a[-15:-10] == a[5:10]))
+```
+
+
+```python
+a = np.ones((4, 4))
+a[0, :2]
+```
 
 
 
@@ -955,7 +1094,8 @@ a+b
 
 
 ```python
-# If I reshape them with compatible shapes, I can still add them, but it broadcast over the two dimensions
+# If I reshape them with compatible shapes, I can still add them, 
+# but it broadcast over the two dimensions
 a1 = a.reshape(4, 1)
 b1 = b.reshape(1, 4)
 
@@ -1024,26 +1164,27 @@ matrix = np.abs(np.random.randn(3, 4))
 print("original matrix:")
 print(matrix)
 print('-'*30)
+print("sum over the columns:")
+print(matrix.sum(axis=0))
+print('-'*30)
 print("normalized matrix (by column):")
 matrix = matrix / matrix.sum(axis=0)
 print(matrix)
-print('-'*30)
-print("sum over the columns:")
-print(matrix.sum(axis=0))
+
 ```
 
     original matrix:
-    [[2.67088726 0.82689168 1.95717479 0.92651654]
-     [1.26619281 0.46375246 1.47273667 0.80755843]
-     [0.88440511 2.08570426 0.58466173 0.02314071]]
-    ------------------------------
-    normalized matrix (by column):
-    [[0.5539553  0.2449071  0.48751753 0.52726398]
-     [0.26261469 0.13735326 0.36684763 0.45956706]
-     [0.18343002 0.61773964 0.14563484 0.01316896]]
+    [[1.91693056 0.77574042 0.62195499 0.43104792]
+     [0.13647849 1.93118056 0.4266351  0.22084327]
+     [0.00505452 0.83373703 1.96152037 1.91617401]]
     ------------------------------
     sum over the columns:
-    [1. 1. 1. 1.]
+    [2.05846356 3.540658   3.01011046 2.5680652 ]
+    ------------------------------
+    normalized matrix (by column):
+    [[0.93124338 0.21909499 0.20662198 0.16784929]
+     [0.06630114 0.54542985 0.14173403 0.08599597]
+     [0.00245548 0.23547517 0.65164398 0.74615474]]
 
 
 Normally these operation reduce the number of dimensions of the array.
@@ -1134,7 +1275,7 @@ ax4.imshow(pix)
 
 
     
-![png](Lesson_06_Vectorization_files/Lesson_06_Vectorization_94_1.png)
+![png](Lesson_06_Vectorization_files/Lesson_06_Vectorization_117_1.png)
     
 
 
@@ -1148,13 +1289,15 @@ This could be useful in some cases, but in general it would be better to use the
 
 
 ```python
-data = [('Rex', 9, 81.0),
-        ('Fido', 3, 27.0),
-       ]
-mydtype = [('name', 'U10'), # a string
-           ('age', 'i4'), # an integer
-           ('weight', 'f4'), # a float
-          ]
+data = [
+    ('Rex', 9, 81.0),
+    ('Fido', 3, 27.0),
+]
+mydtype = [
+    ('name', 'U10'), # a string
+    ('age', 'i4'), # an integer
+    ('weight', 'f4'), # a float
+]
 x = np.array(data, dtype=mydtype)
 print(x)
 print(x['name'])
