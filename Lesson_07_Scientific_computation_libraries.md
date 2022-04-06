@@ -49,6 +49,10 @@ Also, most libraries are based on it and knowing it can make your plots even bet
 ```python
 import matplotlib.pylab as plt
 import numpy as np
+```
+
+
+```python
 data = np.random.randn(1000) 
 
 fig, ax = plt.subplots()
@@ -65,7 +69,7 @@ ax.plot(data)
 
 
     
-![png](Lesson_07_Scientific_computation_libraries_files/Lesson_07_Scientific_computation_libraries_6_1.png)
+![png](Lesson_07_Scientific_computation_libraries_files/Lesson_07_Scientific_computation_libraries_7_1.png)
     
 
 
@@ -95,7 +99,7 @@ ax.hist(data)
 
 
     
-![png](Lesson_07_Scientific_computation_libraries_files/Lesson_07_Scientific_computation_libraries_8_1.png)
+![png](Lesson_07_Scientific_computation_libraries_files/Lesson_07_Scientific_computation_libraries_9_1.png)
     
 
 
@@ -115,7 +119,7 @@ ax.hist2d(data[:,0], data[:,1], bins = 30)
 
 
     
-![png](Lesson_07_Scientific_computation_libraries_files/Lesson_07_Scientific_computation_libraries_10_1.png)
+![png](Lesson_07_Scientific_computation_libraries_files/Lesson_07_Scientific_computation_libraries_11_1.png)
     
 
 
@@ -138,7 +142,7 @@ ax.scatter(x, y)
 
 
     
-![png](Lesson_07_Scientific_computation_libraries_files/Lesson_07_Scientific_computation_libraries_11_1.png)
+![png](Lesson_07_Scientific_computation_libraries_files/Lesson_07_Scientific_computation_libraries_12_1.png)
     
 
 
@@ -163,7 +167,7 @@ surf = ax.plot_surface(X, Y, S, cmap=cm.coolwarm)
 
 
     
-![png](Lesson_07_Scientific_computation_libraries_files/Lesson_07_Scientific_computation_libraries_13_0.png)
+![png](Lesson_07_Scientific_computation_libraries_files/Lesson_07_Scientific_computation_libraries_14_0.png)
     
 
 
@@ -193,11 +197,51 @@ fig.tight_layout()
 
 
     
-![png](Lesson_07_Scientific_computation_libraries_files/Lesson_07_Scientific_computation_libraries_15_0.png)
+![png](Lesson_07_Scientific_computation_libraries_files/Lesson_07_Scientific_computation_libraries_16_0.png)
+    
+
+
+## Styling the plot
+
+matplotlib also supports **styles** to change quickly the appearence of your plots.
+
+you can also define your own styles and use them wherever you need.
+
+
+```python
+print(plt.style.available)
+```
+
+    ['Solarize_Light2', '_classic_test_patch', '_mpl-gallery', '_mpl-gallery-nogrid', 'bmh', 'classic', 'dark_background', 'fast', 'fivethirtyeight', 'ggplot', 'grayscale', 'seaborn', 'seaborn-bright', 'seaborn-colorblind', 'seaborn-dark', 'seaborn-dark-palette', 'seaborn-darkgrid', 'seaborn-deep', 'seaborn-muted', 'seaborn-notebook', 'seaborn-paper', 'seaborn-pastel', 'seaborn-poster', 'seaborn-talk', 'seaborn-ticks', 'seaborn-white', 'seaborn-whitegrid', 'tableau-colorblind10']
+
+
+
+```python
+data = np.random.randn(1000) 
+with plt.style.context("seaborn-dark"):
+    fig, ax = plt.subplots()
+    ax.hist(data)
+    
+with plt.style.context("grayscale"):
+    fig, ax = plt.subplots()
+    ax.hist(data)
+```
+
+
+    
+![png](Lesson_07_Scientific_computation_libraries_files/Lesson_07_Scientific_computation_libraries_19_0.png)
+    
+
+
+
+    
+![png](Lesson_07_Scientific_computation_libraries_files/Lesson_07_Scientific_computation_libraries_19_1.png)
     
 
 
 additional plots and configurations, with integration for tabular data visualization, can be found in the library **seaborn** (we will discuss it next week)
+
+matplotlib also supports interaction, animation, and much more, but those are outside of the scope of this course...
 
 ## Linear Algebra - LinAlg
 
@@ -213,7 +257,11 @@ import scipy as sp
 
 a = np.array([[1,2,3,4,5]])
 b = np.array([1,2,3,4,5])
-c = np.array([[1,2,3,4,5],[6,7,8,9,10],[11,12,13,14,15]])
+c = np.array([
+    [1, 2, 3, 4, 5],
+    [6, 7, 8, 9, 10],
+    [11, 12, 13, 14, 15],
+])
 
 print(np.dot(b, b)) # scalar product of b and b
 print(sp.dot(b, b))
@@ -454,7 +502,7 @@ ax.legend(loc = 'best')
 
 
     
-![png](Lesson_07_Scientific_computation_libraries_files/Lesson_07_Scientific_computation_libraries_36_1.png)
+![png](Lesson_07_Scientific_computation_libraries_files/Lesson_07_Scientific_computation_libraries_40_1.png)
     
 
 
@@ -472,7 +520,6 @@ fig, ax = plt.subplots()
 ax.plot(time, y_obs, 'bo', label = 'sperimentali')
 ax.plot(time, yt, 'k-', label = 'teorici')
 ax.legend(loc = 'best')
-
 ```
 
 
@@ -484,7 +531,7 @@ ax.legend(loc = 'best')
 
 
     
-![png](Lesson_07_Scientific_computation_libraries_files/Lesson_07_Scientific_computation_libraries_38_1.png)
+![png](Lesson_07_Scientific_computation_libraries_files/Lesson_07_Scientific_computation_libraries_42_1.png)
     
 
 
@@ -534,7 +581,7 @@ ax.legend(loc = 'best', numpoints = 2)
 
 
     
-![png](Lesson_07_Scientific_computation_libraries_files/Lesson_07_Scientific_computation_libraries_42_1.png)
+![png](Lesson_07_Scientific_computation_libraries_files/Lesson_07_Scientific_computation_libraries_46_1.png)
     
 
 
