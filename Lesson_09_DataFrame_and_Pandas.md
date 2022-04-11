@@ -279,11 +279,11 @@ data
 
 
 
-The important thing to remember with this type of data is that this might not be the ideal format for the analysis you have in mind.
+The important thing to remember with this type of data is that this **might not be the ideal format for the analysis** you have in mind.
 
-The tidy format is brilliant, especially for long term storage and to keep the metadata about the measurements, but some analysis might need the data to be transformed in non-tidy formats (for example to evaluate differences in various time points)
+The tidy format is brilliant, especially for **long term storage and to keep the metadata about the measurements**, but some analysis might need the data to be transformed in non-tidy formats (for example to evaluate differences in various time points)
 
-For this reason, all the libraries that manage dataframe have a strong focus on data transformation, reshaping the data from one form to the other.
+For this reason, all the libraries that manage dataframe have a **strong focus on data transformation**, reshaping the data from one form to the other.
 This allows to easily obtain the best structure for the analysis we want to do without sacrificing the data quality in long term storage.
 
 # Introduction to Pandas
@@ -701,6 +701,8 @@ a[idx_1 & idx_2]
 They can be sliced on the index as well, both by single keys and range of keys.
 
 the range of keys are referred to the order of the index, not the natural sorting of the values contained in it
+
+**NOTE: the slicing also contains the last value of the slice as well!**
 
 
 ```python
@@ -3254,7 +3256,7 @@ It takes a tidy dataset and put it in a wide format. (the inverse operation is u
 To perform a pivot one chooses:
 * one column whose unique values are going to be the new index
 * one column whose unique values are going to be the new column names
-* one column whose values are going to be fill the new tabls
+* one column whose values are going to be fill the new table
 
 if there is more than one value that correspond to each pair of values (index and column) then one needs to specify some aggregation function to summarize those values, such as sum, average, counts, standard deviation, etc...
 
@@ -3648,6 +3650,8 @@ r
 
 
 
+Melting converts a wide table in a long format, basically converting the columns names in new values to use for indexing
+
 
 ```python
 v = pd.melt(r, id_vars=['name'], value_vars=['dog', 'cat'])
@@ -3858,6 +3862,8 @@ is identical to
     
 but one acts on Series (**unstack**) and the other on tidy DataFrames (**pivot**)
 
+**unstack** does not support aggregation, assume all indexes are unique
+
 ## Data Panel visualization
 
 ### pandas + matplotlib =  seaborn
@@ -4006,7 +4012,7 @@ seaborn.lmplot(
 
 
     
-![png](Lesson_09_DataFrame_and_Pandas_files/Lesson_09_DataFrame_and_Pandas_132_1.png)
+![png](Lesson_09_DataFrame_and_Pandas_files/Lesson_09_DataFrame_and_Pandas_133_1.png)
     
 
 
@@ -4029,7 +4035,7 @@ seaborn.lmplot(
 
 
     
-![png](Lesson_09_DataFrame_and_Pandas_files/Lesson_09_DataFrame_and_Pandas_133_1.png)
+![png](Lesson_09_DataFrame_and_Pandas_files/Lesson_09_DataFrame_and_Pandas_134_1.png)
     
 
 
@@ -4052,7 +4058,7 @@ seaborn.lmplot(
 
 
     
-![png](Lesson_09_DataFrame_and_Pandas_files/Lesson_09_DataFrame_and_Pandas_134_1.png)
+![png](Lesson_09_DataFrame_and_Pandas_files/Lesson_09_DataFrame_and_Pandas_135_1.png)
     
 
 
@@ -4082,7 +4088,7 @@ fg.add_legend();
 
 
     
-![png](Lesson_09_DataFrame_and_Pandas_files/Lesson_09_DataFrame_and_Pandas_135_0.png)
+![png](Lesson_09_DataFrame_and_Pandas_files/Lesson_09_DataFrame_and_Pandas_136_0.png)
     
 
 
@@ -4098,7 +4104,7 @@ seaborn.jointplot(
 
 
     
-![png](Lesson_09_DataFrame_and_Pandas_files/Lesson_09_DataFrame_and_Pandas_136_0.png)
+![png](Lesson_09_DataFrame_and_Pandas_files/Lesson_09_DataFrame_and_Pandas_137_0.png)
     
 
 
@@ -4120,7 +4126,7 @@ seaborn.boxplot(
 
 
     
-![png](Lesson_09_DataFrame_and_Pandas_files/Lesson_09_DataFrame_and_Pandas_137_1.png)
+![png](Lesson_09_DataFrame_and_Pandas_files/Lesson_09_DataFrame_and_Pandas_138_1.png)
     
 
 
@@ -4138,7 +4144,7 @@ seaborn.pairplot(iris, hue="species")
 
 
     
-![png](Lesson_09_DataFrame_and_Pandas_files/Lesson_09_DataFrame_and_Pandas_138_1.png)
+![png](Lesson_09_DataFrame_and_Pandas_files/Lesson_09_DataFrame_and_Pandas_139_1.png)
     
 
 
@@ -4155,7 +4161,7 @@ g.map_offdiag(plt.scatter, alpha=0.75, s=20);
 
 
     
-![png](Lesson_09_DataFrame_and_Pandas_files/Lesson_09_DataFrame_and_Pandas_139_0.png)
+![png](Lesson_09_DataFrame_and_Pandas_files/Lesson_09_DataFrame_and_Pandas_140_0.png)
     
 
 
