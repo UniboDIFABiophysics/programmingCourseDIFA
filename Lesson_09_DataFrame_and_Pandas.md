@@ -4165,6 +4165,458 @@ g.map_offdiag(plt.scatter, alpha=0.75, s=20);
     
 
 
+## exporting a DataFrame
+
+pandas provides various options to export dataframes, but we can divide them in two groups:
+
+* data export
+* repoting (styling)
+
+### data export
+
+many functions are provided to export (and read) to different formats that can then be used to load the data and perform additional analysis:
+
+* `to_clipboard`
+* `to_csv`
+* `to_excel`
+* `to_feather`
+* `to_hdf`
+* `to_json`
+* `to_parquet`
+* `to_sql`
+* `to_stata`
+* `to_xml`
+
+there are also many other functions to convert dataframes to other data structures such as numpy array, dictionaries, xarrays, etc...
+
+For data storage an interesting approach (superior to simple csv or tsv) is to export to JSONlines format (we'll see more in the future), by using the `lines=True` parameter in both `to_json` and `read_json`
+
+
+```python
+data = [{'label': 'DRUG', 'pattern': 'aspirin'},
+        {'label': 'DRUG', 'pattern': 'trazodone'},
+        {'label': 'DRUG', 'pattern': 'citalopram'}]
+df = pd.DataFrame(data)
+print(df)
+```
+
+      label     pattern
+    0  DRUG     aspirin
+    1  DRUG   trazodone
+    2  DRUG  citalopram
+
+
+
+```python
+# Output in JSONL format
+jsonlines = df.to_json(orient='records', lines=True)
+print(jsonlines)
+```
+
+    {"label":"DRUG","pattern":"aspirin"}
+    {"label":"DRUG","pattern":"trazodone"}
+    {"label":"DRUG","pattern":"citalopram"}
+    
+
+
+
+```python
+df_clone = pd.read_json(jsonlines, lines=True)
+print(df_clone)
+```
+
+      label     pattern
+    0  DRUG     aspirin
+    1  DRUG   trazodone
+    2  DRUG  citalopram
+
+
+### Reporting and styling
+
+Pandas provides also functions to export dataframes in a way compatible with reports, such as:
+
+* `.style.to_html`
+* `.style.to_latex`
+* `to_markdown`
+
+
+
+```python
+data = [{'label': 'DRUG', 'pattern': 'aspirin'},
+        {'label': 'DRUG', 'pattern': 'trazodone'},
+        {'label': 'DRUG', 'pattern': 'citalopram'}]
+df = pd.DataFrame(data)
+print(df.style.to_latex())
+```
+
+    \begin{tabular}{lll}
+     & label & pattern \\
+    0 & DRUG & aspirin \\
+    1 & DRUG & trazodone \\
+    2 & DRUG & citalopram \\
+    \end{tabular}
+    
+
+
+
+```python
+print(df.style.to_html())
+```
+
+    <style type="text/css">
+    </style>
+    <table id="T_fdcf4">
+      <thead>
+        <tr>
+          <th class="blank level0" >&nbsp;</th>
+          <th id="T_fdcf4_level0_col0" class="col_heading level0 col0" >label</th>
+          <th id="T_fdcf4_level0_col1" class="col_heading level0 col1" >pattern</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th id="T_fdcf4_level0_row0" class="row_heading level0 row0" >0</th>
+          <td id="T_fdcf4_row0_col0" class="data row0 col0" >DRUG</td>
+          <td id="T_fdcf4_row0_col1" class="data row0 col1" >aspirin</td>
+        </tr>
+        <tr>
+          <th id="T_fdcf4_level0_row1" class="row_heading level0 row1" >1</th>
+          <td id="T_fdcf4_row1_col0" class="data row1 col0" >DRUG</td>
+          <td id="T_fdcf4_row1_col1" class="data row1 col1" >trazodone</td>
+        </tr>
+        <tr>
+          <th id="T_fdcf4_level0_row2" class="row_heading level0 row2" >2</th>
+          <td id="T_fdcf4_row2_col0" class="data row2 col0" >DRUG</td>
+          <td id="T_fdcf4_row2_col1" class="data row2 col1" >citalopram</td>
+        </tr>
+      </tbody>
+    </table>
+    
+
+
+pandas `style` provides a (relatively) simple way to format the table representation to make it more informative and visually pleaseant
+
+
+```python
+expenses = [
+    ('antonio', 'cat', 4),
+    ('antonio', 'cat', 5),
+    ('antonio', 'cat', 6),
+
+    ('giulia', 'cat', 3),
+    ('giulia', 'dog', 7),
+    ('giulia', 'dog', 8),
+]
+
+expenses = pd.DataFrame(expenses, columns = ['name', 'animal', 'expenses'])
+expenses
+```
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>name</th>
+      <th>animal</th>
+      <th>expenses</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>antonio</td>
+      <td>cat</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>antonio</td>
+      <td>cat</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>antonio</td>
+      <td>cat</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>giulia</td>
+      <td>cat</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>giulia</td>
+      <td>dog</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>giulia</td>
+      <td>dog</td>
+      <td>8</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+```python
+# can format the content with format minilanguage and functions
+expenses.style.format({"expenses": "{:.2f} €", "name": str.title})
+```
+
+
+
+
+<style type="text/css">
+</style>
+<table id="T_a661d">
+  <thead>
+    <tr>
+      <th class="blank level0" >&nbsp;</th>
+      <th id="T_a661d_level0_col0" class="col_heading level0 col0" >name</th>
+      <th id="T_a661d_level0_col1" class="col_heading level0 col1" >animal</th>
+      <th id="T_a661d_level0_col2" class="col_heading level0 col2" >expenses</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th id="T_a661d_level0_row0" class="row_heading level0 row0" >0</th>
+      <td id="T_a661d_row0_col0" class="data row0 col0" >Antonio</td>
+      <td id="T_a661d_row0_col1" class="data row0 col1" >cat</td>
+      <td id="T_a661d_row0_col2" class="data row0 col2" >4.00 €</td>
+    </tr>
+    <tr>
+      <th id="T_a661d_level0_row1" class="row_heading level0 row1" >1</th>
+      <td id="T_a661d_row1_col0" class="data row1 col0" >Antonio</td>
+      <td id="T_a661d_row1_col1" class="data row1 col1" >cat</td>
+      <td id="T_a661d_row1_col2" class="data row1 col2" >5.00 €</td>
+    </tr>
+    <tr>
+      <th id="T_a661d_level0_row2" class="row_heading level0 row2" >2</th>
+      <td id="T_a661d_row2_col0" class="data row2 col0" >Antonio</td>
+      <td id="T_a661d_row2_col1" class="data row2 col1" >cat</td>
+      <td id="T_a661d_row2_col2" class="data row2 col2" >6.00 €</td>
+    </tr>
+    <tr>
+      <th id="T_a661d_level0_row3" class="row_heading level0 row3" >3</th>
+      <td id="T_a661d_row3_col0" class="data row3 col0" >Giulia</td>
+      <td id="T_a661d_row3_col1" class="data row3 col1" >cat</td>
+      <td id="T_a661d_row3_col2" class="data row3 col2" >3.00 €</td>
+    </tr>
+    <tr>
+      <th id="T_a661d_level0_row4" class="row_heading level0 row4" >4</th>
+      <td id="T_a661d_row4_col0" class="data row4 col0" >Giulia</td>
+      <td id="T_a661d_row4_col1" class="data row4 col1" >dog</td>
+      <td id="T_a661d_row4_col2" class="data row4 col2" >7.00 €</td>
+    </tr>
+    <tr>
+      <th id="T_a661d_level0_row5" class="row_heading level0 row5" >5</th>
+      <td id="T_a661d_row5_col0" class="data row5 col0" >Giulia</td>
+      <td id="T_a661d_row5_col1" class="data row5 col1" >dog</td>
+      <td id="T_a661d_row5_col2" class="data row5 col2" >8.00 €</td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+
+
+```python
+# can apply generic functions (there is a wide list)
+expenses.style.highlight_max(color='coral', subset=["expenses"])
+```
+
+
+
+
+<style type="text/css">
+#T_9e6d7_row5_col2 {
+  background-color: coral;
+}
+</style>
+<table id="T_9e6d7">
+  <thead>
+    <tr>
+      <th class="blank level0" >&nbsp;</th>
+      <th id="T_9e6d7_level0_col0" class="col_heading level0 col0" >name</th>
+      <th id="T_9e6d7_level0_col1" class="col_heading level0 col1" >animal</th>
+      <th id="T_9e6d7_level0_col2" class="col_heading level0 col2" >expenses</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th id="T_9e6d7_level0_row0" class="row_heading level0 row0" >0</th>
+      <td id="T_9e6d7_row0_col0" class="data row0 col0" >antonio</td>
+      <td id="T_9e6d7_row0_col1" class="data row0 col1" >cat</td>
+      <td id="T_9e6d7_row0_col2" class="data row0 col2" >4</td>
+    </tr>
+    <tr>
+      <th id="T_9e6d7_level0_row1" class="row_heading level0 row1" >1</th>
+      <td id="T_9e6d7_row1_col0" class="data row1 col0" >antonio</td>
+      <td id="T_9e6d7_row1_col1" class="data row1 col1" >cat</td>
+      <td id="T_9e6d7_row1_col2" class="data row1 col2" >5</td>
+    </tr>
+    <tr>
+      <th id="T_9e6d7_level0_row2" class="row_heading level0 row2" >2</th>
+      <td id="T_9e6d7_row2_col0" class="data row2 col0" >antonio</td>
+      <td id="T_9e6d7_row2_col1" class="data row2 col1" >cat</td>
+      <td id="T_9e6d7_row2_col2" class="data row2 col2" >6</td>
+    </tr>
+    <tr>
+      <th id="T_9e6d7_level0_row3" class="row_heading level0 row3" >3</th>
+      <td id="T_9e6d7_row3_col0" class="data row3 col0" >giulia</td>
+      <td id="T_9e6d7_row3_col1" class="data row3 col1" >cat</td>
+      <td id="T_9e6d7_row3_col2" class="data row3 col2" >3</td>
+    </tr>
+    <tr>
+      <th id="T_9e6d7_level0_row4" class="row_heading level0 row4" >4</th>
+      <td id="T_9e6d7_row4_col0" class="data row4 col0" >giulia</td>
+      <td id="T_9e6d7_row4_col1" class="data row4 col1" >dog</td>
+      <td id="T_9e6d7_row4_col2" class="data row4 col2" >7</td>
+    </tr>
+    <tr>
+      <th id="T_9e6d7_level0_row5" class="row_heading level0 row5" >5</th>
+      <td id="T_9e6d7_row5_col0" class="data row5 col0" >giulia</td>
+      <td id="T_9e6d7_row5_col1" class="data row5 col1" >dog</td>
+      <td id="T_9e6d7_row5_col2" class="data row5 col2" >8</td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+
+
+```python
+#can apply a generic function cell-wise, column-wise, etc...
+def highlight_median(x, color):
+    import numpy as np
+    median =  np.median(x.to_numpy())
+    style_to_apply = f"color: {color};"
+    return np.where(x>median, style_to_apply, None)
+
+expenses.style.apply(highlight_median, color='orange', subset=["expenses"])
+```
+
+
+
+
+<style type="text/css">
+#T_96f09_row2_col2, #T_96f09_row4_col2, #T_96f09_row5_col2 {
+  color: orange;
+}
+</style>
+<table id="T_96f09">
+  <thead>
+    <tr>
+      <th class="blank level0" >&nbsp;</th>
+      <th id="T_96f09_level0_col0" class="col_heading level0 col0" >name</th>
+      <th id="T_96f09_level0_col1" class="col_heading level0 col1" >animal</th>
+      <th id="T_96f09_level0_col2" class="col_heading level0 col2" >expenses</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th id="T_96f09_level0_row0" class="row_heading level0 row0" >0</th>
+      <td id="T_96f09_row0_col0" class="data row0 col0" >antonio</td>
+      <td id="T_96f09_row0_col1" class="data row0 col1" >cat</td>
+      <td id="T_96f09_row0_col2" class="data row0 col2" >4</td>
+    </tr>
+    <tr>
+      <th id="T_96f09_level0_row1" class="row_heading level0 row1" >1</th>
+      <td id="T_96f09_row1_col0" class="data row1 col0" >antonio</td>
+      <td id="T_96f09_row1_col1" class="data row1 col1" >cat</td>
+      <td id="T_96f09_row1_col2" class="data row1 col2" >5</td>
+    </tr>
+    <tr>
+      <th id="T_96f09_level0_row2" class="row_heading level0 row2" >2</th>
+      <td id="T_96f09_row2_col0" class="data row2 col0" >antonio</td>
+      <td id="T_96f09_row2_col1" class="data row2 col1" >cat</td>
+      <td id="T_96f09_row2_col2" class="data row2 col2" >6</td>
+    </tr>
+    <tr>
+      <th id="T_96f09_level0_row3" class="row_heading level0 row3" >3</th>
+      <td id="T_96f09_row3_col0" class="data row3 col0" >giulia</td>
+      <td id="T_96f09_row3_col1" class="data row3 col1" >cat</td>
+      <td id="T_96f09_row3_col2" class="data row3 col2" >3</td>
+    </tr>
+    <tr>
+      <th id="T_96f09_level0_row4" class="row_heading level0 row4" >4</th>
+      <td id="T_96f09_row4_col0" class="data row4 col0" >giulia</td>
+      <td id="T_96f09_row4_col1" class="data row4 col1" >dog</td>
+      <td id="T_96f09_row4_col2" class="data row4 col2" >7</td>
+    </tr>
+    <tr>
+      <th id="T_96f09_level0_row5" class="row_heading level0 row5" >5</th>
+      <td id="T_96f09_row5_col0" class="data row5 col0" >giulia</td>
+      <td id="T_96f09_row5_col1" class="data row5 col1" >dog</td>
+      <td id="T_96f09_row5_col2" class="data row5 col2" >8</td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+
+
+```python
+# can export the styling to latex and html
+latex_result = (
+    expenses.style
+    .format({"expenses": "{:.2f} €", "name": str.title})
+    .highlight_max(
+        subset=["expenses"],
+        props=(
+        'cellcolor:[HTML]{FFFF00}; '
+        'color:{red}; '
+        'bfseries: ; '
+        )
+    )
+    .set_caption("some info about pets")
+    .to_latex()
+)
+print(latex_result)
+```
+
+    \begin{table}
+    \caption{some info about pets}
+    \begin{tabular}{lllr}
+     & name & animal & expenses \\
+    0 & Antonio & cat & 4.00 € \\
+    1 & Antonio & cat & 5.00 € \\
+    2 & Antonio & cat & 6.00 € \\
+    3 & Giulia & cat & 3.00 € \\
+    4 & Giulia & dog & 7.00 € \\
+    5 & Giulia & dog & \cellcolor[HTML]{FFFF00} \color{red} \bfseries 8.00 € \\
+    \end{tabular}
+    \end{table}
+    
+
+
 ## Exercise
 
 Download the list of the nobel prize winners, and count the winners by category and country

@@ -14559,12 +14559,12 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
                 },
                 displayAlign: 'center',
                 CommonHTML: {
-                    linebreaks: { 
-                    automatic: true 
+                    linebreaks: {
+                    automatic: true
                     }
                 }
             });
-        
+
             MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
         }
     }
@@ -21848,6 +21848,801 @@ class="
 >
 </div>
 
+</div>
+
+</div>
+
+</div>
+
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h2 id="exporting-a-DataFrame">exporting a DataFrame<a class="anchor-link" href="#exporting-a-DataFrame">&#182;</a></h2><p>pandas provides various options to export dataframes, but we can divide them in two groups:</p>
+<ul>
+<li>data export</li>
+<li>repoting (styling)</li>
+</ul>
+
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h3 id="data-export">data export<a class="anchor-link" href="#data-export">&#182;</a></h3><p>many functions are provided to export (and read) to different formats that can then be used to load the data and perform additional analysis:</p>
+<ul>
+<li><code>to_clipboard</code></li>
+<li><code>to_csv</code></li>
+<li><code>to_excel</code></li>
+<li><code>to_feather</code></li>
+<li><code>to_hdf</code></li>
+<li><code>to_json</code></li>
+<li><code>to_parquet</code></li>
+<li><code>to_sql</code></li>
+<li><code>to_stata</code></li>
+<li><code>to_xml</code></li>
+</ul>
+<p>there are also many other functions to convert dataframes to other data structures such as numpy array, dictionaries, xarrays, etc...</p>
+
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>For data storage an interesting approach (superior to simple csv or tsv) is to export to JSONlines format (we'll see more in the future), by using the <code>lines=True</code> parameter in both <code>to_json</code> and <code>read_json</code></p>
+
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[9]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="s1">&#39;DRUG&#39;</span><span class="p">,</span> <span class="s1">&#39;pattern&#39;</span><span class="p">:</span> <span class="s1">&#39;aspirin&#39;</span><span class="p">},</span>
+        <span class="p">{</span><span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="s1">&#39;DRUG&#39;</span><span class="p">,</span> <span class="s1">&#39;pattern&#39;</span><span class="p">:</span> <span class="s1">&#39;trazodone&#39;</span><span class="p">},</span>
+        <span class="p">{</span><span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="s1">&#39;DRUG&#39;</span><span class="p">,</span> <span class="s1">&#39;pattern&#39;</span><span class="p">:</span> <span class="s1">&#39;citalopram&#39;</span><span class="p">}]</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>  label     pattern
+0  DRUG     aspirin
+1  DRUG   trazodone
+2  DRUG  citalopram
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[10]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Output in JSONL format</span>
+<span class="n">jsonlines</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="n">orient</span><span class="o">=</span><span class="s1">&#39;records&#39;</span><span class="p">,</span> <span class="n">lines</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">jsonlines</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>{&#34;label&#34;:&#34;DRUG&#34;,&#34;pattern&#34;:&#34;aspirin&#34;}
+{&#34;label&#34;:&#34;DRUG&#34;,&#34;pattern&#34;:&#34;trazodone&#34;}
+{&#34;label&#34;:&#34;DRUG&#34;,&#34;pattern&#34;:&#34;citalopram&#34;}
+
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[11]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_clone</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="n">jsonlines</span><span class="p">,</span> <span class="n">lines</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df_clone</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>  label     pattern
+0  DRUG     aspirin
+1  DRUG   trazodone
+2  DRUG  citalopram
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h3 id="Reporting-and-styling">Reporting and styling<a class="anchor-link" href="#Reporting-and-styling">&#182;</a></h3><p>Pandas provides also functions to export dataframes in a way compatible with reports, such as:</p>
+<ul>
+<li><code>.style.to_html</code></li>
+<li><code>.style.to_latex</code></li>
+<li><code>to_markdown</code></li>
+</ul>
+
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[13]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="s1">&#39;DRUG&#39;</span><span class="p">,</span> <span class="s1">&#39;pattern&#39;</span><span class="p">:</span> <span class="s1">&#39;aspirin&#39;</span><span class="p">},</span>
+        <span class="p">{</span><span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="s1">&#39;DRUG&#39;</span><span class="p">,</span> <span class="s1">&#39;pattern&#39;</span><span class="p">:</span> <span class="s1">&#39;trazodone&#39;</span><span class="p">},</span>
+        <span class="p">{</span><span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="s1">&#39;DRUG&#39;</span><span class="p">,</span> <span class="s1">&#39;pattern&#39;</span><span class="p">:</span> <span class="s1">&#39;citalopram&#39;</span><span class="p">}]</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">to_latex</span><span class="p">())</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>\begin{tabular}{lll}
+ &amp; label &amp; pattern \\
+0 &amp; DRUG &amp; aspirin \\
+1 &amp; DRUG &amp; trazodone \\
+2 &amp; DRUG &amp; citalopram \\
+\end{tabular}
+
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[17]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">to_html</span><span class="p">())</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>&lt;style type=&#34;text/css&#34;&gt;
+&lt;/style&gt;
+&lt;table id=&#34;T_fdcf4&#34;&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th class=&#34;blank level0&#34; &gt;&amp;nbsp;&lt;/th&gt;
+      &lt;th id=&#34;T_fdcf4_level0_col0&#34; class=&#34;col_heading level0 col0&#34; &gt;label&lt;/th&gt;
+      &lt;th id=&#34;T_fdcf4_level0_col1&#34; class=&#34;col_heading level0 col1&#34; &gt;pattern&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;th id=&#34;T_fdcf4_level0_row0&#34; class=&#34;row_heading level0 row0&#34; &gt;0&lt;/th&gt;
+      &lt;td id=&#34;T_fdcf4_row0_col0&#34; class=&#34;data row0 col0&#34; &gt;DRUG&lt;/td&gt;
+      &lt;td id=&#34;T_fdcf4_row0_col1&#34; class=&#34;data row0 col1&#34; &gt;aspirin&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th id=&#34;T_fdcf4_level0_row1&#34; class=&#34;row_heading level0 row1&#34; &gt;1&lt;/th&gt;
+      &lt;td id=&#34;T_fdcf4_row1_col0&#34; class=&#34;data row1 col0&#34; &gt;DRUG&lt;/td&gt;
+      &lt;td id=&#34;T_fdcf4_row1_col1&#34; class=&#34;data row1 col1&#34; &gt;trazodone&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th id=&#34;T_fdcf4_level0_row2&#34; class=&#34;row_heading level0 row2&#34; &gt;2&lt;/th&gt;
+      &lt;td id=&#34;T_fdcf4_row2_col0&#34; class=&#34;data row2 col0&#34; &gt;DRUG&lt;/td&gt;
+      &lt;td id=&#34;T_fdcf4_row2_col1&#34; class=&#34;data row2 col1&#34; &gt;citalopram&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>pandas <code>style</code> provides a (relatively) simple way to format the table representation to make it more informative and visually pleaseant</p>
+
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[52]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">expenses</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s1">&#39;antonio&#39;</span><span class="p">,</span> <span class="s1">&#39;cat&#39;</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;antonio&#39;</span><span class="p">,</span> <span class="s1">&#39;cat&#39;</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;antonio&#39;</span><span class="p">,</span> <span class="s1">&#39;cat&#39;</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span>
+
+    <span class="p">(</span><span class="s1">&#39;giulia&#39;</span><span class="p">,</span> <span class="s1">&#39;cat&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;giulia&#39;</span><span class="p">,</span> <span class="s1">&#39;dog&#39;</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;giulia&#39;</span><span class="p">,</span> <span class="s1">&#39;dog&#39;</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span>
+<span class="p">]</span>
+
+<span class="n">expenses</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">expenses</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;animal&#39;</span><span class="p">,</span> <span class="s1">&#39;expenses&#39;</span><span class="p">])</span>
+<span class="n">expenses</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[52]:</div>
+
+
+
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>name</th>
+      <th>animal</th>
+      <th>expenses</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>antonio</td>
+      <td>cat</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>antonio</td>
+      <td>cat</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>antonio</td>
+      <td>cat</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>giulia</td>
+      <td>cat</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>giulia</td>
+      <td>dog</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>giulia</td>
+      <td>dog</td>
+      <td>8</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[57]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># can format the content with format minilanguage and functions</span>
+<span class="n">expenses</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">format</span><span class="p">({</span><span class="s2">&quot;expenses&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{:.2f}</span><span class="s2"> €&quot;</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="o">.</span><span class="n">title</span><span class="p">})</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[57]:</div>
+
+
+
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html">
+<style type="text/css">
+</style>
+<table id="T_a661d">
+  <thead>
+    <tr>
+      <th class="blank level0" >&nbsp;</th>
+      <th id="T_a661d_level0_col0" class="col_heading level0 col0" >name</th>
+      <th id="T_a661d_level0_col1" class="col_heading level0 col1" >animal</th>
+      <th id="T_a661d_level0_col2" class="col_heading level0 col2" >expenses</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th id="T_a661d_level0_row0" class="row_heading level0 row0" >0</th>
+      <td id="T_a661d_row0_col0" class="data row0 col0" >Antonio</td>
+      <td id="T_a661d_row0_col1" class="data row0 col1" >cat</td>
+      <td id="T_a661d_row0_col2" class="data row0 col2" >4.00 €</td>
+    </tr>
+    <tr>
+      <th id="T_a661d_level0_row1" class="row_heading level0 row1" >1</th>
+      <td id="T_a661d_row1_col0" class="data row1 col0" >Antonio</td>
+      <td id="T_a661d_row1_col1" class="data row1 col1" >cat</td>
+      <td id="T_a661d_row1_col2" class="data row1 col2" >5.00 €</td>
+    </tr>
+    <tr>
+      <th id="T_a661d_level0_row2" class="row_heading level0 row2" >2</th>
+      <td id="T_a661d_row2_col0" class="data row2 col0" >Antonio</td>
+      <td id="T_a661d_row2_col1" class="data row2 col1" >cat</td>
+      <td id="T_a661d_row2_col2" class="data row2 col2" >6.00 €</td>
+    </tr>
+    <tr>
+      <th id="T_a661d_level0_row3" class="row_heading level0 row3" >3</th>
+      <td id="T_a661d_row3_col0" class="data row3 col0" >Giulia</td>
+      <td id="T_a661d_row3_col1" class="data row3 col1" >cat</td>
+      <td id="T_a661d_row3_col2" class="data row3 col2" >3.00 €</td>
+    </tr>
+    <tr>
+      <th id="T_a661d_level0_row4" class="row_heading level0 row4" >4</th>
+      <td id="T_a661d_row4_col0" class="data row4 col0" >Giulia</td>
+      <td id="T_a661d_row4_col1" class="data row4 col1" >dog</td>
+      <td id="T_a661d_row4_col2" class="data row4 col2" >7.00 €</td>
+    </tr>
+    <tr>
+      <th id="T_a661d_level0_row5" class="row_heading level0 row5" >5</th>
+      <td id="T_a661d_row5_col0" class="data row5 col0" >Giulia</td>
+      <td id="T_a661d_row5_col1" class="data row5 col1" >dog</td>
+      <td id="T_a661d_row5_col2" class="data row5 col2" >8.00 €</td>
+    </tr>
+  </tbody>
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[54]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># can apply generic functions (there is a wide list)</span>
+<span class="n">expenses</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">highlight_max</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;coral&#39;</span><span class="p">,</span> <span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;expenses&quot;</span><span class="p">])</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[54]:</div>
+
+
+
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html">
+<style type="text/css">
+#T_9e6d7_row5_col2 {
+  background-color: coral;
+}
+</style>
+<table id="T_9e6d7">
+  <thead>
+    <tr>
+      <th class="blank level0" >&nbsp;</th>
+      <th id="T_9e6d7_level0_col0" class="col_heading level0 col0" >name</th>
+      <th id="T_9e6d7_level0_col1" class="col_heading level0 col1" >animal</th>
+      <th id="T_9e6d7_level0_col2" class="col_heading level0 col2" >expenses</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th id="T_9e6d7_level0_row0" class="row_heading level0 row0" >0</th>
+      <td id="T_9e6d7_row0_col0" class="data row0 col0" >antonio</td>
+      <td id="T_9e6d7_row0_col1" class="data row0 col1" >cat</td>
+      <td id="T_9e6d7_row0_col2" class="data row0 col2" >4</td>
+    </tr>
+    <tr>
+      <th id="T_9e6d7_level0_row1" class="row_heading level0 row1" >1</th>
+      <td id="T_9e6d7_row1_col0" class="data row1 col0" >antonio</td>
+      <td id="T_9e6d7_row1_col1" class="data row1 col1" >cat</td>
+      <td id="T_9e6d7_row1_col2" class="data row1 col2" >5</td>
+    </tr>
+    <tr>
+      <th id="T_9e6d7_level0_row2" class="row_heading level0 row2" >2</th>
+      <td id="T_9e6d7_row2_col0" class="data row2 col0" >antonio</td>
+      <td id="T_9e6d7_row2_col1" class="data row2 col1" >cat</td>
+      <td id="T_9e6d7_row2_col2" class="data row2 col2" >6</td>
+    </tr>
+    <tr>
+      <th id="T_9e6d7_level0_row3" class="row_heading level0 row3" >3</th>
+      <td id="T_9e6d7_row3_col0" class="data row3 col0" >giulia</td>
+      <td id="T_9e6d7_row3_col1" class="data row3 col1" >cat</td>
+      <td id="T_9e6d7_row3_col2" class="data row3 col2" >3</td>
+    </tr>
+    <tr>
+      <th id="T_9e6d7_level0_row4" class="row_heading level0 row4" >4</th>
+      <td id="T_9e6d7_row4_col0" class="data row4 col0" >giulia</td>
+      <td id="T_9e6d7_row4_col1" class="data row4 col1" >dog</td>
+      <td id="T_9e6d7_row4_col2" class="data row4 col2" >7</td>
+    </tr>
+    <tr>
+      <th id="T_9e6d7_level0_row5" class="row_heading level0 row5" >5</th>
+      <td id="T_9e6d7_row5_col0" class="data row5 col0" >giulia</td>
+      <td id="T_9e6d7_row5_col1" class="data row5 col1" >dog</td>
+      <td id="T_9e6d7_row5_col2" class="data row5 col2" >8</td>
+    </tr>
+  </tbody>
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[55]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#can apply a generic function cell-wise, column-wise, etc...</span>
+<span class="k">def</span> <span class="nf">highlight_median</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">color</span><span class="p">):</span>
+    <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+    <span class="n">median</span> <span class="o">=</span>  <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">())</span>
+    <span class="n">style_to_apply</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;color: </span><span class="si">{</span><span class="n">color</span><span class="si">}</span><span class="s2">;&quot;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">x</span><span class="o">&gt;</span><span class="n">median</span><span class="p">,</span> <span class="n">style_to_apply</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+<span class="n">expenses</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">highlight_median</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;orange&#39;</span><span class="p">,</span> <span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;expenses&quot;</span><span class="p">])</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[55]:</div>
+
+
+
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html">
+<style type="text/css">
+#T_96f09_row2_col2, #T_96f09_row4_col2, #T_96f09_row5_col2 {
+  color: orange;
+}
+</style>
+<table id="T_96f09">
+  <thead>
+    <tr>
+      <th class="blank level0" >&nbsp;</th>
+      <th id="T_96f09_level0_col0" class="col_heading level0 col0" >name</th>
+      <th id="T_96f09_level0_col1" class="col_heading level0 col1" >animal</th>
+      <th id="T_96f09_level0_col2" class="col_heading level0 col2" >expenses</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th id="T_96f09_level0_row0" class="row_heading level0 row0" >0</th>
+      <td id="T_96f09_row0_col0" class="data row0 col0" >antonio</td>
+      <td id="T_96f09_row0_col1" class="data row0 col1" >cat</td>
+      <td id="T_96f09_row0_col2" class="data row0 col2" >4</td>
+    </tr>
+    <tr>
+      <th id="T_96f09_level0_row1" class="row_heading level0 row1" >1</th>
+      <td id="T_96f09_row1_col0" class="data row1 col0" >antonio</td>
+      <td id="T_96f09_row1_col1" class="data row1 col1" >cat</td>
+      <td id="T_96f09_row1_col2" class="data row1 col2" >5</td>
+    </tr>
+    <tr>
+      <th id="T_96f09_level0_row2" class="row_heading level0 row2" >2</th>
+      <td id="T_96f09_row2_col0" class="data row2 col0" >antonio</td>
+      <td id="T_96f09_row2_col1" class="data row2 col1" >cat</td>
+      <td id="T_96f09_row2_col2" class="data row2 col2" >6</td>
+    </tr>
+    <tr>
+      <th id="T_96f09_level0_row3" class="row_heading level0 row3" >3</th>
+      <td id="T_96f09_row3_col0" class="data row3 col0" >giulia</td>
+      <td id="T_96f09_row3_col1" class="data row3 col1" >cat</td>
+      <td id="T_96f09_row3_col2" class="data row3 col2" >3</td>
+    </tr>
+    <tr>
+      <th id="T_96f09_level0_row4" class="row_heading level0 row4" >4</th>
+      <td id="T_96f09_row4_col0" class="data row4 col0" >giulia</td>
+      <td id="T_96f09_row4_col1" class="data row4 col1" >dog</td>
+      <td id="T_96f09_row4_col2" class="data row4 col2" >7</td>
+    </tr>
+    <tr>
+      <th id="T_96f09_level0_row5" class="row_heading level0 row5" >5</th>
+      <td id="T_96f09_row5_col0" class="data row5 col0" >giulia</td>
+      <td id="T_96f09_row5_col1" class="data row5 col1" >dog</td>
+      <td id="T_96f09_row5_col2" class="data row5 col2" >8</td>
+    </tr>
+  </tbody>
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[59]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># can export the styling to latex and html</span>
+<span class="n">latex_result</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">expenses</span><span class="o">.</span><span class="n">style</span>
+    <span class="o">.</span><span class="n">format</span><span class="p">({</span><span class="s2">&quot;expenses&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{:.2f}</span><span class="s2"> €&quot;</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="o">.</span><span class="n">title</span><span class="p">})</span>
+    <span class="o">.</span><span class="n">highlight_max</span><span class="p">(</span>
+        <span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;expenses&quot;</span><span class="p">],</span>
+        <span class="n">props</span><span class="o">=</span><span class="p">(</span>
+        <span class="s1">&#39;cellcolor:[HTML]</span><span class="si">{FFFF00}</span><span class="s1">; &#39;</span>
+        <span class="s1">&#39;color:</span><span class="si">{red}</span><span class="s1">; &#39;</span>
+        <span class="s1">&#39;bfseries: ; &#39;</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+    <span class="o">.</span><span class="n">set_caption</span><span class="p">(</span><span class="s2">&quot;some info about pets&quot;</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">to_latex</span><span class="p">()</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">latex_result</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>\begin{table}
+\caption{some info about pets}
+\begin{tabular}{lllr}
+ &amp; name &amp; animal &amp; expenses \\
+0 &amp; Antonio &amp; cat &amp; 4.00 € \\
+1 &amp; Antonio &amp; cat &amp; 5.00 € \\
+2 &amp; Antonio &amp; cat &amp; 6.00 € \\
+3 &amp; Giulia &amp; cat &amp; 3.00 € \\
+4 &amp; Giulia &amp; dog &amp; 7.00 € \\
+5 &amp; Giulia &amp; dog &amp; \cellcolor[HTML]{FFFF00} \color{red} \bfseries 8.00 € \\
+\end{tabular}
+\end{table}
+
+</pre>
+</div>
 </div>
 
 </div>
