@@ -13,6 +13,12 @@ this function needs:
 
 ```python
 from scipy.integrate import odeint
+
+import numpy as np
+import seaborn as sns
+import pylab as plt
+import pandas as pd
+import scipy.stats as st
 ```
 
 
@@ -67,11 +73,6 @@ res.shape
 
 
 ```python
-sns.despine?
-```
-
-
-```python
 fig, ax = plt.subplots()
 ax.plot(time, res, label="population")
 ax.set_xlabel("time (a.u.)")
@@ -83,7 +84,7 @@ sns.despine(fig, trim=True, bottom=True, left=True)
 
 
     
-![png](Lesson_AF_02_Differential_Equations_analysis_files/Lesson_AF_02_Differential_Equations_analysis_9_0.png)
+![png](Lesson_AF_02_Differential_Equations_analysis_files/Lesson_AF_02_Differential_Equations_analysis_8_0.png)
     
 
 
@@ -176,6 +177,51 @@ to_df(res, ['population'], α=α, β=β, time=time).head()
 
 
 ```python
+# Using the above nested radical formula for g=phi_d 
+# or you could just hard-code it. 
+# phi(1) = 1.61803398874989484820458683436563 
+# phi(2) = 1.32471795724474602596090885447809 
+def phi(d, precision=30): 
+    x = 2.00
+    for i in range(precision): 
+        x = pow(1+x,1/(d+1)) 
+    return x
+
+def gaussian_icdf(q):
+    return st.norm.isf(q)
+
+def identity(x):
+    return x
+
+# this is an iterable version
+def Rϕ(ndim=1, *, seed=0.5, mapper=identity):
+    g = phi(ndim) 
+    alpha = ((1/g)**np.arange(1, ndim+1))%1        
+    z = np.ones(ndim)*seed
+    while True:
+        yield mapper(z)
+        z = (z+alpha) %1 
+        
+# this is an array version, for testing speed
+def a_generate(ndim, Npoints, *, seed=0.5, mapper=identity):
+    # get the base for the dimension
+    g = phi(ndim) 
+    # this is the inizialization constant for the array
+    alpha = ((1/g)**np.arange(1, ndim+1))%1  
+    # reshaping to allow broadcasting
+    alpha = alpha.reshape(1, -1) 
+    # just the count of the sequence
+    base = np.arange(Npoints).reshape(-1, 1) 
+    # perform the actual calculation
+    z = seed + alpha*base 
+    # tale only the decimal part
+    z = z % 1
+    # return a mapped version to some distribution
+    return mapper(z) 
+```
+
+
+```python
 # randomly generate alpha values
 mapper = st.norm(loc=[10], scale=0.5).isf
 # 50 values around the average value
@@ -189,19 +235,19 @@ for idx, (α, ) in enumerate(alphas):
     res = odeint(logistic, y0=N0, t=time, args=(α, β))
     res_df = to_df(res, ['population'], α=α, β=β, time=time, simulation_run=idx)
     results.append(res_df)
-results = pd.concat(results)
+results = pd.concat(results, ignore_index=True)
 ```
 
 
 ```python
-sns.lineplot("time", 'population', data=results, hue='α',
+sns.lineplot(x="time", y='population', data=results, hue='α',
              estimator=None, units='simulation_run')
 ```
 
 
 
 
-    <matplotlib.axes._subplots.AxesSubplot at 0x7faea230aa58>
+    <AxesSubplot:xlabel='time', ylabel='population'>
 
 
 
@@ -226,19 +272,19 @@ for idx, (β, ) in enumerate(betas):
     res = odeint(logistic, y0=N0, t=time, args=(α, β))
     res_df = to_df(res, ['population'], α=α, β=β, time=time, simulation_run=idx)
     results.append(res_df)
-results = pd.concat(results)
+results = pd.concat(results, ignore_index=True)
 ```
 
 
 ```python
-sns.lineplot("time", 'population', data=results, hue='β',
+sns.lineplot(x="time", y='population', data=results, hue='β',
              estimator=None, units='simulation_run')
 ```
 
 
 
 
-    <matplotlib.axes._subplots.AxesSubplot at 0x7fae9f70e828>
+    <AxesSubplot:xlabel='time', ylabel='population'>
 
 
 
@@ -253,7 +299,6 @@ sns.lineplot("time", 'population', data=results, hue='β',
 # derivative
 def logistic_bis(state, time, α, β):
     N = state
-    δN = α*N - β*N**2
     δN = α*N*(1-N/β)
     return δN
 ```
@@ -272,19 +317,19 @@ for idx, (α, ) in enumerate(alphas):
     res = odeint(logistic_bis, y0=N0, t=time, args=(α, β))
     res_df = to_df(res, ['population'], α=α, β=β, time=time, simulation_run=idx)
     results.append(res_df)
-results = pd.concat(results)
+results = pd.concat(results, ignore_index=True)
 ```
 
 
 ```python
-sns.lineplot("time", 'population', data=results, hue='α',
+sns.lineplot(x="time", y='population', data=results, hue='α',
              estimator=None, units='simulation_run')
 ```
 
 
 
 
-    <matplotlib.axes._subplots.AxesSubplot at 0x7fae9f6fd208>
+    <AxesSubplot:xlabel='time', ylabel='population'>
 
 
 
@@ -308,19 +353,19 @@ for idx, (β, ) in enumerate(betas):
     res = odeint(logistic_bis, y0=N0, t=time, args=(α, β))
     res_df = to_df(res, ['population'], α=α, β=β, time=time, simulation_run=idx)
     results.append(res_df)
-results = pd.concat(results)
+results = pd.concat(results, ignore_index=True)
 ```
 
 
 ```python
-sns.lineplot("time", 'population', data=results, hue='β',
+sns.lineplot(x="time", y='population', data=results, hue='β',
              estimator=None, units='simulation_run')
 ```
 
 
 
 
-    <matplotlib.axes._subplots.AxesSubplot at 0x7fae9f3f76d8>
+    <AxesSubplot:xlabel='time', ylabel='population'>
 
 
 
@@ -382,7 +427,7 @@ plt.legend()
 
 
 
-    <matplotlib.legend.Legend at 0x7fae9f11c208>
+    <matplotlib.legend.Legend at 0x7fb0255e84c0>
 
 
 
@@ -414,17 +459,17 @@ results = pd.concat(results, ignore_index=True)
 ```python
 alpha = 0.25
 args = dict(data=results, estimator=None, units='simulation_run', alpha=alpha, hue='α', legend=False)
-sns.lineplot("time", 'S', **args)
-sns.lineplot("time", 'I', **args)
-sns.lineplot("time", 'R', **args)
-sns.lineplot("time", 'D', **args)
+sns.lineplot(x="time", y='S', **args)
+sns.lineplot(x="time", y='I', **args)
+sns.lineplot(x="time", y='R', **args)
+sns.lineplot(x="time", y='D', **args)
 
 ```
 
 
 
 
-    <matplotlib.axes._subplots.AxesSubplot at 0x7fae9ed60588>
+    <AxesSubplot:xlabel='time', ylabel='S'>
 
 
 
@@ -471,10 +516,10 @@ results = pd.concat(results, ignore_index=True)
 
 ```python
 fg = sns.FacetGrid(data=results, col='type', height=6)
-fg.map_dataframe(sns.lineplot, "time", 'S', estimator=None, units='simulation_run', alpha=alpha, color='r')
-fg.map_dataframe(sns.lineplot, "time", 'I', estimator=None, units='simulation_run', alpha=alpha, color='b')
-fg.map_dataframe(sns.lineplot, "time", 'R', estimator=None, units='simulation_run', alpha=alpha, color='g')
-fg.map_dataframe(sns.lineplot, "time", 'D', estimator=None, units='simulation_run', alpha=alpha, color='orange')
+fg.map_dataframe(sns.lineplot, x="time", y='S', estimator=None, units='simulation_run', alpha=alpha, color='r')
+fg.map_dataframe(sns.lineplot, x="time", y='I', estimator=None, units='simulation_run', alpha=alpha, color='b')
+fg.map_dataframe(sns.lineplot, x="time", y='R', estimator=None, units='simulation_run', alpha=alpha, color='g')
+fg.map_dataframe(sns.lineplot, x="time", y='D', estimator=None, units='simulation_run', alpha=alpha, color='orange')
 sns.despine(fg.fig, trim=True)
 ```
 
@@ -489,9 +534,9 @@ To have a better understanding, we could also use a subset of the phase space, t
 
 ```python
 fg = sns.FacetGrid(data=results, col='type', height=6)
-fg.map_dataframe(sns.lineplot, "S", 'I', estimator=None, units='simulation_run', alpha=alpha, color='r')
-fg.map_dataframe(sns.lineplot, "S", 'R', estimator=None, units='simulation_run', alpha=alpha, color='b')
-fg.map_dataframe(sns.lineplot, "S", 'D', estimator=None, units='simulation_run', alpha=alpha, color='g')
+fg.map_dataframe(sns.lineplot, x="S", y='I', estimator=None, units='simulation_run', alpha=alpha, color='r')
+fg.map_dataframe(sns.lineplot, x="S", y='R', estimator=None, units='simulation_run', alpha=alpha, color='b')
+fg.map_dataframe(sns.lineplot, x="S", y='D', estimator=None, units='simulation_run', alpha=alpha, color='g')
 sns.despine(fg.fig, trim=True)
 ```
 
@@ -504,9 +549,9 @@ sns.despine(fg.fig, trim=True)
 
 ```python
 fg = sns.FacetGrid(data=results, col='type', height=6)
-fg.map_dataframe(sns.lineplot, "R", 'S', estimator=None, units='simulation_run', alpha=alpha, color='r')
-fg.map_dataframe(sns.lineplot, "R", 'I', estimator=None, units='simulation_run', alpha=alpha, color='g')
-fg.map_dataframe(sns.lineplot, "R", 'D', estimator=None, units='simulation_run', alpha=alpha, color='orange')
+fg.map_dataframe(sns.lineplot, x="R", y='S', estimator=None, units='simulation_run', alpha=alpha, color='r')
+fg.map_dataframe(sns.lineplot, x="R", y='I', estimator=None, units='simulation_run', alpha=alpha, color='g')
+fg.map_dataframe(sns.lineplot, x="R", y='D', estimator=None, units='simulation_run', alpha=alpha, color='orange')
 sns.despine(fg.fig, trim=True)
 ```
 
@@ -550,7 +595,7 @@ plt.legend()
 
 
 
-    <matplotlib.legend.Legend at 0x7faea0627198>
+    <matplotlib.legend.Legend at 0x7fb0241fee50>
 
 
 
@@ -582,7 +627,7 @@ plt.legend()
 
 
 
-    <matplotlib.legend.Legend at 0x7faea2f327f0>
+    <matplotlib.legend.Legend at 0x7fb024beaeb0>
 
 
 
@@ -604,39 +649,39 @@ st.poisson.rvs(res*scale)
 
 
 
-    array([[ 90,   0,   0,   0],
-           [ 93,   0,   0,   0],
-           [ 99,   2,   0,   0],
-           [104,   3,   1,   1],
-           [ 79,  13,   1,   0],
-           [ 63,  40,   6,   1],
-           [ 25,  57,   9,   2],
-           [  7,  69,  27,   4],
-           [  4,  52,  28,   9],
-           [  2,  48,  34,  10],
-           [  0,  36,  62,  15],
-           [  1,  42,  55,  23],
-           [  0,  20,  59,  20],
-           [  0,  15,  53,  13],
-           [  1,  22,  66,  19],
-           [  0,   8,  69,  18],
-           [  0,   8,  92,  21],
-           [  0,   5,  83,  24],
-           [  0,   3,  71,  18],
-           [  0,   5,  65,  23],
-           [  0,   6,  72,  20],
-           [  0,   4,  63,  14],
-           [  0,   6,  58,  17],
-           [  0,   1,  66,  26],
-           [  0,   6,  68,  24],
-           [  0,   2,  78,  33],
-           [  0,   1,  69,  16],
-           [  0,   1,  68,  22],
-           [  0,   1,  83,  15],
-           [  0,   1,  92,  17],
-           [  1,   0,  66,  24],
-           [  0,   0,  88,  23],
-           [  0,   1,  82,  26]])
+    array([[107,   0,   0,   0],
+           [105,   1,   0,   0],
+           [ 84,   3,   0,   0],
+           [ 94,   7,   1,   0],
+           [ 70,  12,   1,   1],
+           [ 56,  38,   6,   2],
+           [ 19,  74,  14,   5],
+           [ 16,  58,  35,  10],
+           [  6,  60,  36,  16],
+           [  4,  35,  38,  10],
+           [  0,  34,  53,  13],
+           [  0,  40,  50,  17],
+           [  0,  23,  46,  18],
+           [  0,  14,  66,  24],
+           [  0,  13,  56,  19],
+           [  0,  14,  71,  22],
+           [  0,  12,  75,  21],
+           [  0,  11,  70,  26],
+           [  0,  14,  80,  23],
+           [  0,   6,  72,  16],
+           [  0,   3,  60,  25],
+           [  0,   1,  78,  22],
+           [  0,   3,  79,  23],
+           [  0,   3,  84,  27],
+           [  0,   3,  86,  21],
+           [  0,   1,  88,  20],
+           [  0,   2,  75,  27],
+           [  0,   1,  69,  24],
+           [  0,   0,  76,  25],
+           [  0,   0,  88,  27],
+           [  0,   0,  74,  22],
+           [  0,   1,  74,  27],
+           [  0,   0,  79,  26]])
 
 
 
@@ -660,7 +705,7 @@ plt.legend()
 
 
 
-    <matplotlib.legend.Legend at 0x7faea34f1c50>
+    <matplotlib.legend.Legend at 0x7fb0252d7c70>
 
 
 
@@ -696,7 +741,7 @@ plt.scatter(x, y)
 
 
 
-    <matplotlib.collections.PathCollection at 0x7faea1307d30>
+    <matplotlib.collections.PathCollection at 0x7fb024ff3640>
 
 
 
@@ -725,7 +770,7 @@ plt.plot(x_base, y_hat)
 
 
 
-    [<matplotlib.lines.Line2D at 0x7fae9e169160>]
+    [<matplotlib.lines.Line2D at 0x7fb0253962b0>]
 
 
 
@@ -783,7 +828,7 @@ p_avg
 
 
 
-    array([2.15866617, 3.2044176 ])
+    array([1.91091925, 3.03603455])
 
 
 
@@ -795,7 +840,7 @@ np.mean(p_seq, axis=0)
 
 
 
-    array([2.15848794, 3.20431769])
+    array([1.91074074, 3.03593915])
 
 
 
@@ -807,8 +852,8 @@ p_cov
 
 
 
-    array([[ 0.02514466, -0.00033348],
-           [-0.00033348,  0.01776468]])
+    array([[ 0.02522263, -0.00292455],
+           [-0.00292455,  0.02322504]])
 
 
 
@@ -820,8 +865,8 @@ np.cov(p_seq.T)
 
 
 
-    array([[0.02511267, 0.00269974],
-           [0.00269974, 0.01767856]])
+    array([[0.02519054, 0.00052724],
+           [0.00052724, 0.02241769]])
 
 
 
@@ -893,7 +938,7 @@ plt.fill_between(x_base, p_low, p_top, alpha=0.1, color='teal')
 
 
 
-    <matplotlib.collections.PolyCollection at 0x7fae9fa2e0b8>
+    <matplotlib.collections.PolyCollection at 0x7fb024f84940>
 
 
 
@@ -924,7 +969,7 @@ plt.plot(time, V)
 
 
 
-    [<matplotlib.lines.Line2D at 0x7fae9f24b8d0>]
+    [<matplotlib.lines.Line2D at 0x7fb0252b34c0>]
 
 
 
@@ -947,7 +992,7 @@ plt.scatter(time, V_obs)
 
 
 
-    <matplotlib.collections.PathCollection at 0x7fae9f63f048>
+    <matplotlib.collections.PathCollection at 0x7fb0250afcd0>
 
 
 
@@ -981,7 +1026,7 @@ p_avg
 
 
 
-    array([0.97175808, 1.04626364])
+    array([1.08524847, 0.92143366])
 
 
 
@@ -993,14 +1038,15 @@ p_cov
 
 
 
-    array([[ 0.00281177, -0.00295355],
-           [-0.00295355,  0.0032701 ]])
+    array([[ 0.00257548, -0.00212151],
+           [-0.00212151,  0.0018538 ]])
 
 
 
 
 ```python
-plt.scatter(xdata, ydata)
+plt.scatter(time, X_obs, color="navy")
+plt.scatter(time, V_obs, color="orange")
 
 mapper = mapper_multivariate_normal(mean=p_avg, cov=p_cov)
 p_seq = a_generate(2, 50, mapper=mapper)
@@ -1017,8 +1063,8 @@ plt.plot(x_base, y_hat, color='r')
 
 
 
-    [<matplotlib.lines.Line2D at 0x7fae9f9ae7f0>,
-     <matplotlib.lines.Line2D at 0x7fae9fa67ac8>]
+    [<matplotlib.lines.Line2D at 0x7fb0240147c0>,
+     <matplotlib.lines.Line2D at 0x7fb0240147f0>]
 
 
 
@@ -1030,7 +1076,10 @@ plt.plot(x_base, y_hat, color='r')
 
 
 ```python
-plt.scatter(xdata, ydata)
+#plt.scatter(xdata, ydata)
+
+plt.scatter(time, X_obs, color="navy")
+plt.scatter(time, V_obs, color="orange")
 
 Nexp = 50
 
@@ -1057,7 +1106,7 @@ plt.fill_between(x_base, p_low_v, p_top_v, alpha=0.5, color='orange')
 
 
 
-    <matplotlib.collections.PolyCollection at 0x7fae9f3a2eb8>
+    <matplotlib.collections.PolyCollection at 0x7fb024a84280>
 
 
 
@@ -1076,12 +1125,12 @@ print(np.cov(p_seq.T))
 print(p_cov)
 ```
 
-    [0.96700595 1.05223848]
-    [0.97175808 1.04626364]
-    [[ 0.00325726 -0.00338544]
-     [-0.00338544  0.00365905]]
-    [[ 0.00281177 -0.00295355]
-     [-0.00295355  0.0032701 ]]
+    [1.08418696 0.92151039]
+    [1.08524847 0.92143366]
+    [[ 0.00217244 -0.00180398]
+     [-0.00180398  0.00157201]]
+    [[ 0.00257548 -0.00212151]
+     [-0.00212151  0.0018538 ]]
 
 
 
@@ -1094,10 +1143,10 @@ print(np.cov(p_seq.T))
 print(p_cov)
 ```
 
-    [0.97169848 1.04631631]
-    [0.97175808 1.04626364]
-    [[ 0.0028082  -0.00285127]
-     [-0.00285127  0.00305911]]
-    [[ 0.00281177 -0.00295355]
-     [-0.00295355  0.0032701 ]]
+    [1.08519143 0.92147273]
+    [1.08524847 0.92143366]
+    [[ 0.00257221 -0.00204374]
+     [-0.00204374  0.00172787]]
+    [[ 0.00257548 -0.00212151]
+     [-0.00212151  0.0018538 ]]
 
