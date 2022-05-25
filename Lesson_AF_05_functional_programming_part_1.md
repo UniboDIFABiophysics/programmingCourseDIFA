@@ -31,7 +31,7 @@ ideally any side effect should only happend at the most external layer of the pr
 To make it clear, functional programming should not be treated as a religious dogma, but more like a guideline.
 
 The more you can align your program with it, the easier it will be to:
-* test (in particula unit testing)
+* test (in particular unit testing)
 * optimize
 * parallelize
 * reason about
@@ -45,7 +45,7 @@ Funcional programming has also some downsides that you have to keep in mind:
 * the lack of side effects can sometimes require convoluted approaches to solve somewhat simple problems, like recursive functions
 * data immutability is not conveniente for big monolithic data structure, where data duplication could lead to serious memory issues (usually one tries to break it down)
 
-in particular the last point is strongly related to the idea of tidy data: if we can represent our data in a tidy fashiob, it's often easier to distribute and avoid unnecessary duplications.
+in particular the last point is strongly related to the idea of tidy data: if we can represent our data in a tidy fashion, it's often easier to distribute and avoid unnecessary duplications.
 
 In the standard library there are 3 modules that focus all the necessary for functional programming applications:
 
@@ -115,7 +115,7 @@ Full disclosure: I explained lambdas just because it's a construct you will find
 
 Personally I **never** use them, and I still have to see a convincing case where using a lambda would be more appropriate than using a fully named function.
 
-Also, most functions that one thinks needs to be implemented as lambdas are usually:
+Also, most functions that one thinks needs to be implemented as lambdas are usually either:
 * better written as a comprehension
 * included in the **operator** standard library module
 * already a method of the class of object you want to work on
@@ -134,6 +134,22 @@ One quirk of the pyhton syntax is the ability to define functions and classes in
 This means that a function can not only have another function as input, but can also output a third function as a result.
 
 we will see two different application of this ability in **partial** functions and **decorated** functions
+
+
+```python
+def factory(name):
+    def internal_function():
+        print(f" hi {name}!")
+    return internal_function
+        
+greeter = factory("everybody")
+print(greeter)
+greeter()
+```
+
+    <function factory.<locals>.internal_function at 0x7f077c439af0>
+     hi everybody!
+
 
 for example the following function takes a base function and return another one that repeats the original one a certain number of times.
 
@@ -220,7 +236,7 @@ For example, one common pattern that is often encountered is:
 
 This operation is very common in programs, and can be abstracted using the `map` function, that takes a function and a list and does exactly that.
 
-`map` is already implemented in ptyhon, but for the sake of teaching, let's implement a simplified version of it
+`map` is already implemented in python, but for the sake of teaching, let's implement a simplified version of it
 
 
 ```python
@@ -596,7 +612,7 @@ print(logger)
     [{'args': (3, 4), 'kwargs': {}, 'result': 7}]
 
 
-on this note, when returning some form of wrapper fucntion it is usually a good idea to make use that the wrapping function returns the same interface as the wrapped one, otherwise it could create some confusion.
+on this note, when returning some form of wrapper fucntion it is usually a good idea to make sure that the wrapping function returns the same interface as the wrapped one, otherwise it could create some confusion.
 
 This can be done using `from functools import wraps`
 
@@ -849,49 +865,189 @@ average(data)
 
 
 
+since python 3.7 the single dispatch functions can be defined by simply using type annotations, without needing to specify the type in the register call.
+
 
 ```python
-def hook_function(hook_name):
-    def decorator(function):
-        @wraps(function)
-        def wrapper(self, *args, **kwargs):
-            if hasattr(self, hook_name):
-                method = getattr(self, hook_name)
-                return method(*args, **kwargs)
-            else:
-                return function(self, *args, **kwargs)
-        return wrapper
-    return decorator
+@singledispatch
+def average(iterable):
+    print("using the generic (and slow) python mean")
+    return mean(iterable)
+
+@average.register
+def _(np_array: np.ndarray):
+    print("using the specific (and very fast) numpy mean")
+    return np_array.mean()
 ```
 
 
 ```python
-import numpy as np
-
-@hook_function("__mean__")
-def log_average(array):
-    return np.mean(np.log(array)) 
-
-log_average([1, 2, 3])
+average([1, 2, 3])
 ```
 
+    using the generic (and slow) python mean
 
 
 
-    0.5972531564093516
+
+
+    2
 
 
 
 
 ```python
+data = np.array([1, 2, 3])
+average(data)
+```
+
+    using the specific (and very fast) numpy mean
+
+
+
+
+
+    2.0
+
+
+
+## method dispatching
+
+python 3.8 introduced also `singledispatchmethod`, that allow to perform single dispatch from methods.
+
+a dedicated function is required to avoid weird interactions with the *bounding* process of method calling
+
+
+```python
+from functools import singledispatchmethod
+from dataclasses import dataclass
+from numbers import Number
+
+@dataclass
+class Container:
+    value: Number
+    
+    @singledispatchmethod
+    def __add__(self, other):
+        return NotImplemented
+    
+    @__add__.register
+    def _(self, other: Number):
+        return self.__class__(self.value+other)
+    
+    # the forward reference does not work on pyhton 3.9!
+    # https://bugs.python.org/issue41987
+    #@__add__.register
+    #def _(self, other: Container):
+    #    return self.__class__(self.value + other.value)
+```
+
+
+```python
+cont = Container(3)
+print(cont)
+print(cont+"1")
+```
+
+    Container(value=3)
+
+
+
+    ---------------------------------------------------------------------------
+
+    TypeError                                 Traceback (most recent call last)
+
+    Input In [28], in <cell line: 3>()
+          1 cont = Container(3)
+          2 print(cont)
+    ----> 3 print(cont+"1")
+
+
+    TypeError: unsupported operand type(s) for +: 'Container' and 'str'
+
+
+
+```python
+cont = Container(3)
+print(cont)
+print(cont+1)
+```
+
+    Container(value=3)
+    Container(value=4)
+
+
+a way to circumvent the current bug with forward referencing, is to use a guard clause in the base function
+
+
+```python
+@dataclass
+class Container:
+    value: Number
+    
+    @singledispatchmethod
+    def __add__(self, other):
+        if isinstance(other, self.__class__):
+            return self.__class__(self.value + other.value)
+        return NotImplemented
+    
+    @__add__.register
+    def _(self, other:Number):
+        return self.__class__(self.value+other)
+
+cont_a = Container(3)
+cont_b = Container(2)
+print(cont_a+cont_b)
+print(cont_a+2)
+```
+
+    Container(value=5)
+    Container(value=5)
+
+
+## Function Hooks
+
+A concept similar to single dispatch is function hooking:
+
+* the function will perform some default operation on the datasets
+* on functions that conform to a specific protocol, it will call the specialized function
+
+we can implement this quite easily in python using the Protocol definition we discussed in the OOP lesson
+
+this is the basic working underneat the `len` function:
+* if the objects defines a `__len__` function, it defers to it
+* otherwise it tries to iterate and count the number of elements
+
+
+```python
+from typing import Protocol, runtime_checkable
+
+@singledispatch
+def average(array):
+    "when not defined, try to use numpy"
+    return np.mean(array)
+
+@runtime_checkable
+class Provide_mean(Protocol):
+    "this is the protocol to identify classes that have a __mean__ function"
+    def __mean__(self) -> Number:
+        pass
+
+@average.register
+def _(instance: Provide_mean):
+    "if the class has a __mean__ function, calls it"
+    return instance.__mean__()
+
 class MyClass:
     def __mean__(self):
-        print("mean of the class called")
+        return "mean of the class called"
         
+print(average([1, 2, 3]))
 pippo = MyClass()
-log_average(pippo)
+print(average(pippo))
 ```
 
+    2.0
     mean of the class called
 
 
@@ -927,11 +1083,15 @@ def apply_pipe(func_serie, obj):
 
 ```python
 from functools import partial
-apply_pipe([str.strip, 
-            float, 
-            partial(round, ndigits=1), 
-            print], 
-           string)
+apply_pipe(
+    [
+        str.strip, 
+        float, 
+        partial(round, ndigits=1), 
+        print
+    ], 
+    string,
+)
 ```
 
     3.1
@@ -941,11 +1101,14 @@ This has the advantage of displaying our intention in a more human-readable form
 
 
 ```python
-print_with_one_digit = partial(apply_pipe, 
-                               [str.strip, 
-                                float, 
-                                partial(round, ndigits=1), 
-                                print])
+print_with_one_digit = partial(
+    apply_pipe, 
+    [
+        str.strip, 
+        float, 
+        partial(round, ndigits=1), 
+        print,
+    ])
 print_with_one_digit(string)
 ```
 
@@ -959,9 +1122,9 @@ if we think that we might need this often, we can again generalize it, by automa
 def create_pipe(func_list):
     return partial(apply_pipe, func_list)
 
-print_with_one_digit = create_pipe([str.strip, float, 
-                                    partial(round, ndigits=1), 
-                                    print])
+print_with_one_digit = create_pipe(
+    [str.strip, float, partial(round, ndigits=1), print]
+)
 print_with_one_digit(string)
 ```
 
