@@ -50,6 +50,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 .highlight .m { color: var(--jp-mirror-editor-number-color) } /* Literal.Number */
 .highlight .s { color: var(--jp-mirror-editor-string-color) } /* Literal.String */
 .highlight .ow { color: var(--jp-mirror-editor-operator-color); font-weight: bold } /* Operator.Word */
+.highlight .pm { color: var(--jp-mirror-editor-punctuation-color) } /* Punctuation.Marker */
 .highlight .w { color: var(--jp-mirror-editor-variable-color) } /* Text.Whitespace */
 .highlight .mb { color: var(--jp-mirror-editor-number-color) } /* Literal.Number.Bin */
 .highlight .mf { color: var(--jp-mirror-editor-number-color) } /* Literal.Number.Float */
@@ -70,6 +71,45 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 .highlight .s1 { color: var(--jp-mirror-editor-string-color) } /* Literal.String.Single */
 .highlight .ss { color: var(--jp-mirror-editor-string-color) } /* Literal.String.Symbol */
 .highlight .il { color: var(--jp-mirror-editor-number-color) } /* Literal.Number.Integer.Long */
+  </style>
+<style type="text/css">
+    /* JupyROOT CSS */
+
+div#ipython_notebook img {
+display:block;
+background: url(root-banner_99x33.jpg) no-repeat;
+width: 99px;
+height: 33px;
+padding-left: 99px;
+-moz-box-sizing: border-box;
+box-sizing: border-box;
+}
+
+span#login_widget {
+padding-left: 2px;
+}
+
+span#kernel_logo_widget img {
+display: block;
+background: url(root-logo-darkblue_33x33.png) no-repeat;
+width: 33px;
+height: 33px;
+padding-left: 33px;
+-moz-box-sizing: border-box;
+box-sizing: border-box;
+}
+
+div#root_banner {
+padding-top: 15px;
+padding-bottom: 10px;
+}
+
+div#root_banner img {
+display: block;
+margin: 0 auto;
+}
+
+
   </style>
 
 
@@ -14495,6 +14535,9 @@ a.anchor-link {
 .reveal {
   font-size: 160%;
 }
+.reveal table {
+  font-size: var(--jp-ui-font-size1);
+}
 .reveal pre {
   width: inherit;
   padding: 0.4em;
@@ -14538,6 +14581,23 @@ div.jp-OutputPrompt {
   margin: 5px 5px 0 0;
 }
 
+.reveal div.highlight {
+  margin: 0;
+}
+
+.reveal div.highlight > pre {
+  margin: 0;
+  width: 100%;
+  font-size: var(--jp-code-font-size);
+}
+
+.reveal div.jp-OutputArea-output > pre {
+  margin: 0;
+  width: 90%;
+  font-size: var(--jp-code-font-size);
+  box-shadow: none;
+}
+
 /* Reveal navigation controls */
 
 .reveal .controls .navigate-left,
@@ -14578,17 +14638,14 @@ div.jp-OutputPrompt {
 
 /* Scrollbars */
 
-::-webkit-scrollbar
-{
+::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
-::-webkit-scrollbar *
-{
-  background:transparent;
+::-webkit-scrollbar * {
+  background: transparent;
 }
-::-webkit-scrollbar-thumb
-{
+::-webkit-scrollbar-thumb {
   background: #727272 !important;
 }
 </style>
@@ -14615,12 +14672,12 @@ div.jp-OutputPrompt {
                 },
                 displayAlign: 'center',
                 CommonHTML: {
-                    linebreaks: { 
-                    automatic: true 
+                    linebreaks: {
+                    automatic: true
                     }
                 }
             });
-        
+
             MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
         }
     }
@@ -14634,7 +14691,7 @@ div.jp-OutputPrompt {
 <body class="jp-Notebook" data-jp-theme-light="true" data-jp-theme-name="JupyterLab Light">
 
 <div class="reveal">
-<div class="slides"><section><section>
+<div class="slides"><section ><section >
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -14644,14 +14701,14 @@ div.jp-OutputPrompt {
 <h2 id="programming-and-coding">programming and coding<a class="anchor-link" href="#programming-and-coding">&#182;</a></h2><p>This two concept are often mixed up.
 We could use this two informal descriptions:</p>
 <p><strong>Programming</strong> is about thinking how to formalize a certain sequence of operation.</p>
-<p><strong>Coding</strong> is writing a computer program that actually perfom the operations we have in mind.</p>
+<p><strong>Coding</strong> is writing a computer program that actually perform the operations we have in mind.</p>
 <p>While <strong>coding</strong> is strictly related to a specific programming language, but most of the <strong>programming</strong> skills are identical among different languages.</p>
-<p>As a matter of fact, one does not even need a computer to be able to "program"</p>
+<p>As a matter of fact, one does not even need a computer to be able to &quot;program&quot;</p>
 
 </div>
 </div>
 </div>
-</div></section></section><section><section>
+</div></section></section><section ><section >
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -14663,7 +14720,7 @@ We could use this two informal descriptions:</p>
 </div>
 </div>
 </div>
-</div><div class="fragment">
+</div><div class="fragment" >
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -14671,7 +14728,7 @@ We could use this two informal descriptions:</p>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h3 id="pointers">pointers<a class="anchor-link" href="#pointers">&#182;</a></h3><ul>
-<li>are you describing a moka or a capsule machines?</li>
+<li>are you describing a moka or a capsule machine?</li>
 <li>how expert is the other person?</li>
 <li>is the coffee already available?</li>
 </ul>
@@ -14679,7 +14736,7 @@ We could use this two informal descriptions:</p>
 </div>
 </div>
 </div>
-</div></div></section></section><section><section>
+</div></div></section></section><section ><section >
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -14698,24 +14755,25 @@ We could use this two informal descriptions:</p>
 </div>
 </div>
 </div>
-</div></section></section><section><section>
+</div></section></section><section ><section >
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>We will discuss these ideas (all all that follows) using python.</p>
+<p>We will discuss these ideas (and all that follows) using python.</p>
 <p>Python was <strong>not</strong> chosen because it's <strong>the best language</strong>.
-It's a solid all rounder, that will allow you to experiment with ease in a lot of different facets of programming.</p>
-<blockquote><p>Python is not the best language at anything, but it's the second best for most things
-(<em>someone on twitter</em>)</p>
+It's a solid all-rounder, that will allow you to experiment with ease in a lot of different facets of programming.</p>
+<blockquote>
+<p>Python is not the best language at anything, but it's the second best for most things</p>
 </blockquote>
+<p>(<em>someone on Twitter</em>)</p>
 
 </div>
 </div>
 </div>
-</div></section></section><section><section>
+</div></section></section><section ><section >
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -14730,7 +14788,7 @@ It's a solid all rounder, that will allow you to experiment with ease in a lot o
 </div>
 </div>
 </div>
-</div></section></section><section><section>
+</div></section></section><section ><section >
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -14744,7 +14802,7 @@ It's a solid all rounder, that will allow you to experiment with ease in a lot o
 </div>
 </div>
 </div>
-</div></section></section><section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div></section></section><section ><section ><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -14768,9 +14826,7 @@ It's a solid all rounder, that will allow you to experiment with ease in a lot o
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
 <div class="jp-OutputArea-child">
-
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 
@@ -14785,21 +14841,21 @@ It's a solid all rounder, that will allow you to experiment with ease in a lot o
 
 </div>
 
-</div><div class="fragment">
+</div><div class="fragment" >
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h4 id="notes:">notes:<a class="anchor-link" href="#notes:">&#182;</a></h4><p>we did not need to declare the existance of variables <strong>a</strong> and <strong>b</strong> beforehand</p>
+<h4 id="notes:">notes:<a class="anchor-link" href="#notes:">&#182;</a></h4><p>we did not need to declare the existence of variables <strong>a</strong> and <strong>b</strong> beforehand</p>
 <p>we did not need to declare their type beforehand</p>
 <p>Python handles complex number naturally (not important, but nice)</p>
 
 </div>
 </div>
 </div>
-</div></div></section></section><section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div></div></section></section><section ><section ><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -14823,9 +14879,7 @@ It's a solid all rounder, that will allow you to experiment with ease in a lot o
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
 <div class="jp-OutputArea-child">
-
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 
@@ -14847,7 +14901,7 @@ It's a solid all rounder, that will allow you to experiment with ease in a lot o
 
 </div>
 
-</div><div class="fragment">
+</div><div class="fragment" >
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -14864,7 +14918,7 @@ Really.</p>
 </div>
 </div>
 </div>
-</div></div></section></section><section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div></div></section></section><section ><section ><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -14886,9 +14940,7 @@ Really.</p>
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
 <div class="jp-OutputArea-child">
-
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 
@@ -14923,7 +14975,7 @@ Namespaces are one honking great idea -- let&#39;s do more of those!
 
 </div>
 
-</div></section></section><section><section>
+</div></section></section><section ><section >
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -14935,7 +14987,7 @@ Namespaces are one honking great idea -- let&#39;s do more of those!
 </div>
 </div>
 </div>
-</div></section></section><section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div></section></section><section ><section ><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -14961,9 +15013,7 @@ Namespaces are one honking great idea -- let&#39;s do more of those!
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
 <div class="jp-OutputArea-child">
-
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 
@@ -14978,7 +15028,7 @@ Namespaces are one honking great idea -- let&#39;s do more of those!
 
 </div>
 
-</div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div><div class="fragment" ><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15001,9 +15051,7 @@ Namespaces are one honking great idea -- let&#39;s do more of those!
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
 <div class="jp-OutputArea-child">
-
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 
@@ -15018,7 +15066,7 @@ Namespaces are one honking great idea -- let&#39;s do more of those!
 
 </div>
 
-</div></div><div class="fragment">
+</div></div><div class="fragment" >
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -15033,7 +15081,7 @@ what is indented after the <strong>if</strong> and the <strong>else</strong> is 
 </div>
 </div>
 </div>
-</div></div></section></section><section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div></div></section></section><section ><section ><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15061,9 +15109,7 @@ what is indented after the <strong>if</strong> and the <strong>else</strong> is 
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
 <div class="jp-OutputArea-child">
-
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 
@@ -15078,7 +15124,7 @@ what is indented after the <strong>if</strong> and the <strong>else</strong> is 
 
 </div>
 
-</div></section></section><section><section>
+</div></section></section><section ><section >
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -15087,16 +15133,16 @@ what is indented after the <strong>if</strong> and the <strong>else</strong> is 
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h3 id="functions-and-routines">functions and routines<a class="anchor-link" href="#functions-and-routines">&#182;</a></h3><p>From the language perspective of python they are the same thing, but from a conceptual perspective, they are very different.</p>
 <ul>
-<li>routines do something to the system, and usually don't return anything interesting (like printing). </li>
+<li>routines do something to the system, and usually don't return anything interesting (like printing).</li>
 <li>functions create new objects from the inputs, but don't modify the input themselves</li>
 </ul>
 <p>they are both referred as functions, and can do both, but try to know which is which and plan accordingly.</p>
-<p>And try to avoid to mix the two.</p>
+<p>And try to avoid mixing the two.</p>
 
 </div>
 </div>
 </div>
-</div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div><div class="fragment" ><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15122,9 +15168,7 @@ what is indented after the <strong>if</strong> and the <strong>else</strong> is 
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[5]:</div>
 
@@ -15141,21 +15185,21 @@ what is indented after the <strong>if</strong> and the <strong>else</strong> is 
 
 </div>
 
-</div></div></section></section><section><section>
+</div></div></section></section><section ><section >
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>An inportant concept related to functions is the concept of <strong>scoping</strong>.</p>
+<p>An important concept related to functions is the concept of <strong>scoping</strong>.</p>
 <p>When we execute a function we can use variables that are <em>reserved to the function</em>.</p>
-<p>This allow to write simpler code.</p>
+<p>This allows to write simpler code.</p>
 
 </div>
 </div>
 </div>
-</div></section></section><section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div></section></section><section ><section ><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15185,9 +15229,7 @@ what is indented after the <strong>if</strong> and the <strong>else</strong> is 
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
 <div class="jp-OutputArea-child">
-
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 
@@ -15224,9 +15266,7 @@ what is indented after the <strong>if</strong> and the <strong>else</strong> is 
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
 <div class="jp-OutputArea-child">
-
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 
@@ -15241,7 +15281,7 @@ what is indented after the <strong>if</strong> and the <strong>else</strong> is 
 
 </div>
 
-</div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div><div class="fragment" ><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15263,9 +15303,7 @@ what is indented after the <strong>if</strong> and the <strong>else</strong> is 
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
 <div class="jp-OutputArea-child">
-
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 
@@ -15285,7 +15323,7 @@ what is indented after the <strong>if</strong> and the <strong>else</strong> is 
 
 </div>
 
-</div></div></section></section><section><section>
+</div></div></section></section><section ><section >
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -15299,7 +15337,7 @@ what is indented after the <strong>if</strong> and the <strong>else</strong> is 
 </div>
 </div>
 </div>
-</div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div><div class="fragment" ><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15322,9 +15360,7 @@ what is indented after the <strong>if</strong> and the <strong>else</strong> is 
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[9]:</div>
 
@@ -15341,7 +15377,7 @@ what is indented after the <strong>if</strong> and the <strong>else</strong> is 
 
 </div>
 
-</div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div></div><div class="fragment" ><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15364,9 +15400,7 @@ what is indented after the <strong>if</strong> and the <strong>else</strong> is 
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[10]:</div>
 
@@ -15383,7 +15417,7 @@ what is indented after the <strong>if</strong> and the <strong>else</strong> is 
 
 </div>
 
-</div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div></div><div class="fragment" ><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15406,9 +15440,7 @@ what is indented after the <strong>if</strong> and the <strong>else</strong> is 
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[11]:</div>
 
@@ -15425,7 +15457,7 @@ what is indented after the <strong>if</strong> and the <strong>else</strong> is 
 
 </div>
 
-</div></div></section></section><section><section>
+</div></div></section></section><section ><section >
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -15433,7 +15465,6 @@ what is indented after the <strong>if</strong> and the <strong>else</strong> is 
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <p>there is another way of importing functions from libraries:</p>
-
 <pre><code>from math import *
 
 </code></pre>
@@ -15444,7 +15475,7 @@ what is indented after the <strong>if</strong> and the <strong>else</strong> is 
 </div>
 </div>
 </div>
-</div></section></section><section><section>
+</div></section></section><section ><section >
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -15454,15 +15485,15 @@ what is indented after the <strong>if</strong> and the <strong>else</strong> is 
 <p>the most commonly imported libraries are usually imported with standard shorter names, and you will see most code using these conventions.
 Don't stray from conventions unless you need why you are doing it.</p>
 <p>in scientific code, the most common ones are:</p>
-
 <pre><code>import numpy as np
 import pandas as pd
-import pylab as plt</code></pre>
+import pylab as plt
+</code></pre>
 
 </div>
 </div>
 </div>
-</div></section></section><section><section>
+</div></section></section><section ><section >
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -15483,7 +15514,7 @@ Sometime even if you are going to do it once!</p>
 </div>
 </div>
 </div>
-</div></section></section><section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div></section></section><section ><section ><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15514,9 +15545,7 @@ Sometime even if you are going to do it once!</p>
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[15]:</div>
 
@@ -15533,7 +15562,7 @@ Sometime even if you are going to do it once!</p>
 
 </div>
 
-</div><div class="fragment">
+</div><div class="fragment" >
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -15545,7 +15574,7 @@ Sometime even if you are going to do it once!</p>
 </div>
 </div>
 </div>
-</div></div></section></section><section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div></div></section></section><section ><section ><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15554,7 +15583,7 @@ Sometime even if you are going to do it once!</p>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">interquantile_asymmetry</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;calculate the asymmetry between min, max and median&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;calculate the asymmetry between min, max and median&quot;&quot;&quot;</span>
     <span class="n">x_med</span> <span class="o">=</span> <span class="n">statistics</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
     <span class="n">x_min</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
     <span class="n">x_max</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
@@ -15577,9 +15606,7 @@ Sometime even if you are going to do it once!</p>
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[19]:</div>
 
@@ -15596,20 +15623,20 @@ Sometime even if you are going to do it once!</p>
 
 </div>
 
-</div></section></section><section><section>
+</div></section></section><section ><section >
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="iterations">iterations<a class="anchor-link" href="#iterations">&#182;</a></h3><p>Repeating an operation over and over, tipically with a different input each time, or with an exit condition.</p>
+<h3 id="iterations">iterations<a class="anchor-link" href="#iterations">&#182;</a></h3><p>Repeating an operation over and over, typically with a different input each time, or with an exit condition.</p>
 <p>Typically they underpin the usage of words like: <code>while</code>, <code>for</code>/<code>for each</code>, <code>until</code>.</p>
 
 </div>
 </div>
 </div>
-</div></section></section><section><section>
+</div></section></section><section ><section >
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -15618,16 +15645,16 @@ Sometime even if you are going to do it once!</p>
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <p>There are two main approaches to iteration: <strong>bounded</strong> and <strong>unbounded</strong>.</p>
 <p>In the <strong>bounded</strong> kind of iteration, the program have an idea on how many iteration cycles it will need.
-It usually correspond to saying: <em>for every one of these objects, do this</em>.</p>
+It usually corresponds to saying: <em>for every one of these objects, do this</em>.</p>
 <p>The <strong>unbounded</strong> iterations are more related to exploration.
-The program have no idea beforehand on how many steps might be necessary.
-It usually correspond to saying: <em>to this thing until something happens</em></p>
-<p><strong>Unbounded</strong> iterations usually requires some form of internal state that is used to perform decision to continue based on what has been seen previously.</p>
+The program has no idea beforehand on how many steps might be necessary.
+It usually corresponds to saying: <em>to this thing until something happens</em></p>
+<p><strong>Unbounded</strong> iterations usually require some form of internal state that is used to perform decision to continue based on what has been seen previously.</p>
 
 </div>
 </div>
 </div>
-</div></section></section><section><section>
+</div></section></section><section ><section >
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -15637,7 +15664,7 @@ It usually correspond to saying: <em>to this thing until something happens</em><
 <p>In python, bounded iterations are represented with a <code>for</code>, while unbuonded with a <code>while</code>.</p>
 <p>It is important to notice that:</p>
 <ul>
-<li>These are not clear cut distinctions, and sometimes things can get murky</li>
+<li>These are not clear-cut distinctions, and sometimes things can get murky</li>
 <li><strong>bounded</strong> does not mean finite</li>
 <li>the bounds might be known to the program but not to you</li>
 <li>Python often transforms unbounded loops in bounded ones under the hood</li>
@@ -15646,7 +15673,7 @@ It usually correspond to saying: <em>to this thing until something happens</em><
 </div>
 </div>
 </div>
-</div></section></section><section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div></section></section><section ><section ><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15670,9 +15697,7 @@ It usually correspond to saying: <em>to this thing until something happens</em><
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
 <div class="jp-OutputArea-child">
-
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 
@@ -15689,7 +15714,7 @@ The year is 2012
 
 </div>
 
-</div></section></section><section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div></section></section><section ><section ><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15717,9 +15742,7 @@ The year is 2012
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
 <div class="jp-OutputArea-child">
-
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 
@@ -15742,7 +15765,7 @@ position= 2
 
 </div>
 
-</div></section></section><section><section>
+</div></section></section><section ><section >
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -15756,7 +15779,7 @@ position= 2
 </div>
 </div>
 </div>
-</div></section></section><section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div></section></section><section ><section ><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15787,9 +15810,7 @@ position= 2
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
 <div class="jp-OutputArea-child">
-
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 
@@ -15810,7 +15831,7 @@ position= 2
 
 </div>
 
-</div></section></section><section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div></section></section><section ><section ><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15838,9 +15859,7 @@ position= 2
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
 <div class="jp-OutputArea-child">
-
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 
@@ -15858,14 +15877,14 @@ position= 2
 
 </div>
 
-</div></section></section><section><section>
+</div></section></section><section ><section >
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="data-structures">data structures<a class="anchor-link" href="#data-structures">&#182;</a></h2><p>This are containers that holds the informations, and make more or less easy to retrieve and manipulate this information.</p>
+<h2 id="data-structures">data structures<a class="anchor-link" href="#data-structures">&#182;</a></h2><p>These are containers that holds the informations, and make more or less easy to retrieve and manipulate this information.</p>
 <p>Programming can be described as creating and modifying data structures with the previous concept until the desired result is obtained.</p>
 <p>There are a great number of data structures, and more get introduced in a language by libraries.</p>
 <p>I will use the python names for these concepts, but they can be found one way or another in basically all programming languages.</p>
@@ -15873,7 +15892,7 @@ position= 2
 </div>
 </div>
 </div>
-</div></section></section><section><section>
+</div></section></section><section ><section >
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -15894,7 +15913,7 @@ position= 2
 </div>
 </div>
 </div>
-</div></section></section><section><section>
+</div></section></section><section ><section >
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -15905,37 +15924,37 @@ position= 2
 </div>
 </div>
 </div>
-</div></section></section><section><section>
+</div></section></section><section ><section >
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="Strings">Strings<a class="anchor-link" href="#Strings">&#182;</a></h3><p>They contains text, and allows for some (relatively)
+<h3 id="Strings">Strings<a class="anchor-link" href="#Strings">&#182;</a></h3><p>They contain text, and allows for some (relatively)
 complex manipulation of it.</p>
 <p>strings can be enclosed in single quotes, double quotes, 
 triple single and triple double.</p>
-
-<pre><code>"text to be used"
+<pre><code>&quot;text to be used&quot;
 'text to be used'
 '''text to be used'''
-"""text to be used"""
+&quot;&quot;&quot;text to be used&quot;&quot;&quot;
 
 </code></pre>
 <p>single or double quotes are identical,
 just chose the one you like the most.</p>
 <p>triple quotes (both single and double) 
 can span several lines</p>
-
-<pre><code>"""this string starts here
+<pre><code>&quot;&quot;&quot;this string starts here
 keeps going
-and ends here"""</code></pre>
+and ends here&quot;&quot;&quot;
+
+</code></pre>
 
 </div>
 </div>
 </div>
-</div></section></section><section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div></section></section><section ><section ><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15959,9 +15978,7 @@ and ends here"""</code></pre>
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[29]:</div>
 
@@ -15978,7 +15995,7 @@ and ends here"""</code></pre>
 
 </div>
 
-</div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div><div class="fragment" ><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -16000,9 +16017,7 @@ and ends here"""</code></pre>
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[30]:</div>
 
@@ -16019,7 +16034,7 @@ and ends here"""</code></pre>
 
 </div>
 
-</div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div></div><div class="fragment" ><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -16041,9 +16056,7 @@ and ends here"""</code></pre>
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[31]:</div>
 
@@ -16060,7 +16073,7 @@ and ends here"""</code></pre>
 
 </div>
 
-</div></div></section></section><section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div></div></section></section><section ><section ><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -16082,9 +16095,7 @@ and ends here"""</code></pre>
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[32]:</div>
 
@@ -16101,7 +16112,7 @@ and ends here"""</code></pre>
 
 </div>
 
-</div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div><div class="fragment" ><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -16123,9 +16134,7 @@ and ends here"""</code></pre>
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[33]:</div>
 
@@ -16142,7 +16151,7 @@ and ends here"""</code></pre>
 
 </div>
 
-</div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div></div><div class="fragment" ><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -16164,9 +16173,7 @@ and ends here"""</code></pre>
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[34]:</div>
 
@@ -16183,7 +16190,7 @@ and ends here"""</code></pre>
 
 </div>
 
-</div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div></div><div class="fragment" ><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -16205,9 +16212,7 @@ and ends here"""</code></pre>
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[36]:</div>
 
@@ -16224,7 +16229,7 @@ and ends here"""</code></pre>
 
 </div>
 
-</div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div></div><div class="fragment" ><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -16247,9 +16252,7 @@ and ends here"""</code></pre>
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[109]:</div>
 
@@ -16266,7 +16269,7 @@ and ends here"""</code></pre>
 
 </div>
 
-</div></div></section></section><section><section>
+</div></div></section></section><section ><section >
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -16283,7 +16286,7 @@ and ends here"""</code></pre>
 </div>
 </div>
 </div>
-</div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div><div class="fragment" ><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -16305,9 +16308,7 @@ and ends here"""</code></pre>
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
 <div class="jp-OutputArea-child">
-
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 
@@ -16322,7 +16323,7 @@ and ends here"""</code></pre>
 
 </div>
 
-</div></div></section></section><section><section>
+</div></div></section></section><section ><section >
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -16334,7 +16335,7 @@ and ends here"""</code></pre>
 </div>
 </div>
 </div>
-</div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div><div class="fragment" ><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -16357,9 +16358,7 @@ and ends here"""</code></pre>
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
 <div class="jp-OutputArea-child">
-
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 
@@ -16375,7 +16374,7 @@ and ends here"""</code></pre>
 
 </div>
 
-</div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div></div><div class="fragment" ><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -16397,9 +16396,7 @@ and ends here"""</code></pre>
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
 <div class="jp-OutputArea-child">
-
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 
@@ -16414,21 +16411,21 @@ and ends here"""</code></pre>
 
 </div>
 
-</div></div></section></section><section><section>
+</div></div></section></section><section ><section >
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="Indexing-of-objects">Indexing of objects<a class="anchor-link" href="#Indexing-of-objects">&#182;</a></h3><p>Several object in python allow to extract subsequences by using the indexing operator <code>[]</code>.</p>
+<h3 id="Indexing-of-objects">Indexing of objects<a class="anchor-link" href="#Indexing-of-objects">&#182;</a></h3><p>Several objects in python allow extracting subsequences by using the indexing operator <code>[]</code>.</p>
 <p>Each object specify how it reacts to the specific index you pass it.</p>
 <p>Strings, lists and most other iterable objects use 0-based indexing</p>
 
 </div>
 </div>
 </div>
-</div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div><div class="fragment" ><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -16451,9 +16448,7 @@ and ends here"""</code></pre>
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[56]:</div>
 
@@ -16470,7 +16465,7 @@ and ends here"""</code></pre>
 
 </div>
 
-</div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div></div><div class="fragment" ><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -16492,9 +16487,7 @@ and ends here"""</code></pre>
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[57]:</div>
 
@@ -16511,7 +16504,7 @@ and ends here"""</code></pre>
 
 </div>
 
-</div></div></section></section><section><section>
+</div></div></section></section><section ><section >
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -16524,7 +16517,7 @@ and ends here"""</code></pre>
 </div>
 </div>
 </div>
-</div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div><div class="fragment" ><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -16546,9 +16539,7 @@ and ends here"""</code></pre>
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[58]:</div>
 
@@ -16565,7 +16556,7 @@ and ends here"""</code></pre>
 
 </div>
 
-</div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div></div><div class="fragment" ><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -16587,9 +16578,7 @@ and ends here"""</code></pre>
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[59]:</div>
 
@@ -16606,7 +16595,7 @@ and ends here"""</code></pre>
 
 </div>
 
-</div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div></div><div class="fragment" ><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -16628,9 +16617,7 @@ and ends here"""</code></pre>
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[60]:</div>
 
@@ -16647,7 +16634,7 @@ and ends here"""</code></pre>
 
 </div>
 
-</div></div></section></section><section><section>
+</div></div></section></section><section ><section >
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -16659,7 +16646,7 @@ and ends here"""</code></pre>
 </div>
 </div>
 </div>
-</div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div><div class="fragment" ><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -16681,9 +16668,7 @@ and ends here"""</code></pre>
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[61]:</div>
 
@@ -16700,7 +16685,7 @@ and ends here"""</code></pre>
 
 </div>
 
-</div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div></div><div class="fragment" ><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -16722,9 +16707,7 @@ and ends here"""</code></pre>
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[62]:</div>
 
@@ -16741,7 +16724,7 @@ and ends here"""</code></pre>
 
 </div>
 
-</div></div></section></section><section><section>
+</div></div></section></section><section ><section >
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -16753,24 +16736,21 @@ and ends here"""</code></pre>
 </div>
 </div>
 </div>
-</div><div class="fragment">
+</div><div class="fragment" >
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-
 <pre><code>[1, 2, 3]
 
 </code></pre>
 <p>is a list of integer numbers</p>
-
 <pre><code>['hello', 'world']
 
 </code></pre>
 <p>is a list of strings</p>
-
 <pre><code>['hello', 1, 'world']
 
 </code></pre>
@@ -16779,7 +16759,7 @@ and ends here"""</code></pre>
 </div>
 </div>
 </div>
-</div></div></section></section><section><section>
+</div></div></section></section><section ><section >
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -16792,20 +16772,20 @@ and ends here"""</code></pre>
 </div>
 </div>
 </div>
-</div><div class="fragment">
+</div><div class="fragment" >
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>The tipical usage is to store object on which you want to perform some specific operation.</p>
+<p>The typical usage is to store object on which you want to perform some specific operation.</p>
 <p>Therefore, the only restriction is that this operation is allowed on the data contained.</p>
 
 </div>
 </div>
 </div>
-</div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div></div><div class="fragment" ><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -16830,9 +16810,7 @@ and ends here"""</code></pre>
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
 <div class="jp-OutputArea-child">
-
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 
@@ -16849,7 +16827,7 @@ worldworld
 
 </div>
 
-</div></div></section></section><section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div></div></section></section><section ><section ><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -16872,9 +16850,7 @@ worldworld
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[13]:</div>
 
@@ -16891,22 +16867,22 @@ worldworld
 
 </div>
 
-</div></section></section><section><section>
+</div></section></section><section ><section >
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="Tuples">Tuples<a class="anchor-link" href="#Tuples">&#182;</a></h3><p>They store heterogenous data, where the order is relevant.</p>
+<h3 id="Tuples">Tuples<a class="anchor-link" href="#Tuples">&#182;</a></h3><p>They store heterogeneous data, where the order is relevant.</p>
 <p>Sometimes you will see them referred as <strong>immutable lists</strong>.
-This is an unproper use.</p>
+This is an improper use.</p>
 <p>A common use is to pack together multiple return values from a function.</p>
 
 </div>
 </div>
 </div>
-</div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+</div><div class="fragment" ><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -16922,7 +16898,7 @@ This is an unproper use.</p>
 </div>
 </div>
 
-</div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div></div><div class="fragment" ><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -16944,9 +16920,7 @@ This is an unproper use.</p>
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[17]:</div>
 
@@ -16963,19 +16937,19 @@ This is an unproper use.</p>
 
 </div>
 
-</div></div></section></section><section><section>
+</div></div></section></section><section ><section >
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>They are tipically used to return several values at the same time from a function</p>
+<p>They are typically used to return several values at the same time from a function</p>
 
 </div>
 </div>
 </div>
-</div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div><div class="fragment" ><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -17004,9 +16978,7 @@ This is an unproper use.</p>
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
 <div class="jp-OutputArea-child">
-
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 
@@ -17021,7 +16993,7 @@ This is an unproper use.</p>
 
 </div>
 
-</div></div></section></section><section><section>
+</div></div></section></section><section ><section >
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -17029,12 +17001,12 @@ This is an unproper use.</p>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <p>Their greatest limitation is the limited expressivity: each position have a meaning, but there nothing directly expressing that meaning.</p>
-<p>to correct this, newer versions of python introducted <strong>namedtuples</strong> in the mix, where the meanings are explicitely referenced by names.</p>
+<p>to correct this, newer versions of python introduced <strong>namedtuples</strong> in the mix, where the meanings are explicitly referenced by names.</p>
 
 </div>
 </div>
 </div>
-</div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div><div class="fragment" ><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -17063,9 +17035,7 @@ This is an unproper use.</p>
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
 <div class="jp-OutputArea-child">
-
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 
@@ -17082,7 +17052,7 @@ This is an unproper use.</p>
 
 </div>
 
-</div></div></section></section><section><section>
+</div></div></section></section><section ><section >
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -17090,12 +17060,12 @@ This is an unproper use.</p>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <p>Even more information can be packed in using the <strong>NamedTuple</strong> factory from the typing module, from python 3.6 onward.</p>
-<p>This allow to include a class description and informations about the fields expected type (but do not enforce them)</p>
+<p>This allows to include a class description and informations about the fields expected type (but do not enforce them)</p>
 
 </div>
 </div>
 </div>
-</div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div><div class="fragment" ><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -17125,9 +17095,7 @@ This is an unproper use.</p>
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
 <div class="jp-OutputArea-child">
-
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 
@@ -17142,7 +17110,7 @@ This is an unproper use.</p>
 
 </div>
 
-</div></div></section></section><section><section>
+</div></div></section></section><section ><section >
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -17150,7 +17118,7 @@ This is an unproper use.</p>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h3 id="Dictionaries-(maps)">Dictionaries (maps)<a class="anchor-link" href="#Dictionaries-(maps)">&#182;</a></h3><p>dictionaries encodes relationships between two different groups of values.</p>
-<p>it could also be seens a a list indexed by names instead of by position.</p>
+<p>it could also be seen as a list indexed by names instead of by position.</p>
 <p>these pairs are usually referred as <strong>keys</strong> and <strong>values</strong>.</p>
 <p><strong>values</strong> can be any arbitrary python objects.</p>
 <p><strong>keys</strong> must be hashable objects, such as strings, numbers, booleans, tuples (if all the elements as hashable)</p>
@@ -17158,7 +17126,7 @@ This is an unproper use.</p>
 </div>
 </div>
 </div>
-</div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+</div><div class="fragment" ><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -17176,7 +17144,7 @@ This is an unproper use.</p>
 </div>
 </div>
 
-</div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div></div><div class="fragment" ><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -17198,9 +17166,7 @@ This is an unproper use.</p>
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[80]:</div>
 
@@ -17217,7 +17183,7 @@ This is an unproper use.</p>
 
 </div>
 
-</div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div></div><div class="fragment" ><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -17239,9 +17205,7 @@ This is an unproper use.</p>
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[81]:</div>
 
@@ -17258,7 +17222,7 @@ This is an unproper use.</p>
 
 </div>
 
-</div></div></section></section><section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div></div></section></section><section ><section ><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -17281,9 +17245,7 @@ This is an unproper use.</p>
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
 <div class="jp-OutputArea-child">
-
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 
@@ -17299,7 +17261,7 @@ Claudia d08
 
 </div>
 
-</div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div><div class="fragment" ><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -17321,9 +17283,7 @@ Claudia d08
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[22]:</div>
 
@@ -17340,7 +17300,7 @@ Claudia d08
 
 </div>
 
-</div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div></div><div class="fragment" ><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -17362,9 +17322,7 @@ Claudia d08
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[23]:</div>
 
@@ -17381,7 +17339,7 @@ Claudia d08
 
 </div>
 
-</div></div></section></section><section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div></div></section></section><section ><section ><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -17408,9 +17366,7 @@ Claudia d08
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[24]:</div>
 
@@ -17427,7 +17383,7 @@ Claudia d08
 
 </div>
 
-</div></section></section><section><section>
+</div></section></section><section ><section >
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -17435,12 +17391,12 @@ Claudia d08
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h3 id="Objects">Objects<a class="anchor-link" href="#Objects">&#182;</a></h3><p>they store data and provide a layer to interact with these data.</p>
-<p>We will <strong>not</strong> get into object oriented programming right now.</p>
+<p>We will <strong>not</strong> get into object-oriented programming right now.</p>
 
 </div>
 </div>
 </div>
-</div></section></section><section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div></section></section><section ><section ><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -17475,9 +17431,7 @@ Claudia d08
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[85]:</div>
 
@@ -17494,7 +17448,7 @@ Claudia d08
 
 </div>
 
-</div></section></section><section><section>
+</div></section></section><section ><section >
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -17506,7 +17460,7 @@ Claudia d08
 </div>
 </div>
 </div>
-</div></section></section><section><section>
+</div></section></section><section ><section >
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -17514,26 +17468,23 @@ Claudia d08
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h4 id="ipython-special-pre-commands">ipython special pre-commands<a class="anchor-link" href="#ipython-special-pre-commands">&#182;</a></h4><ul>
-<li><code>%&lt;magic function&gt;</code> use magic functions</li>
-<li><code>%%&lt;cell magic&gt;</code> use cell magic mode</li>
-<li><code>!&lt;function&gt;</code> call system programs (non interactive)</li>
-<li><code>/&lt;function&gt;</code> activate autocalling</li>
+<li><p><code>%&lt;magic function&gt;</code> use magic functions</p>
+</li>
+<li><p><code>%%&lt;cell magic&gt;</code> use cell magic mode</p>
+</li>
+<li><p><code>!&lt;function&gt;</code> call system programs (non-interactive)</p>
+</li>
+<li><p><code>/&lt;function&gt;</code> activate autocalling</p>
+<p>/print &quot;a&quot;</p>
+</li>
+<li><p><code>,&lt;function&gt;</code> (comma) activate autocalling and autoquoting (divide by whitespace)</p>
+</li>
+<li><p><code>;&lt;function&gt;</code> (comma) activate autocalling and autoquoting (ignore whitespaces)</p>
+<p>,my_function a b c    # becomes my_function(&quot;a&quot;,&quot;b&quot;,&quot;c&quot;)
+  ;my_function a b c    # becomes my_function(&quot;a b c&quot;)</p>
+</li>
 </ul>
-
-<pre><code>/print "a"
-
-
-</code></pre>
-<ul>
-<li><code>,&lt;function&gt;</code> (comma) activate autocalling and autoquoting (divide by whitespace)</li>
-<li><code>;&lt;function&gt;</code> (comma) activate autocalling and autoquoting (ignore whitespaces)</li>
-</ul>
-
-<pre><code>,my_function a b c    # becomes my_function("a","b","c")
-;my_function a b c    # becomes my_function("a b c")
-
-</code></pre>
-<p>all of thse should be used as the first letter, the only exception being <code>!</code>, that can follow the <code>=</code> assignment</p>
+<p>all of these should be used as the first letter, the only exception being <code>!</code>, that can follow the <code>=</code> assignment</p>
 <ul>
 <li><code>?</code> general help</li>
 <li><code>&lt;object&gt;?</code> help of an object</li>
@@ -17543,7 +17494,7 @@ Claudia d08
 </div>
 </div>
 </div>
-</div></section></section><section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div></section></section><section ><section ><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -17565,9 +17516,7 @@ Claudia d08
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
 <div class="jp-OutputArea-child">
-
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 
@@ -17608,7 +17557,7 @@ x                int                           3
 
 </div>
 
-</div></section></section><section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div></section></section><section ><section ><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -17630,9 +17579,7 @@ x                int                           3
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
 <div class="jp-OutputArea-child">
-
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 
@@ -17650,7 +17597,7 @@ text       list    n=11
 
 </div>
 
-</div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div><div class="fragment" ><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -17672,9 +17619,7 @@ text       list    n=11
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[88]:</div>
 
@@ -17691,7 +17636,7 @@ text       list    n=11
 
 </div>
 
-</div></div><div class="fragment"><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div></div><div class="fragment" ><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -17717,9 +17662,7 @@ text       list    n=11
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
 <div class="jp-OutputArea-child">
-
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 

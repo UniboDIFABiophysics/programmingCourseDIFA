@@ -5,7 +5,7 @@ We could use this two informal descriptions:
 
 **Programming** is about thinking how to formalize a certain sequence of operation.
 
-**Coding** is writing a computer program that actually perfom the operations we have in mind.
+**Coding** is writing a computer program that actually perform the operations we have in mind.
 
 While **coding** is strictly related to a specific programming language, but most of the **programming** skills are identical among different languages.
 
@@ -17,7 +17,7 @@ Try describing the steps necessary to prepare a coffee.
 
 ### pointers
 
-* are you describing a moka or a capsule machines?
+* are you describing a moka or a capsule machine?
 * how expert is the other person?
 * is the coffee already available?
 
@@ -31,13 +31,13 @@ There are really only 5 basic concepts to programming; anything else, in all lan
 * iteration
 * data structure(s)
 
-We will discuss these ideas (all all that follows) using python.
+We will discuss these ideas (and all that follows) using python.
 
 Python was **not** chosen because it's **the best language**.
-It's a solid all rounder, that will allow you to experiment with ease in a lot of different facets of programming.
+It's a solid all-rounder, that will allow you to experiment with ease in a lot of different facets of programming.
 
 > Python is not the best language at anything, but it's the second best for most things
-(*someone on twitter*)
+(*someone on Twitter*)
 
 Python is a **high level** and **interpreted** language.
 
@@ -68,7 +68,7 @@ print(b)
 
 #### notes:
 
-we did not need to declare the existance of variables **a** and **b** beforehand
+we did not need to declare the existence of variables **a** and **b** beforehand
 
 we did not need to declare their type beforehand
 
@@ -191,7 +191,7 @@ From the language perspective of python they are the same thing, but from a conc
 
 they are both referred as functions, and can do both, but try to know which is which and plan accordingly.
 
-And try to avoid to mix the two.
+And try to avoid mixing the two.
 
 
 ```python
@@ -209,11 +209,11 @@ get_sign_of_number(-3)
 
 
 
-An inportant concept related to functions is the concept of **scoping**.
+An important concept related to functions is the concept of **scoping**.
 
 When we execute a function we can use variables that are *reserved to the function*.
 
-This allow to write simpler code.
+This allows to write simpler code.
 
 
 ```python
@@ -385,25 +385,25 @@ interquantile_asymmetry(x)
 
 ### iterations
 
-Repeating an operation over and over, tipically with a different input each time, or with an exit condition.
+Repeating an operation over and over, typically with a different input each time, or with an exit condition.
 
 Typically they underpin the usage of words like: `while`, `for`/`for each`, `until`.
 
 There are two main approaches to iteration: **bounded** and **unbounded**.
 
 In the **bounded** kind of iteration, the program have an idea on how many iteration cycles it will need.
-It usually correspond to saying: *for every one of these objects, do this*.
+It usually corresponds to saying: *for every one of these objects, do this*.
 
 The **unbounded** iterations are more related to exploration.
-The program have no idea beforehand on how many steps might be necessary.
-It usually correspond to saying: *to this thing until something happens*
+The program has no idea beforehand on how many steps might be necessary.
+It usually corresponds to saying: *to this thing until something happens*
 
-**Unbounded** iterations usually requires some form of internal state that is used to perform decision to continue based on what has been seen previously.
+**Unbounded** iterations usually require some form of internal state that is used to perform decision to continue based on what has been seen previously.
 
 In python, bounded iterations are represented with a `for`, while unbuonded with a `while`.
 
 It is important to notice that:
-* These are not clear cut distinctions, and sometimes things can get murky
+* These are not clear-cut distinctions, and sometimes things can get murky
 * **bounded** does not mean finite
 * the bounds might be known to the program but not to you
 * Python often transforms unbounded loops in bounded ones under the hood
@@ -490,7 +490,7 @@ for year in years:
 
 ## data structures
 
-This are containers that holds the informations, and make more or less easy to retrieve and manipulate this information.
+These are containers that holds the informations, and make more or less easy to retrieve and manipulate this information.
 
 Programming can be described as creating and modifying data structures with the previous concept until the desired result is obtained.
 
@@ -514,7 +514,7 @@ I will use the python names for these concepts, but they can be found one way or
 
 ### Strings
 
-They contains text, and allows for some (relatively)
+They contain text, and allows for some (relatively)
 complex manipulation of it.
 
 strings can be enclosed in single quotes, double quotes, 
@@ -674,7 +674,7 @@ print("α")
 
 ### Indexing of objects
 
-Several object in python allow to extract subsequences by using the indexing operator `[]`.
+Several objects in python allow extracting subsequences by using the indexing operator `[]`.
 
 Each object specify how it reacts to the specific index you pass it.
 
@@ -791,7 +791,7 @@ Python will not enforce the kind of objects you can keep in a list, but you shou
 
 Other programming languages can be more strict about it
 
-The tipical usage is to store object on which you want to perform some specific operation.
+The typical usage is to store object on which you want to perform some specific operation.
 
 Therefore, the only restriction is that this operation is allowed on the data contained.
 
@@ -823,10 +823,10 @@ data = [1, 2, 3]
 
 ### Tuples
 
-They store heterogenous data, where the order is relevant.
+They store heterogeneous data, where the order is relevant.
 
 Sometimes you will see them referred as **immutable lists**.
-This is an unproper use.
+This is an improper use.
 
 A common use is to pack together multiple return values from a function.
 
@@ -847,7 +847,7 @@ info[0]
 
 
 
-They are tipically used to return several values at the same time from a function
+They are typically used to return several values at the same time from a function
 
 
 ```python
@@ -866,7 +866,7 @@ print(min_, max_)
 
 Their greatest limitation is the limited expressivity: each position have a meaning, but there nothing directly expressing that meaning.
 
-to correct this, newer versions of python introducted **namedtuples** in the mix, where the meanings are explicitely referenced by names.
+to correct this, newer versions of python introduced **namedtuples** in the mix, where the meanings are explicitly referenced by names.
 
 
 ```python
@@ -887,7 +887,7 @@ print(person[0])
 
 Even more information can be packed in using the **NamedTuple** factory from the typing module, from python 3.6 onward.
 
-This allow to include a class description and informations about the fields expected type (but do not enforce them)
+This allows to include a class description and informations about the fields expected type (but do not enforce them)
 
 
 ```python
@@ -909,7 +909,7 @@ print(person)
 
 dictionaries encodes relationships between two different groups of values.
 
-it could also be seens a a list indexed by names instead of by position.
+it could also be seen as a list indexed by names instead of by position.
 
 these pairs are usually referred as **keys** and **values**.
 
@@ -1003,7 +1003,7 @@ info_by_ID['001']['office']
 
 they store data and provide a layer to interact with these data.
 
-We will **not** get into object oriented programming right now.
+We will **not** get into object-oriented programming right now.
 
 
 ```python
@@ -1202,7 +1202,7 @@ the main way we will use to interact with python will be the ipython shell.
 
 * `%<magic function>` use magic functions
 * `%%<cell magic>` use cell magic mode
-* `!<function>` call system programs (non interactive)
+* `!<function>` call system programs (non-interactive)
 * `/<function>` activate autocalling
 
 
@@ -1216,7 +1216,7 @@ the main way we will use to interact with python will be the ipython shell.
     ,my_function a b c    # becomes my_function("a","b","c")
     ;my_function a b c    # becomes my_function("a b c")
     
-all of thse should be used as the first letter, the only exception being `!`, that can follow the `=` assignment
+all of these should be used as the first letter, the only exception being `!`, that can follow the `=` assignment
 
 * `?` general help
 * `<object>?` help of an object
