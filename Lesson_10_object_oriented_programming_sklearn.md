@@ -2223,6 +2223,408 @@ cs.fit_transform(df)
 
 
 
+# Polymorphism
+
+Polymorphism is the ability of a function, routine or method to behave differently depending on the class of the objects it receive as parameters.
+
+in general OOP each type signature can activate a different function
+
+for example, a function defined as 
+
+```python
+def times(a, b):
+    return a*b
+```
+
+could have different implementations specifying the behaviour in different cases:
+
+* both `a` and `b` are numbers
+* `a` is a string, `b` is a number
+* `a` is a list, `b` is a number
+* etc...
+
+in python's OOP only the first object type can be used with the standard libraries, called **single dispatch**
+
+libraries to allow multiple dispatch exists, but i wouldn't recommend them
+
+one can alywas define multiple dispatch in term of various levels of single dispatch
+
+considering how easy it is to use
+
+* **composition**
+* **protocols**
+* **operators overloading** 
+
+in python, it is actually rarely a necessity to rely on polymorphism at all
+
+# single dispatch
+
+Single dispatch is a way of writing functions that recognize the type of the first object called, allowing for a low-level object oriented code.
+
+This allow to write generic functions that can be easily combined in iteration functions such *map*, as they can receive iterable containing a mix of different object and use the best implementation based on the specific object received.
+
+This can be managed with a combinations of **if-else** and **isinstance** calls, but this approach allows a more readable approach
+
+Let's say that I want to write a function that calculates the mean of an iterable, but uses more efficient functions when available, such as for numpy arrays
+
+
+```python
+from functools import singledispatch
+from statistics import mean
+import numpy as np
+
+def average(iterable):
+    if isinstance(iterable, np.ndarray):
+        print("using the specific (and fast) numpy mean")
+        return iterable.mean()
+    else:
+        print("using the generic (and slow) python mean")
+        return mean(iterable)
+```
+
+
+```python
+average([1, 2, 3])
+```
+
+    using the generic (and slow) python mean
+
+
+
+
+
+    2
+
+
+
+
+```python
+data = np.array([1, 2, 3])
+average(data)
+```
+
+    using the specific (and fast) numpy mean
+
+
+
+
+
+    2.0
+
+
+
+Single dispatch methods allow us to avoid using all those checks explicitely, doing it instead under the hood for us.
+
+
+```python
+@singledispatch
+def average(iterable):
+    print("using the generic (and slow) python mean")
+    return mean(iterable)
+
+@average.register
+def _(np_array: np.ndarray):
+    print("using the specific (and very fast) numpy mean")
+    return np_array.mean()
+```
+
+
+```python
+average([1, 2, 3])
+```
+
+    using the generic (and slow) python mean
+
+
+
+
+
+    2
+
+
+
+
+```python
+data = np.array([1, 2, 3])
+average(data)
+```
+
+    using the specific (and very fast) numpy mean
+
+
+
+
+
+    2.0
+
+
+
+It also add the advantage that, if we want to write a specific version of the `average` function for a class of our writing, we don't need to tamper with the original one, but can extend it in a (relatively) simple way
+
+we have to register it **after** the class has been defined, **outside the class body**, as the class does not exist before the execution of the class body
+
+
+```python
+class AverageAware:
+    def __init__(self, value):
+        self.value = value
+    
+    def _my_avg(self):
+        return self.value
+
+average.register(AverageAware)(AverageAware._my_avg)
+
+a = AverageAware(5)
+average(a)
+```
+
+
+
+
+    5
+
+
+
+## Function Hooks
+
+A concept similar to single dispatch is function hooking:
+
+* the function will perform some default operation on the datasets
+* on functions that conform to a specific protocol, it will call the specialized function
+
+we can implement this quite easily in python using the Protocol definition we discussed in the previous section on inheritance
+
+this is the basic working underneat the `len` function:
+* if the objects defines a `__len__` function, it defers to it
+* otherwise it tries to iterate and count the number of elements
+
+
+```python
+from typing import Protocol, runtime_checkable
+
+@singledispatch
+def average(iterable):
+    "when not defined, try to use python"
+    print("python mean used")
+    return mean(iterable)
+
+@runtime_checkable
+class Provide_mean(Protocol):
+    "this is the protocol to identify classes that have a `mean` function"
+    def mean(self):
+        pass
+
+@average.register
+def _(instance: Provide_mean):
+    "if the class has a `mean` function, calls it"
+    print("object's own mean function used")
+    return instance.mean()
+```
+
+
+```python
+print(average([1, 2, 3]))
+```
+
+    python mean used
+    2
+
+
+
+```python
+data = np.array([1, 2, 3])
+average(data)
+```
+
+    object's own mean function used
+
+
+
+
+
+    2.0
+
+
+
+
+```python
+class MyClass:
+    def mean(self):
+        return 0.0
+        
+pippo = MyClass()
+print(average(pippo))
+```
+
+    object's own mean function used
+    0.0
+
+
+in all fairness we could have defined the function hook without the need for single dispatch in this simple case
+
+it would still be useful if we need to combine it with standard single dispatch
+
+
+```python
+def average2(iterable):
+    avg_fun = getattr(iterable, "mean", None)
+    if callable(avg_fun):
+        return avg_fun()
+    return mean(iterable)
+
+print(average2([1, 2, 3]))
+print(average2(np.array([4, 5, 6])))
+pippo = MyClass()
+print(average2(pippo))
+
+```
+
+    2
+    5.0
+    0.0
+
+
+## method dispatching
+
+python 3.8 introduced also `singledispatchmethod`, that allow to perform single dispatch from methods.
+
+a dedicated function is required to avoid weird interactions with the *bounding* process of method calling
+
+
+```python
+from functools import singledispatchmethod
+from dataclasses import dataclass
+from numbers import Number
+
+@dataclass
+class Container:
+    value: Number
+    
+    @singledispatchmethod
+    def __add__(self, other):
+        return NotImplemented
+    
+    @__add__.register
+    def _(self, other: Number):
+        return self.__class__(self.value+other)
+```
+
+
+```python
+cont = Container(3)
+print(cont)
+print(cont+"1")
+```
+
+    Container(value=3)
+
+
+
+    ---------------------------------------------------------------------------
+
+    TypeError                                 Traceback (most recent call last)
+
+    Input In [28], in <cell line: 3>()
+          1 cont = Container(3)
+          2 print(cont)
+    ----> 3 print(cont+"1")
+
+
+    TypeError: unsupported operand type(s) for +: 'Container' and 'str'
+
+
+
+```python
+cont = Container(3)
+print(cont)
+print(cont+1)
+```
+
+    Container(value=3)
+    Container(value=4)
+
+
+Note that by default we cannot reference the class itself in the type annotation, as the class is defined only after the class body is executed
+
+
+```python
+class Broken:
+    def test(self, a: Broken):
+        pass
+```
+
+
+    ---------------------------------------------------------------------------
+
+    NameError                                 Traceback (most recent call last)
+
+    Cell In[3], line 1
+    ----> 1 class Broken:
+          2     def test(self, a: Broken):
+          3         pass
+
+
+    Cell In[3], line 2, in Broken()
+          1 class Broken:
+    ----> 2     def test(self, a: Broken):
+          3         pass
+
+
+    NameError: name 'Broken' is not defined
+
+
+a way to circumvent the current problem with forward referencing, is to define the method that refer to the class itself outside of the class (all the other definition can still be inside the class body)
+
+
+```python
+from functools import singledispatchmethod
+
+class SelfReferent:
+    @singledispatchmethod
+    def __add__(self, other):
+        """generic version of the function"""
+        return NotImplemented
+
+@SelfReferent.__add__.register
+def _(self, other: SelfReferent):
+    return 2
+```
+
+
+```python
+p = SelfReferent()
+q = SelfReferent()
+```
+
+
+```python
+p+q
+```
+
+
+
+
+    2
+
+
+
+
+```python
+p+1
+```
+
+
+    ---------------------------------------------------------------------------
+
+    TypeError                                 Traceback (most recent call last)
+
+    Cell In[8], line 1
+    ----> 1 p+1
+
+
+    TypeError: unsupported operand type(s) for +: 'SelfReferent' and 'int'
+
+
 # Exercise 1 - simpler
 
 Our goal is to implement a predictor transformer: use the prediction of one or more Regressor/Classifier as the input for another one.
@@ -2612,7 +3014,7 @@ Of course there can be a mixture of all the approaches, depending on the functio
 * this is true also for `super()`. it does not refer to the ancestor of the class you're writing, but to the ancestor of the object you're having as self, that might include some completely different classes.
 * subclassing is delegating work, so its the instance that have the complete control on what gets executed
 * try to focus all the violations of Liskov substitution principle in one (or very few methods) so that by overriding those you can have a fully functioning class that follow the principle as possible as it can
-* the open-closed principle: open to extension, closed to modification. when you subclass you should not break the unsedlying assumptions of the base class
+* the open-closed principle: open to extension, closed to modification. when you subclass you should not break the underlying assumptions of the base class
 
 ## Fluent Interface
 
@@ -2671,7 +3073,7 @@ assert isinstance(obj, PippoInterface)
 
 Classes bodies are code blocks that get executed when the class is defined.
 
-This means that ny construct that one might want to employ is legitimate, including exotic ones such as conditional declaration.
+This means that any construct that one might want to employ is legitimate, including exotic ones such as conditional declaration.
 
 Albeit not very useful in global space classes, it is useful in some situations such as second order classes.
 
@@ -2682,17 +3084,11 @@ class Temp:
     a = 4
     print(f"I'm executing but not doing anything, with a value of {a}")
     del a
-dir(Temp).public
+    
+assert not hasattr(Temp, 'a')
 ```
 
     I'm executing but not doing anything, with a value of 4
-
-
-
-
-
-    
-
 
 
 
@@ -3268,4 +3664,39 @@ class Myclass_3:
 
 assert not issubclass(Myclass_3, PippoInterface)
 assert not isinstance(Myclass_3(), PippoInterface)
+```
+
+
+```python
+# can be used to distinguish classes based on some attribut value
+# would allow to simulate composition
+# even if plain composition is just better
+
+class PippoInterface(abc.ABC):
+    @classmethod
+    def __subclasshook__(cls, subclass):
+        # I define a instance or subclass as having a method called "pippo"
+        return hasattr(subclass, "pippo") and getattr(subclass, "pippo")==True
+```
+
+
+```python
+class Myclass_1:
+    pippo = True
+    
+assert issubclass(Myclass_1, PippoInterface)
+assert isinstance(Myclass_1(), PippoInterface)
+```
+
+
+```python
+class Myclass_1:
+    pippo = False
+    
+assert not issubclass(Myclass_1, PippoInterface)
+b = Myclass_1()
+assert not isinstance(b, PippoInterface)
+# it doesn't check the instance value!
+b.pippo = True
+assert not isinstance(b, PippoInterface)
 ```

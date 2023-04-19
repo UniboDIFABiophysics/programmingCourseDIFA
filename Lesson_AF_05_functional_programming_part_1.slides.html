@@ -16995,7 +16995,271 @@ mysum(a, b)
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h1 id="single-dispatch">single dispatch<a class="anchor-link" href="#single-dispatch">&#182;</a></h1><p>Single dispatch is a way of writing functions that recognize the type of the first object called, allowing for a low-level object oriented code.</p>
+<h1 id="Example:-creating-a-pipe-function">Example: creating a pipe function<a class="anchor-link" href="#Example:-creating-a-pipe-function">&#182;</a></h1><p>A pipe function is a way of writing in compact form pipelines of functions, where the result of a function is passed to the the following one.</p>
+
+</div>
+</div>
+</div>
+</div></section></section><section ><section >
+<div  class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>for example, we might have the following situation: we gets a string, that we know contains a number, and we want to display it after rounding up to the first decimal position.</p>
+
+</div>
+</div>
+</div>
+</div></section></section><section ><section ><div  class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[33]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">string</span> <span class="o">=</span> <span class="s2">&quot; 3.1415 &quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="nb">str</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="n">string</span><span class="p">)),</span> <span class="mi">1</span><span class="p">))</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>3.1
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div></section></section><section ><section >
+<div  class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>it's horrible, can we al agree?</p>
+<p>and everytime we want to repeat that, we have to reuse that monstrosity.</p>
+<p>We could implement it as a single function, of course, and would be legitimate, but functional programming offer us an interesting alternative: creating a function that takes a series of functions and apply it to an object</p>
+
+</div>
+</div>
+</div>
+</div></section></section><section ><section ><div  class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[34]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">apply_pipe</span><span class="p">(</span><span class="n">func_serie</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">function</span> <span class="ow">in</span> <span class="n">func_serie</span><span class="p">:</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="n">function</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">obj</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div></section></section><section ><section ><div  class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[35]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+<span class="n">apply_pipe</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="nb">str</span><span class="o">.</span><span class="n">strip</span><span class="p">,</span> 
+        <span class="nb">float</span><span class="p">,</span> 
+        <span class="n">partial</span><span class="p">(</span><span class="nb">round</span><span class="p">,</span> <span class="n">ndigits</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> 
+        <span class="nb">print</span>
+    <span class="p">],</span> 
+    <span class="n">string</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>3.1
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div></section></section><section ><section >
+<div  class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>This has the advantage of displaying our intention in a more human-readable format, but also, exploiting <code>partial</code>, can be easily generalized!</p>
+
+</div>
+</div>
+</div>
+</div></section></section><section ><section ><div  class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[36]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">print_with_one_digit</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span>
+    <span class="n">apply_pipe</span><span class="p">,</span> 
+    <span class="p">[</span>
+        <span class="nb">str</span><span class="o">.</span><span class="n">strip</span><span class="p">,</span> 
+        <span class="nb">float</span><span class="p">,</span> 
+        <span class="n">partial</span><span class="p">(</span><span class="nb">round</span><span class="p">,</span> <span class="n">ndigits</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> 
+        <span class="nb">print</span><span class="p">,</span>
+    <span class="p">])</span>
+<span class="n">print_with_one_digit</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>3.1
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div></section></section><section ><section >
+<div  class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>if we think that we might need this often, we can again generalize it, by automatically generate the partial application</p>
+
+</div>
+</div>
+</div>
+</div></section></section><section ><section ><div  class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[37]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">create_pipe</span><span class="p">(</span><span class="n">func_list</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">partial</span><span class="p">(</span><span class="n">apply_pipe</span><span class="p">,</span> <span class="n">func_list</span><span class="p">)</span>
+
+<span class="n">print_with_one_digit</span> <span class="o">=</span> <span class="n">create_pipe</span><span class="p">(</span>
+    <span class="p">[</span><span class="nb">str</span><span class="o">.</span><span class="n">strip</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="n">partial</span><span class="p">(</span><span class="nb">round</span><span class="p">,</span> <span class="n">ndigits</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="nb">print</span><span class="p">]</span>
+<span class="p">)</span>
+<span class="n">print_with_one_digit</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>3.1
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div></section></section><section ><section >
+<div  class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h1 id="end-of-part-1">end of part 1<a class="anchor-link" href="#end-of-part-1">&#182;</a></h1>
+</div>
+</div>
+</div>
+</div></section></section><section ><section >
+<div  class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h1 id="single-dispatch---deprecated">single dispatch - deprecated<a class="anchor-link" href="#single-dispatch---deprecated">&#182;</a></h1><p>Single dispatch is a way of writing functions that recognize the type of the first object called, allowing for a low-level object oriented code.</p>
 <p>This allow to write generic functions that can be easily combined in iteration functions such <em>map</em>, as they can receive iterable containing a mix of different object and be able to manage all of them.</p>
 <p>This can be managed with a combinations of <strong>if-else</strong> and <strong>isinstance</strong> calls, but this approach allows a more readable approach</p>
 
@@ -17698,259 +17962,6 @@ Container(value=5)
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
 <pre>2.0
 mean of the class called
-</pre>
-</div>
-</div>
-
-</div>
-
-</div>
-
-</div></section></section><section ><section >
-<div  class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h1 id="Example:-creating-a-pipe-function">Example: creating a pipe function<a class="anchor-link" href="#Example:-creating-a-pipe-function">&#182;</a></h1><p>A pipe function is a way of writing in compact form pipelines of functions, where the result of a function is passed to the the following one.</p>
-
-</div>
-</div>
-</div>
-</div></section></section><section ><section >
-<div  class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>for example, we might have the following situation: we gets a string, that we know contains a number, and we want to display it after rounding up to the first decimal position.</p>
-
-</div>
-</div>
-</div>
-</div></section></section><section ><section ><div  class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[33]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">string</span> <span class="o">=</span> <span class="s2">&quot; 3.1415 &quot;</span>
-<span class="nb">print</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="nb">str</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="n">string</span><span class="p">)),</span> <span class="mi">1</span><span class="p">))</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>3.1
-</pre>
-</div>
-</div>
-
-</div>
-
-</div>
-
-</div></section></section><section ><section >
-<div  class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>it's horrible, can we al agree?</p>
-<p>and everytime we want to repeat that, we have to reuse that monstrosity.</p>
-<p>We could implement it as a single function, of course, and would be legitimate, but functional programming offer us an interesting alternative: creating a function that takes a series of functions and apply it to an object</p>
-
-</div>
-</div>
-</div>
-</div></section></section><section ><section ><div  class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[34]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">apply_pipe</span><span class="p">(</span><span class="n">func_serie</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
-    <span class="k">for</span> <span class="n">function</span> <span class="ow">in</span> <span class="n">func_serie</span><span class="p">:</span>
-        <span class="n">obj</span> <span class="o">=</span> <span class="n">function</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">obj</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-</div></section></section><section ><section ><div  class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[35]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
-<span class="n">apply_pipe</span><span class="p">(</span>
-    <span class="p">[</span>
-        <span class="nb">str</span><span class="o">.</span><span class="n">strip</span><span class="p">,</span> 
-        <span class="nb">float</span><span class="p">,</span> 
-        <span class="n">partial</span><span class="p">(</span><span class="nb">round</span><span class="p">,</span> <span class="n">ndigits</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> 
-        <span class="nb">print</span>
-    <span class="p">],</span> 
-    <span class="n">string</span><span class="p">,</span>
-<span class="p">)</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>3.1
-</pre>
-</div>
-</div>
-
-</div>
-
-</div>
-
-</div></section></section><section ><section >
-<div  class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>This has the advantage of displaying our intention in a more human-readable format, but also, exploiting <code>partial</code>, can be easily generalized!</p>
-
-</div>
-</div>
-</div>
-</div></section></section><section ><section ><div  class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[36]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">print_with_one_digit</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span>
-    <span class="n">apply_pipe</span><span class="p">,</span> 
-    <span class="p">[</span>
-        <span class="nb">str</span><span class="o">.</span><span class="n">strip</span><span class="p">,</span> 
-        <span class="nb">float</span><span class="p">,</span> 
-        <span class="n">partial</span><span class="p">(</span><span class="nb">round</span><span class="p">,</span> <span class="n">ndigits</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> 
-        <span class="nb">print</span><span class="p">,</span>
-    <span class="p">])</span>
-<span class="n">print_with_one_digit</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>3.1
-</pre>
-</div>
-</div>
-
-</div>
-
-</div>
-
-</div></section></section><section ><section >
-<div  class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>if we think that we might need this often, we can again generalize it, by automatically generate the partial application</p>
-
-</div>
-</div>
-</div>
-</div></section></section><section ><section ><div  class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[37]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">create_pipe</span><span class="p">(</span><span class="n">func_list</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">partial</span><span class="p">(</span><span class="n">apply_pipe</span><span class="p">,</span> <span class="n">func_list</span><span class="p">)</span>
-
-<span class="n">print_with_one_digit</span> <span class="o">=</span> <span class="n">create_pipe</span><span class="p">(</span>
-    <span class="p">[</span><span class="nb">str</span><span class="o">.</span><span class="n">strip</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="n">partial</span><span class="p">(</span><span class="nb">round</span><span class="p">,</span> <span class="n">ndigits</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="nb">print</span><span class="p">]</span>
-<span class="p">)</span>
-<span class="n">print_with_one_digit</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>3.1
 </pre>
 </div>
 </div>

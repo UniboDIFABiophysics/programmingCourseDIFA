@@ -761,7 +761,89 @@ fib.cache_info()
 
 
 
-# single dispatch
+# Example: creating a pipe function
+
+A pipe function is a way of writing in compact form pipelines of functions, where the result of a function is passed to the the following one.
+
+for example, we might have the following situation: we gets a string, that we know contains a number, and we want to display it after rounding up to the first decimal position.
+
+
+```python
+string = " 3.1415 "
+print(round(float(str.strip(string)), 1))
+```
+
+    3.1
+
+
+it's horrible, can we al agree?
+
+and everytime we want to repeat that, we have to reuse that monstrosity.
+
+We could implement it as a single function, of course, and would be legitimate, but functional programming offer us an interesting alternative: creating a function that takes a series of functions and apply it to an object
+
+
+```python
+def apply_pipe(func_serie, obj):
+    for function in func_serie:
+        obj = function(obj)
+    return obj
+```
+
+
+```python
+from functools import partial
+apply_pipe(
+    [
+        str.strip, 
+        float, 
+        partial(round, ndigits=1), 
+        print
+    ], 
+    string,
+)
+```
+
+    3.1
+
+
+This has the advantage of displaying our intention in a more human-readable format, but also, exploiting `partial`, can be easily generalized!
+
+
+```python
+print_with_one_digit = partial(
+    apply_pipe, 
+    [
+        str.strip, 
+        float, 
+        partial(round, ndigits=1), 
+        print,
+    ])
+print_with_one_digit(string)
+```
+
+    3.1
+
+
+if we think that we might need this often, we can again generalize it, by automatically generate the partial application
+
+
+```python
+def create_pipe(func_list):
+    return partial(apply_pipe, func_list)
+
+print_with_one_digit = create_pipe(
+    [str.strip, float, partial(round, ndigits=1), print]
+)
+print_with_one_digit(string)
+```
+
+    3.1
+
+
+# end of part 1
+
+# single dispatch - deprecated
 
 Single dispatch is a way of writing functions that recognize the type of the first object called, allowing for a low-level object oriented code.
 
@@ -1049,84 +1131,4 @@ print(average(pippo))
 
     2.0
     mean of the class called
-
-
-# Example: creating a pipe function
-
-A pipe function is a way of writing in compact form pipelines of functions, where the result of a function is passed to the the following one.
-
-for example, we might have the following situation: we gets a string, that we know contains a number, and we want to display it after rounding up to the first decimal position.
-
-
-```python
-string = " 3.1415 "
-print(round(float(str.strip(string)), 1))
-```
-
-    3.1
-
-
-it's horrible, can we al agree?
-
-and everytime we want to repeat that, we have to reuse that monstrosity.
-
-We could implement it as a single function, of course, and would be legitimate, but functional programming offer us an interesting alternative: creating a function that takes a series of functions and apply it to an object
-
-
-```python
-def apply_pipe(func_serie, obj):
-    for function in func_serie:
-        obj = function(obj)
-    return obj
-```
-
-
-```python
-from functools import partial
-apply_pipe(
-    [
-        str.strip, 
-        float, 
-        partial(round, ndigits=1), 
-        print
-    ], 
-    string,
-)
-```
-
-    3.1
-
-
-This has the advantage of displaying our intention in a more human-readable format, but also, exploiting `partial`, can be easily generalized!
-
-
-```python
-print_with_one_digit = partial(
-    apply_pipe, 
-    [
-        str.strip, 
-        float, 
-        partial(round, ndigits=1), 
-        print,
-    ])
-print_with_one_digit(string)
-```
-
-    3.1
-
-
-if we think that we might need this often, we can again generalize it, by automatically generate the partial application
-
-
-```python
-def create_pipe(func_list):
-    return partial(apply_pipe, func_list)
-
-print_with_one_digit = create_pipe(
-    [str.strip, float, partial(round, ndigits=1), print]
-)
-print_with_one_digit(string)
-```
-
-    3.1
 
