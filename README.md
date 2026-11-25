@@ -9,7 +9,7 @@ the slides can be seen live at:
 ### suggestions for the project
 
 #### details about the exam (lesson 00)
-[slides](./Lesson_00_details_about_the_exam.html)
+[slides](./Lesson_00_details_about_the_exam.slides.html)
 
 [markdown](./Lesson_00_details_about_the_exam.html)
 
